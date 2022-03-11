@@ -1,0 +1,14 @@
+<?php
+// Site
+define("SITE_ADDRESS", "https://ingolstadt-chapter.de/calendar/");
+define("HOURS_TO_EVENT_TO_CLOSE_BOOKING", 12);
+
+// Google calendar
+define("CALENDAR_ID", "xxx@group.calendar.google.com");
+define("ACCESS_TOKEN", "xxx");
+
+// Database
+define("SERVERNAME", "xxx");
+define("DBNAME", "xxx");
+define("USERNAME", "xxx");
+define("PASSWORD", "xxx");
