@@ -1,81 +1,3 @@
-<?php
-
-include('config.php');
-include('classes/Event.php');
-include('classes/Controller.php');
-include('classes/Model.php');
-include('classes/View.php');
-
-$request = array_merge($_GET, $_POST);
-$controller = new Controller($request);
-echo $controller->display();
-?>
-
-<?php
-/*
-require_once('classes/Event.php');
-require_once('classes/Model.php');
-require_once('config.php');
-
-$db = new Model();
-$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events?key=" . ACCESS_TOKEN;
-$json = file_get_contents($json_url);
-$obj = json_decode($json);
-$events = array();
-
-foreach($obj->items as $event) {
-    if ($event->visibility == "private") {
-        continue;
-    }
-    if (isset($event->start->dateTime)) {
-        $from = $event->start->dateTime;
-        $to = $event->end->dateTime;
-    } else {
-        $from = $event->start->date;
-        $to = $event->end->date;
-    }
-    $now = new DateTime("now");
-    $event_date = new DateTime(date("Y-m-d", strtotime($from)));
-    $event_date->add(new DateInterval('P1D'));
-    if ($event_date <= $now) {
-        continue;
-    }
-    $event_obj = new Event($event->id, $event->summary, $from, $to, $event->location);
-    $events[$from . " " . $event->id] = $event_obj;
-}
-ksort($events);
-
-$booking_table = "<div class='bookings'>";
-foreach($events as $event) {
-    $booking_table.= "<div class='booking'>";
-    $booking_table.= "<div class='cell bold'>" . $event->name . "</div>";
-    $booking_table.= "<div class='cell'>" . $event->get_date_str() . "</div>";
-    $count = $db->get_booking_count($event->id);
-    $booking_table.= "<a href='" . SITE_ADDRESS . "manage_event.php?event_id=" . $event->id . "' title='Buchungen anzeigen'>";
-    if ($count == 1) {
-        $booking_table.= "<div class='cell'>" . $count . " Anmeldung</div>";
-    } else {
-        $booking_table.= "<div class='cell'>" . $count . " Anmeldungen</div>";
-    }
-    $booking_table.= "</a>";
-    $link = SITE_ADDRESS . "book.php?event_id=" . $event->id;
-    $now = new DateTime('NOW');
-    $dt = new DateTime($event->from);
-    $hour_str = '-' . HOURS_TO_EVENT_TO_CLOSE_BOOKING  . ' hours';
-    if ($now < $dt->modify($hour_str)) {
-        $booking_table.= "<div class='cell right'>";
-        $booking_table.= "<a class='button' href='" . $link . "' title='Veranstaltung buchen'>Buchen</a>";
-        $booking_table.= "<a class='button' onClick='copyToClipboard(\"" . $link . "\", this)' title='In die Zwischenablage kopieren'>Kopieren</a>";
-        $booking_table.= "<a class='button whatsapp' href='whatsapp://send?text=Liebe Member,%0Ahier könnt ihr euch für das Event \"" . $event->name . "\", " . $event->get_date_str() . " anmelden:%0A" . $link . "' title='Link zur Buchung per WhatsApp verschicken'><img src='images/icons/whatsapp.svg' alt='Whatsapp' /></a>";
-        $booking_table.= "</div>";
-    } else {
-        $booking_table.= "<div class='cell right'>Anmeldung geschlossen.</div>";
-    }
-    $booking_table.= "</div>";
-}
-$booking_table.= "</div>";
-?>
-
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -167,7 +89,7 @@ $booking_table.= "</div>";
             <img src="images/Ingolstadt-Chapter.png" alt="H.O.G. Ingolstadt Chapter" />
             <h1>H.O.G. Ingolstadt Chapter Events</h1>
             <p>Terminbuchungen für alle anstehenden Termine des Chapters. Alle Buchungen sind verbindlich sofern Kosten entstehen.</p>
-            <?php echo $booking_table ?>
+            <?php echo $this->_['content'] ?>
         </div>
         <footer>
             <a href="mailto:oliver@schoettner.rocks">Bei Fragen und Anregungen: oliver@schoettner.rocks</a>
