@@ -5,13 +5,15 @@ class Event {
     var $from;
     var $to;
     var $location;
+    var $registrations;
     
-    function __construct($id, $name, $from, $to, $location) {
+    function __construct($id, $name, $from, $to, $location, $registrations = 0) {
         $this->id = $id;
         $this->name = $name;
         $this->from = $from;
         $this->to = $to;
         $this->location = $location;
+        $this->registrations = $registrations;
     }
 
     function get_date_str() {
