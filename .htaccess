@@ -1,5 +1,0 @@
-RewriteEngine on
-RewriteBase /hogcal
-RewriteCond %{SCRIPT_FILENAME} !-d
-RewriteCond %{SCRIPT_FILENAME} !-f
-RewriteRule ^(.*)/(.*)$ index.php?view=$1&id=$2 [L]

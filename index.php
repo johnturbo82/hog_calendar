@@ -1,11 +1,17 @@
 <?php
 
+date_default_timezone_set("Europe/Berlin");
+
 include('config.php');
 include('classes/Event.php');
 include('classes/Controller.php');
 include('classes/Model.php');
 include('classes/View.php');
 
-$request = array_merge($_GET, $_POST);
+$safePost = filter_input_array(INPUT_POST);
+$safeGet = filter_input_array(INPUT_GET);
+
+$request = array_merge((is_array($safePost)) ? $safePost : array(), (is_array($safeGet)) ? $safeGet : array());
+
 $controller = new Controller($request);
 echo $controller->display();

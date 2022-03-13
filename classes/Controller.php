@@ -16,7 +16,7 @@ class Controller
 		$this->view = new View();
 		$this->model = new Model();
 		$this->template = !empty($request['view']) ? trim($request['view'], '/') : 'booking_table';
-		$this->id = !empty($request['id']) ? trim($request['id'], '/') : null;
+		$this->event_id = !empty($request['event_id']) ? trim($request['event_id'], '/') : null;
 	}
 
 	/**
@@ -29,18 +29,45 @@ class Controller
 		switch ($this->template) {
 			case 'booking_table':
 				$view->assign('event_list', $this->get_event_list());
+				$view->setTemplate($this->template);
 				break;
 			case 'book':
 				$view->assign('event', $this->get_event());
+				$view->setTemplate($this->template);
+				break;
+			case 'bookme':
+				$this->set_user_cookies();
+				$this->check_booking_closed();
+				if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
+					$view->assign('event_id', $this->request['event_id']);
+					$view->assign('name', $this->request['name']);
+					$view->assign('givenname', $this->request['givenname']);
+					$view->assign('email', $this->request['email']);
+					$view->assign('plusone', $this->request['plusone']);
+					$view->assign('from', $this->request['from']);
+					$view->assign('eventname', $this->request['eventname']);
+					$view->assign('mailtext', $this->request['mailtext']);
+					$view->setTemplate("booking_exists");
+				} else {
+					if ($this->model->new_booking($this->request['event_id'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['plusone'])) {
+						$this->send_booking_success_mail();
+						$view->setTemplate("booked");
+					} else {
+						$view->setTemplate("404");
+					}
+				}
+				break;
+			case 'cancel':
+				$view->setTemplate($this->template);
 				break;
 			case 'manage':
 				$view->assign('event_list', $this->get_event_list());
+				$view->setTemplate($this->template);
 				break;
 			default:
-				$this->template = "404";
+				$view->setTemplate("404");
 				break;
 		}
-		$view->setTemplate($this->template);
 		$this->view->setTemplate('site');
 		$this->view->assign('content', $view->loadTemplate());
 		return $this->view->loadTemplate();
@@ -50,7 +77,7 @@ class Controller
 	 * Get array of events
 	 * @return Array of events
 	 */
-	public function get_event_list()
+	private function get_event_list()
 	{
 		$events_json = $this->load_events();
 		$events = array();
@@ -84,9 +111,9 @@ class Controller
 	 * Get event
 	 * @return Event
 	 */
-	public function get_event()
+	private function get_event()
 	{
-		if (!isset($this->id)) {
+		if (!isset($this->event_id)) {
 			die("Kein Event gefunden. Bitte Event ID überprüfen.");
 		}
 		$event = $this->load_specific_event();
@@ -109,7 +136,7 @@ class Controller
 	/**
 	 * Load eventlist from Google calendar
 	 */
-	public function load_events()
+	private function load_events()
 	{
 		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events?key=" . ACCESS_TOKEN;
 		$json = file_get_contents($json_url);
@@ -119,10 +146,46 @@ class Controller
 	/**
 	 * Load specific event from Google calendar
 	 */
-	public function load_specific_event()
+	private function load_specific_event()
 	{
-		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . $this->id . "?key=" . ACCESS_TOKEN;
+		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . $this->event_id . "?key=" . ACCESS_TOKEN;
 		$json = file_get_contents($json_url);
 		return json_decode($json);
+	}
+
+	/**
+	 * Set user cookies to load again when returning
+	 */
+	private function set_user_cookies()
+	{
+		setcookie("booking_name", $this->request['name'], time() + 3600 * 24 * 365 * 5);
+		setcookie("booking_givenname", $this->request['givenname'], time() + 3600 * 24 * 365 * 5);
+		setcookie("booking_email", $this->request['email'], time() + 3600 * 24 * 365 * 5);
+	}
+
+	/**
+	 * Interrrupt booking if closed
+	 */
+	private function check_booking_closed()
+	{
+		$now = new DateTime('NOW');
+		$dt = new DateTime($this->request['from']);
+		$hour_str = '-' . HOURS_TO_EVENT_TO_CLOSE_BOOKING  . ' hours';
+		if ($now >= $dt->modify($hour_str)) {
+			die("Buchungen geschlossen.");
+		}
+	}
+
+	/**
+	 * Send mail after successful booking in db
+	 */
+	private function send_booking_success_mail()
+	{
+		if (isset($this->request['email'])) {
+			$header = 'From: H.O.G. Ingolstadt Chapter <webmaster@ingolstadt-chapter.de>' . "\r\n" .
+				'Reply-To: webmaster@ingolstadt-chapter.de' . "\r\n" .
+				'X-Mailer: PHP/' . phpversion();
+			mail($this->request['email'], "Event " . $this->request['eventname'] . " erfolgreich gebucht", $this->request['mailtext'], $header);
+		}
 	}
 }

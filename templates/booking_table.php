@@ -5,12 +5,12 @@
         $now = new DateTime('NOW');
         $dt = new DateTime($event->from);
         $hour_str = '-' . HOURS_TO_EVENT_TO_CLOSE_BOOKING  . ' hours';
-        $link = SITE_ADDRESS . "book/" . $event->id;
+        $link = SITE_ADDRESS . "?view=book&event_id=" . $event->id;
     ?>
         <div class="booking">
             <div class="cell bold"><?php echo $event->name; ?></div>
             <div class="cell"><?php echo $event->get_date_str(); ?></div>
-            <a href="<?php echo SITE_ADDRESS . "manage/" . $event->id ?>" title='Buchungen anzeigen'>
+            <a href="<?php echo SITE_ADDRESS . "?view=manage&event_id=" . $event->id ?>" title='Buchungen anzeigen'>
                 <div class="cell"><?php echo ($event->registrations == 1) ? $event->registrations . " Anmeldung" : $event->registrations . " Anmeldungen" ?></div>
             </a>
             <?php

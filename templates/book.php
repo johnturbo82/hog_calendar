@@ -20,21 +20,21 @@ if ($event->booking_closed) {
     }
     $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid.\n\nVielen Dank,\nDein Ingolstadt Chapter\n\nRIDE AND HAVE FUN!";
     if ($event->registrations == 1) {
-        echo "<p><a href='bookings/" . EVENT_ID . "'>Aktuell eine Anmeldung</a></p>";
+        echo "<p><a href='?view=bookings&id=" . $event->id . "'>Aktuell eine Anmeldung</a></p>";
     } else if ($event->registrations > 1) {
-        echo "<p><a href='bookings/" . EVENT_ID . "'>Aktuell " . $event->registrations . " Anmeldungen</a></p>";
+        echo "<p><a href='?view=bookings&id=" . $event->id . "'>Aktuell " . $event->registrations . " Anmeldungen</a></p>";
     }
     ?>
     <p>Alle Buchungen sind verbindlich sofern Kosten entstehen. Tischreservierungen werden nach Anzahl der angemeldeten Teilnehmer vorgenommen.</p>
     <p>Die Email-Adresse wird nur zum Versand einer Buchungsbestätigung verwendet und ist optional.</p>
-    <form method="POST" action="bookme.php">
+    <form method="POST" action="<?php echo SITE_ADDRESS . "?view=bookme" ?>">
         <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" required /> *</p>
         <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" required /> *</p>
         <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
         <p><label><input type="checkbox" name="plusone" /> + 1 Person</label></p>
         <p>Mehr als eine Person zusätzlich bitte gesondert anmelden.</p>
         <input type="hidden" name="event_id" value="<?php echo $event->id ?>" />
-        <input type="hidden" name="from" value="<?php echo $from ?>" />
+        <input type="hidden" name="from" value="<?php echo $event->from ?>" />
         <input type="hidden" name="eventname" value="<?php echo $event->name ?>" />
         <input type="hidden" name="mailtext" value="<?php echo $mailtext ?>" />
         <input type="submit" class="no-margin" value="Buchen">
