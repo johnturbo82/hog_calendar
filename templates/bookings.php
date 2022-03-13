@@ -1,0 +1,30 @@
+<?php
+if ($this->_['event']->registrations == 1) {
+    echo "<h2>Eine Anmeldung für das Event</h2>";
+} else {
+    echo "<h2>" . $event->registrations . " Anmeldungen für das Event</h2>";
+}
+?>
+<p><b>"<?php echo $this->_['event']->name ?>"</b></p>
+<p><b><?php echo $this->_['event']->get_from_str() ?></b>.</p>
+<table>
+    <tr>
+        <th>Lfd. Nr.</th>
+        <th>Name</th>
+        <th>Pers.</th>
+        <th class="no-mobile">Seit</th>
+    </tr>
+    <?php
+    $i = 0;
+    foreach ($this->_['bookings'] as $booking) {
+    ?>
+        <tr>
+            <td><?php echo ++$i ?></td>
+            <td><?php echo $booking['name'] ?>, <?php echo $booking['givenname'] ?></td>
+            <td><?php echo $booking['persons'] ?></td>
+            <td class="no-mobile"><?php echo date("d.m.Y H:i", strtotime($booking['create_date'])) ?></td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>

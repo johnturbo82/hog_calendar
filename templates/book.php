@@ -20,9 +20,9 @@ if ($event->booking_closed) {
     }
     $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid.\n\nVielen Dank,\nDein Ingolstadt Chapter\n\nRIDE AND HAVE FUN!";
     if ($event->registrations == 1) {
-        echo "<p><a href='?view=bookings&id=" . $event->id . "'>Aktuell eine Anmeldung</a></p>";
+        echo "<p><a href='?view=bookings&event_id=" . $event->id . "'>Aktuell eine Anmeldung</a></p>";
     } else if ($event->registrations > 1) {
-        echo "<p><a href='?view=bookings&id=" . $event->id . "'>Aktuell " . $event->registrations . " Anmeldungen</a></p>";
+        echo "<p><a href='?view=bookings&event_id=" . $event->id . "'>Aktuell " . $event->registrations . " Anmeldungen</a></p>";
     }
     ?>
     <p>Alle Buchungen sind verbindlich sofern Kosten entstehen. Tischreservierungen werden nach Anzahl der angemeldeten Teilnehmer vorgenommen.</p>

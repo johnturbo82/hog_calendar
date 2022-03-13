@@ -57,11 +57,26 @@ class Controller
 					}
 				}
 				break;
+			case 'bookings':
+				$view->assign('event', $this->get_event());
+				$view->assign('bookings', $this->model->get_bookings($this->event_id));
+				$view->setTemplate($this->template);
+				break;
+			case 'storno':
+				if (!$this->model->delete_booking($this->request['booking_id'], $this->request['event_id'])) {
+					die("ERROR");
+				}
+				$heading = "Location: " . SITE_ADDRESS . "?view=manage&event_id=" . $this->request['event_id'];
+				header($heading);
+				exit();
+				break;
 			case 'cancel':
 				$view->setTemplate($this->template);
 				break;
 			case 'manage':
-				$view->assign('event_list', $this->get_event_list());
+				$view->assign('event', $this->get_event());
+				$view->assign('bookings', $this->model->get_bookings($this->event_id));
+				$view->assign('stornos', $this->model->get_stornos($this->event_id));
 				$view->setTemplate($this->template);
 				break;
 			default:
