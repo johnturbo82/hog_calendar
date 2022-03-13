@@ -1,16 +1,19 @@
 <?php
+
 /**
  * Databaseconnection
  */
-class Model {
+class Model
+{
 
 	private $conn = null;
 
-	function  __construct() {
+	function  __construct()
+	{
 		try {
 			$this->conn = new PDO("mysql:host=" . SERVERNAME . ";dbname=" . DBNAME . ";charset=UTF8", USERNAME, PASSWORD);
 			$this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch(PDOException $ex) {
+		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
 		}
 	}
@@ -19,7 +22,8 @@ class Model {
 	 * Get bookings
 	 * @return array 
 	 */
-	public function get_bookings($event_id) {
+	public function get_bookings($event_id)
+	{
 		$query = "SELECT * FROM bookings WHERE event_id = :event_id AND deleted_flag = 0 ORDER BY name";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
@@ -35,7 +39,8 @@ class Model {
 	 * Get stornos
 	 * @return array 
 	 */
-	public function get_stornos($event_id) {
+	public function get_stornos($event_id)
+	{
 		$query = "SELECT * FROM bookings WHERE event_id = :event_id AND deleted_flag = 1 ORDER BY name";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
@@ -51,7 +56,8 @@ class Model {
 	 * Get bookings count
 	 * @return array 
 	 */
-	public function get_booking_count($event_id) {
+	public function get_booking_count($event_id)
+	{
 		$query = "SELECT SUM(persons) AS persons_count FROM bookings WHERE event_id = :event_id AND deleted_flag = 0";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
@@ -72,7 +78,8 @@ class Model {
 	 * Does booking exists in DB
 	 * @return bool 
 	 */
-	public function booking_exists($event_id, $name, $givenname) {
+	public function booking_exists($event_id, $name, $givenname)
+	{
 		$query = "SELECT COUNT(*) AS booking_count FROM bookings WHERE event_id = :event_id AND name = :name AND givenname = :givenname AND deleted_flag = 0";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
@@ -98,7 +105,8 @@ class Model {
 	 * @param string $givenname
 	 * @return True in case of success
 	 */
-	public function new_booking($event_id, $name, $givenname, $email = null, $plus_one = null) {
+	public function new_booking($event_id, $name, $givenname, $email = null, $plus_one = null)
+	{
 		$persons = 1;
 		if ($plus_one) {
 			$persons = 2;
@@ -126,7 +134,8 @@ class Model {
 	 * @param string $event_id
 	 * @return True in case of success
 	 */
-	public function delete_booking($booking_id, $event_id) {
+	public function delete_booking($booking_id, $event_id)
+	{
 		$query = "UPDATE bookings Set deleted_flag = 1, update_date = NOW() WHERE id = :booking_id AND event_id = :event_id";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":booking_id", $booking_id, PDO::PARAM_INT);
@@ -136,6 +145,38 @@ class Model {
 				return true;
 			}
 			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Get all active polls from db
+	 */
+	public function get_polls($active = 1)
+	{
+		$query = "SELECT * FROM polls WHERE active = :active AND deleted_flag = 0 ORDER BY create_date";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":active", $active, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Get specific active poll from db
+	 */
+	public function get_poll($poll_id)
+	{
+		$query = "SELECT * FROM polls WHERE id = :poll_id AND active = 1 AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
 		}

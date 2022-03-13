@@ -115,6 +115,17 @@ table tr th, table tr td {
 table tr td.icons {
     text-align: right;
 }
+label {
+    cursor: pointer;
+    display: block;
+    background-color: #2383ba;
+    padding: 5px;
+    margin: 10px 0;
+    border-radius: 3px;
+}
+label input {
+    margin-right: 15px;
+}
 footer {
     display: block;
     margin-top: 20px;
