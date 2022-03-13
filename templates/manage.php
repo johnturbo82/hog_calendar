@@ -2,7 +2,7 @@
 if ($this->_['event']->registrations == 1) {
     echo "<h2>Eine Anmeldung für das Event</h2>";
 } else {
-    echo "<h2>" . $event->registrations . " Anmeldungen für das Event</h2>";
+    echo "<h2>" . $this->_['event']->registrations . " Anmeldungen für das Event</h2>";
 }
 ?>
 <table>
@@ -15,9 +15,7 @@ if ($this->_['event']->registrations == 1) {
     </tr>
     <?php
     $i = 0;
-    $booking_no = 0;
     foreach ($this->_['bookings'] as $booking) {
-        $booking_no = $booking_no + $booking['persons'];
     ?>
         <tr>
             <td><?php echo ++$i ?></td>
