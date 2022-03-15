@@ -115,16 +115,30 @@ table tr th, table tr td {
 table tr td.icons {
     text-align: right;
 }
-label {
+label.poll {
     cursor: pointer;
     display: block;
     background-color: #0a1014;
-    padding: 5px;
     margin: 10px 0;
     border-radius: 3px;
+    position: relative;
+    width: 100%;
+    height: 30px;
 }
-label input {
+label.poll input {
     margin-right: 15px;
+}
+label.poll .share_visual {
+    display: block;
+    background-color: #144d6d;
+    height: 100%;
+    width: 0%;
+    position: absolute;
+    border-radius: 3px;
+}
+label.poll .text {
+    position: absolute;
+    padding: 5px;
 }
 footer {
     display: block;

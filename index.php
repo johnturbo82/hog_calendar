@@ -4,6 +4,7 @@ date_default_timezone_set("Europe/Berlin");
 
 include('config.php');
 include('classes/Event.php');
+include('classes/Poll.php');
 include('classes/Controller.php');
 include('classes/Model.php');
 include('classes/View.php');

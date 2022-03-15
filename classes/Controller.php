@@ -85,7 +85,7 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'poll':
-				$view->assign('poll', $this->model->get_poll($this->request['poll_id']));
+				$view->assign('poll', $this->get_poll($this->request['poll_id']));
 				$view->setTemplate($this->template);
 				break;
 			default:
@@ -175,6 +175,16 @@ class Controller
 		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . $this->event_id . "?key=" . ACCESS_TOKEN;
 		$json = file_get_contents($json_url);
 		return json_decode($json);
+	}
+
+	/**
+	 * Get specific poll and results from db
+	 */
+	private function get_poll($poll_id)
+	{
+		$poll = $this->model->get_poll($poll_id);
+		$poll_results = $this->model->get_poll_results($poll_id);
+		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll_results);
 	}
 
 	/**

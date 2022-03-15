@@ -181,4 +181,20 @@ class Model
 			echo "Connection failed: " . $ex->getMessage();
 		}
 	}
+
+	/**
+	 * Get specific poll results from db
+	 */
+	public function get_poll_results($poll_id)
+	{
+		$query = "SELECT * FROM poll_results WHERE poll_id = :poll_id AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
 }
