@@ -197,4 +197,23 @@ class Model
 			echo "Connection failed: " . $ex->getMessage();
 		}
 	}
+
+	public function vote($poll_id, $vote, $name, $givenname, $email = null)
+	{
+		$query = "INSERT INTO poll_results (poll_id, vote, name, givenname, email) VALUES (:poll_id, :vote, :name, :givenname, :email)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_STR);
+		$stmt->bindValue(":vote", $vote, PDO::PARAM_STR);
+		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
+		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
+		$stmt->bindValue(":email", $email, PDO::PARAM_STR);
+		try {
+			if ($stmt->execute()) {
+				return true;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
 }

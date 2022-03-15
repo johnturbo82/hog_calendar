@@ -80,6 +80,7 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'polls':
+				//TODO Use class Poll!
 				$view->assign('polls', $this->model->get_polls());
 				$view->assign('inactive_polls', $this->model->get_polls(0));
 				$view->setTemplate($this->template);
@@ -87,6 +88,15 @@ class Controller
 			case 'poll':
 				$view->assign('poll', $this->get_poll($this->request['poll_id']));
 				$view->setTemplate($this->template);
+				break;
+			case 'poll_result':
+				$view->assign('poll', $this->get_poll($this->request['poll_id']));
+				$view->setTemplate($this->template);
+				break;
+			case 'vote':
+				$this->model->vote($this->request['poll_id'], $this->request['vote'], $this->request['name'], $this->request['givenname'], $this->request['email']);
+				$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+				header($heading);
 				break;
 			default:
 				$view->setTemplate("404");

@@ -34,7 +34,7 @@ class Poll
         }
         $votes = 0;
         foreach ($poll_results_from_db as $result) {
-            $result_arr[$result['value']] = $result_arr[$result['value']] + 1;
+            $result_arr[$result['vote']] = $result_arr[$result['vote']] + 1;
             $votes++;
         }
         foreach ($result_arr as $k => $result) {
