@@ -18,7 +18,7 @@ $poll = $this->_['poll'];
     foreach ($poll->options as $key => $option) {
     ?>
         <label class="poll">
-            <div class="share_visual" style="width: <?php echo $poll->poll_results[$key] ?>%;"></div>
+            <div class="share_visual" style="width: <?php echo $poll->poll_results[$key]['percentage'] ?>%;"></div>
             <div class="text">
                 <input name="<?php echo (!$poll->multichoice) ? "vote" : "vote[]" ?>" type="<?php echo (!$poll->multichoice) ? "radio" : "checkbox" ?>" value="<?php echo $i++ ?>" /><?php echo $option ?>
             </div>
