@@ -8,7 +8,7 @@ class Poll
     var $multichoice;
     var $poll_results;
 
-    function __construct($id, $name, $description, $options, $multichoice, $create_date, $poll_results_from_db = null)
+    function __construct($id, $name, $description, $options, $multichoice, $active, $create_date, $poll_results_from_db = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -16,6 +16,7 @@ class Poll
         $this->options = $this->process_options($options);
         $this->multichoice = ($multichoice == 0) ? false : true;
         $this->poll_results = $this->evaluate_poll_results($poll_results_from_db);
+        $this->active = ($active == 1) ? true : false;
         $this->create_date = $create_date;
     }
 

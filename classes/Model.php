@@ -283,4 +283,25 @@ class Model
 			echo "Connection failed: " . $ex->getMessage();
 		}
 	}
+
+	
+
+	/**
+	 * Set poll inactive
+	 */
+	public function change_poll_status($poll_id, $status)
+	{
+		$query = "UPDATE polls Set active = :status WHERE id = :poll_id";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
+		$stmt->bindValue(":status", $status, PDO::PARAM_INT);
+		try {
+			if ($stmt->execute()) {
+				return true;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
 }

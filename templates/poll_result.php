@@ -22,3 +22,25 @@ foreach ($poll->options as $key => $option) {
 <?php
 }
 ?>
+<h3>Einzelabstimmungen</h3>
+<table>
+    <tr>
+        <th>Lfd. Nr.</th>
+        <th>Name</th>
+        <th>Stimme</th>
+        <th class="no-mobile">Datum</th>
+    </tr>
+    <?php
+    $k = 0;
+    foreach ($this->_['results'] as $result) {
+    ?>
+        <tr>
+            <td><?php echo ++$k ?></td>
+            <td><?php echo $result['name'] ?>, <?php echo $result['givenname'] ?></td>
+            <td><?php echo $poll->options[$result['vote']] ?></td>
+            <td class="no-mobile"><?php echo date("d.m.Y H:i", strtotime($result['create_date'])); ?></td>
+        </tr>
+    <?php
+    }
+    ?>
+</table>

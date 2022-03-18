@@ -9,6 +9,11 @@ $poll = $this->_['poll'];
     <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
     <h3>Abstimmung und Ergebnisse</h3>
     <?php
+    if ($poll->multichoice) {
+    ?>
+        <h4>Achtung: Mehrfachauswahl möglich!</h4>
+    <?php
+    }
     $i = 0;
     foreach ($poll->options as $key => $option) {
     ?>

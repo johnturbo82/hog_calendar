@@ -98,7 +98,12 @@ class Controller
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
 					header($heading);
 				}
-				$view->assign('poll', $this->get_poll($this->request['poll_id']));
+				$poll = $this->get_poll($this->request['poll_id']);
+				if (!$poll->active) {
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				}
+				$view->assign('poll', $poll);
 				$view->setTemplate($this->template);
 				break;
 			case 'poll_result':
@@ -107,7 +112,18 @@ class Controller
 					$view->assign('voted', "Du hast bereits abgestimmt! Vielen Dank.");
 				}
 				$view->assign('poll', $this->get_poll($this->request['poll_id']));
+				$view->assign('results', $this->model->get_poll_results($this->request['poll_id']));
 				$view->setTemplate($this->template);
+				break;
+			case 'inactivate_poll':
+				$this->model->change_poll_status($this->request['poll_id'], 0);
+				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
+				header($heading);
+				break;
+			case 'activate_poll':
+				$this->model->change_poll_status($this->request['poll_id'], 1);
+				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
+				header($heading);
 				break;
 			case 'vote':
 				$this->set_cookie("poll_" . $this->request['poll_id'], "voted");
@@ -216,7 +232,7 @@ class Controller
 	{
 		$poll = $this->model->get_poll($poll_id);
 		$poll_results = $this->model->get_poll_results($poll_id);
-		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['create_date'], $poll_results);
+		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['active'], $poll['create_date'], $poll_results);
 	}
 
 	/**
@@ -229,7 +245,7 @@ class Controller
 		$results = array();
 		foreach ($polls as $poll) {
 			$poll_results = $this->model->get_poll_results($poll['id']);
-			$results[] = new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['create_date'], $poll_results);
+			$results[] = new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['active'], $poll['create_date'], $poll_results);
 		}
 		return $results;
 	}
