@@ -211,7 +211,7 @@ footer {
         grid-template-rows: 1fr 1fr auto;
     }
     div.poll .button {
-        margin-bottom: 10px;
+        margin-bottom: 5px;
     }
     .no-mobile {
         display: none;
