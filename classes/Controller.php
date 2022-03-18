@@ -36,7 +36,7 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'bookme':
-				$this->set_user_cookies();
+				$this->set_booking_cookies();
 				$this->check_booking_closed();
 				if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
 					$view->assign('event_id', $this->request['event_id']);
@@ -80,23 +80,45 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'polls':
-				//TODO Use class Poll!
-				$view->assign('polls', $this->model->get_polls());
-				$view->assign('inactive_polls', $this->model->get_polls(0));
+				$view->assign('polls', $this->get_poll_list());
+				$view->assign('inactive_polls', $this->get_poll_list(0));
 				$view->setTemplate($this->template);
 				break;
+			case 'new_poll':
+				$view->setTemplate($this->template);
+				break;
+			case 'create_poll':
+				$this->model->create_poll($this->request['name'], $this->request['description'], $this->request['options'], $this->request['multichoice']);
+				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
+				header($heading);
+				break;
 			case 'poll':
+				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
+				if ($voted == "voted") {
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				}
 				$view->assign('poll', $this->get_poll($this->request['poll_id']));
 				$view->setTemplate($this->template);
 				break;
 			case 'poll_result':
+				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
+				if ($voted == "voted") {
+					$view->assign('voted', "Du hast bereits abgestimmt! Vielen Dank.");
+				}
 				$view->assign('poll', $this->get_poll($this->request['poll_id']));
 				$view->setTemplate($this->template);
 				break;
 			case 'vote':
-				$this->model->vote($this->request['poll_id'], $this->request['vote'], $this->request['name'], $this->request['givenname'], $this->request['email']);
-				$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
-				header($heading);
+				$this->set_cookie("poll_" . $this->request['poll_id'], "voted");
+				if ($this->model->vote_exists($this->request['poll_id'], $this->request['name'], $this->request['givenname'])) {
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				} else {
+					$this->model->process_vote($this->request['poll_id'], $this->request['vote'], $this->request['name'], $this->request['givenname'], $this->request['email']);
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				}
 				break;
 			default:
 				$view->setTemplate("404");
@@ -194,17 +216,40 @@ class Controller
 	{
 		$poll = $this->model->get_poll($poll_id);
 		$poll_results = $this->model->get_poll_results($poll_id);
-		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll_results);
+		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['create_date'], $poll_results);
+	}
+
+	/**
+	 * Get array of polls
+	 * @return Array of polls
+	 */
+	private function get_poll_list($active = 1)
+	{
+		$polls = $this->model->get_polls($active);
+		$results = array();
+		foreach ($polls as $poll) {
+			$poll_results = $this->model->get_poll_results($poll['id']);
+			$results[] = new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['create_date'], $poll_results);
+		}
+		return $results;
 	}
 
 	/**
 	 * Set user cookies to load again when returning
 	 */
-	private function set_user_cookies()
+	private function set_booking_cookies()
 	{
 		setcookie("booking_name", $this->request['name'], time() + 3600 * 24 * 365 * 5);
 		setcookie("booking_givenname", $this->request['givenname'], time() + 3600 * 24 * 365 * 5);
 		setcookie("booking_email", $this->request['email'], time() + 3600 * 24 * 365 * 5);
+	}
+
+	/**
+	 * Set cookie
+	 */
+	private function set_cookie($name, $value)
+	{
+		setcookie($name, $value, time() + 3600 * 24 * 365 * 5);
 	}
 
 	/**

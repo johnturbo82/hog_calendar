@@ -8,7 +8,7 @@ class Poll
     var $multichoice;
     var $poll_results;
 
-    function __construct($id, $name, $description, $options, $multichoice, $poll_results_from_db = null)
+    function __construct($id, $name, $description, $options, $multichoice, $create_date, $poll_results_from_db = null)
     {
         $this->id = $id;
         $this->name = $name;
@@ -16,6 +16,7 @@ class Poll
         $this->options = $this->process_options($options);
         $this->multichoice = ($multichoice == 0) ? false : true;
         $this->poll_results = $this->evaluate_poll_results($poll_results_from_db);
+        $this->create_date = $create_date;
     }
 
     function process_options($options)
@@ -38,7 +39,7 @@ class Poll
             $votes++;
         }
         foreach ($result_arr as $k => $result) {
-            $result_arr[$k] = $result / $votes * 100;
+            $result_arr[$k] = ["absolute" => $result, "percentage" => ($result / $votes * 100)];
         }
         return $result_arr;
     }
