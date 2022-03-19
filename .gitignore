@@ -1,2 +1,4 @@
 config.php
 .vscode/sftp.json
+vendor
+composer.lock

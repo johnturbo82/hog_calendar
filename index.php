@@ -8,6 +8,7 @@ include('classes/Poll.php');
 include('classes/Controller.php');
 include('classes/Model.php');
 include('classes/View.php');
+include('classes/ICS.php');
 
 $safePost = filter_input_array(INPUT_POST);
 $safeGet = filter_input_array(INPUT_GET);

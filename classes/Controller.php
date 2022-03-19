@@ -1,5 +1,11 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
 class Controller
+
 {
 	private $request = null;
 	private $template = '';
@@ -303,11 +309,46 @@ class Controller
 	 */
 	private function send_booking_success_mail()
 	{
+		$event = $this->get_event();
+		$props = array(
+			'location' => $event->location,
+			'dtstart' => $event->from,
+			'dtend' => $event->to,
+			'summary' => $event->name,
+		);
+		$ics = new ICS($props);
+		$ical = $ics->to_string();
+
 		if (isset($this->request['email'])) {
-			$header = 'From: H.O.G. Ingolstadt Chapter <webmaster@ingolstadt-chapter.de>' . "\r\n" .
-				'Reply-To: webmaster@ingolstadt-chapter.de' . "\r\n" .
-				'X-Mailer: PHP/' . phpversion();
-			mail($this->request['email'], "Event " . $this->request['eventname'] . " erfolgreich gebucht", $this->request['mailtext'], $header);
+			$mail = new PHPMailer(true);
+			try {
+				$mail->isSMTP();
+				$mail->Host       = SMTP_SERVER;
+				$mail->SMTPAuth   = SMTP_AUTH;
+				$mail->Username   = SMTP_USER;
+				$mail->Password   = SMTP_PASSWORD;
+				$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+				$mail->Port       = SMTP_PORT;
+
+				//Recipients
+				$mail->setFrom('webmaster@ingolstadt-chapter.de', 'H.O.G. Ingolstadt Chapter');
+				$mail->addAddress($this->request['email']);
+
+				//Attachments
+				if (!empty($ical)) {
+					$mail->addStringAttachment($ical, 'ical.ics', 'base64', 'text/calendar');
+				}
+
+				//Content
+				$mail->isHTML(false);
+				$mail->Subject = "Event " . $this->request['eventname'] . " erfolgreich gebucht";
+				$mail->Body    = $this->request['mailtext'];
+
+				$mail->send();
+				return true;
+			} catch (Exception $e) {
+				die("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+			}
 		}
 	}
 }
