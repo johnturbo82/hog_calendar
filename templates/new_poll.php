@@ -1,3 +1,6 @@
+<div class="menu">
+    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">&laquo; Zurück zur Übersicht</a>
+</div>
 <h2>Neue Umfrage anlegen</h2>
 <form method="POST" action="<?php echo SITE_ADDRESS . "?view=create_poll" ?>">
     <p><input type="text" name="name" placeholder="Name der Umfrage" required /> *</p>

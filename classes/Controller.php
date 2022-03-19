@@ -15,8 +15,22 @@ class Controller
 		$this->request = $request;
 		$this->view = new View();
 		$this->model = new Model();
-		$this->template = !empty($request['view']) ? trim($request['view'], '/') : 'booking_table';
+		$this->template = $this->process_request();
 		$this->event_id = !empty($request['event_id']) ? trim($request['event_id'], '/') : null;
+	}
+
+	/**
+	 * If view not set forward
+	 */
+	private function process_request()
+	{
+		if (empty($this->request['view'])) {
+			$heading = "Location: " . SITE_ADDRESS . "?view=events";
+			header($heading);
+			exit();
+		} else {
+			return trim($this->request['view'], '/');
+		}
 	}
 
 	/**
@@ -27,9 +41,10 @@ class Controller
 	{
 		$view = new View();
 		switch ($this->template) {
-			case 'booking_table':
+			case 'events':
 				$view->assign('event_list', $this->get_event_list());
 				$view->setTemplate($this->template);
+				$this->view->assign('menu', true);
 				break;
 			case 'book':
 				$view->assign('event', $this->get_event());
@@ -83,6 +98,7 @@ class Controller
 				$view->assign('polls', $this->get_poll_list());
 				$view->assign('inactive_polls', $this->get_poll_list(0));
 				$view->setTemplate($this->template);
+				$this->view->assign('menu', true);
 				break;
 			case 'new_poll':
 				$view->setTemplate($this->template);
@@ -138,6 +154,7 @@ class Controller
 				break;
 			default:
 				$view->setTemplate("404");
+				$this->view->assign('menu', true);
 				break;
 		}
 		$this->view->setTemplate('site');

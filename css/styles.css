@@ -82,6 +82,9 @@ input[type=submit], button, .button {
     font-size: 100%;
     text-decoration: none;
 }
+.button:first-of-type {
+    margin-left: 0;
+}
 .no-margin {
     margin: 0 !important;
 }
@@ -190,6 +193,10 @@ footer {
     .container {
         padding: 20px;
     }
+    div.menu {
+        display: inline-block;
+        margin-right: 4px;
+    }
 }
 @media screen and (min-width: 800px) {
     div.booking {
@@ -199,6 +206,10 @@ footer {
     div.poll {
         display: inline-grid;
         grid-template-rows: 2fr 2fr auto;
+    }
+    div.menu {
+        display: inline-block;
+        margin-right: 4px;
     }
 }
 @media screen and (max-width: 799px) {
@@ -212,6 +223,9 @@ footer {
     }
     div.poll .button {
         margin-bottom: 5px;
+    }
+    div.menu {
+        margin-bottom: 10px;
     }
     .no-mobile {
         display: none;
