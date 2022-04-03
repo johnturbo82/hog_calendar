@@ -1,4 +1,4 @@
-<p>Terminbuchungen für alle anstehenden Termine des Chapters. Alle Buchungen sind verbindlich sofern Kosten entstehen.</p>
+<p>Terminbuchungen für alle anstehenden Termine des Chapters.</p>
 <div class="bookings">
     <?php
     foreach ($this->_['event_list'] as $event) {
