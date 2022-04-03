@@ -64,13 +64,13 @@ class Controller
 					$view->assign('name', $this->request['name']);
 					$view->assign('givenname', $this->request['givenname']);
 					$view->assign('email', $this->request['email']);
-					$view->assign('plusone', $this->request['plusone']);
+					$view->assign('persons', $this->request['persons']);
 					$view->assign('from', $this->request['from']);
 					$view->assign('eventname', $this->request['eventname']);
 					$view->assign('mailtext', $this->request['mailtext']);
 					$view->setTemplate("booking_exists");
 				} else {
-					if ($this->model->new_booking($this->request['event_id'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['plusone'])) {
+					if ($this->model->new_booking($this->request['event_id'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
 						$this->send_booking_success_mail();
 						$view->setTemplate("booked");
 					} else {

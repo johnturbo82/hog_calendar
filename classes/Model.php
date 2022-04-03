@@ -105,12 +105,8 @@ class Model
 	 * @param string $givenname
 	 * @return True in case of success
 	 */
-	public function new_booking($event_id, $name, $givenname, $email = null, $plus_one = null)
+	public function new_booking($event_id, $name, $givenname, $email = null, $persons = 1)
 	{
-		$persons = 1;
-		if ($plus_one) {
-			$persons = 2;
-		}
 		$query = "INSERT INTO bookings (event_id, name, givenname, email, persons) VALUES (:event_id, :name, :givenname, :email, :persons)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
