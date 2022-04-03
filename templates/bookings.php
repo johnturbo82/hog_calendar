@@ -20,7 +20,7 @@ if ($this->_['event']->registrations == 1) {
     ?>
         <tr>
             <td><?php echo ++$i ?></td>
-            <td><?php echo $booking['name'] ?>, <?php echo $booking['givenname'] ?></td>
+            <td><?php echo trim($booking['name']) ?>, <?php echo trim($booking['givenname']) ?></td>
             <td><?php echo $booking['persons'] ?></td>
             <td class="no-mobile"><?php echo date("d.m.Y H:i", strtotime($booking['create_date'])) ?></td>
         </tr>
