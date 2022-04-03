@@ -2,10 +2,9 @@
 if ($this->_['event']->registrations == 1) {
     echo "<h2>Eine Anmeldung für das Event</h2>";
 } else {
-    echo "<h2>" . $event->registrations . " Anmeldungen für das Event</h2>";
+    echo "<h2>" . $this->_['event']->registrations . " Anmeldungen für das Event \"" . $this->_['event']->name . "\"</h2>";
 }
 ?>
-<p><b>"<?php echo $this->_['event']->name ?>"</b></p>
 <p><b><?php echo $this->_['event']->get_from_str() ?></b>.</p>
 <table>
     <tr>

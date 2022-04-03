@@ -2,7 +2,7 @@
 if ($this->_['event']->registrations == 1) {
     echo "<h2>Eine Anmeldung für das Event</h2>";
 } else {
-    echo "<h2>" . $this->_['event']->registrations . " Anmeldungen für das Event</h2>";
+    echo "<h2>" . $this->_['event']->registrations . " Anmeldungen für das Event \"" . $this->_['event']->name . "\"</h2>";
 }
 ?>
 <table>
@@ -23,7 +23,7 @@ if ($this->_['event']->registrations == 1) {
             <td><?php echo $booking['persons'] ?></td>
             <td class="no-mobile"><?php echo date("d.m.Y H:i", strtotime($booking['create_date'])) ?></td>
             <td class="icons">
-                <form onsubmit="return confirm('Soll die Buchung von  <?php echo $booking['givenname'] ?> <?php echo $booking['givenname'] ?> wirklich storniert werden?');" method="POST" action="<?php echo SITE_ADDRESS ?>?view=storno">
+                <form onsubmit="return confirm('Soll die Buchung von <?php echo trim($booking['givenname']) ?> <?php echo trim($booking['name']) ?> wirklich storniert werden?');" method="POST" action="<?php echo SITE_ADDRESS ?>?view=storno">
                     <input type="hidden" name="event_id" value="<?php echo $booking['event_id'] ?>" />
                     <input type="hidden" name="booking_id" value="<?php echo $booking['id'] ?>" />
                     <input type="image" class="button" src="images/icons/trash.svg" alt="Buchung stornieren" title="Buchung stornieren" />

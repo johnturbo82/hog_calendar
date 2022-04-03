@@ -31,7 +31,7 @@ if ($event->booking_closed) {
         <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" required /> *</p>
         <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" required /> *</p>
         <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
-        <p><input type="number" name="persons" value="1" /> Person(en)</p>
+        <p><input type="number" name="persons" value="1" min="1" max="5" /> Person(en)</p>
         <input type="hidden" name="event_id" value="<?php echo $event->id ?>" />
         <input type="hidden" name="from" value="<?php echo $event->from ?>" />
         <input type="hidden" name="eventname" value="<?php echo $event->name ?>" />
