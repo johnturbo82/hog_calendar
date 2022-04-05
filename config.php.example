@@ -12,3 +12,10 @@ define("SERVERNAME", "xxx");
 define("DBNAME", "xxx");
 define("USERNAME", "xxx");
 define("PASSWORD", "xxx");
+
+// Mail SMTP
+define("SMTP_SERVER", "smtp.example.de");
+define("SMTP_USER", "webmaster@example.de");
+define("SMTP_PASSWORD", 'xxx');
+define("SMTP_PORT", 465);
+define("SMTP_AUTH", true);

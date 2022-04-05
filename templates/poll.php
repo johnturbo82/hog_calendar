@@ -1,19 +1,32 @@
-<h2>Teilnahme an Umfrage "<?php echo $this->_['poll']['name'] ?>"</h2>
-<p><?php echo $this->_['poll']['description'] ?></p>
 <?php
-$options = explode("\n", $this->_['poll']['options']);
-$i = 0;
+$poll = $this->_['poll'];
 ?>
+<h2>Teilnahme an Umfrage "<?php echo $poll->name ?>"</h2>
+<p><?php echo $poll->description ?></p>
 <form method="POST" action="<?php echo SITE_ADDRESS ?>?view=vote">
+    <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" required /> *</p>
+    <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" required /> *</p>
+    <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
+    <h3>Abstimmung und Ergebnisse</h3>
     <?php
-    foreach ($options as $option) {
+    if ($poll->multichoice) {
     ?>
-        <label>
-            <input name="poll_<?php echo $this->_['poll']['id'] ?>" type="<?php echo ($this->_['poll']['multichoice'] == 0) ? "radio" : "checkbox" ?>" value="<?php echo $i++ ?>" /><?php echo $option ?> <br />
+        <h4>Achtung: Mehrfachauswahl möglich!</h4>
+    <?php
+    }
+    $i = 0;
+    foreach ($poll->options as $key => $option) {
+    ?>
+        <label class="poll">
+            <div class="share_visual" style="width: <?php echo $poll->poll_results[$key]['percentage'] ?>%;"></div>
+            <div class="text">
+                <input name="<?php echo (!$poll->multichoice) ? "vote" : "vote[]" ?>" type="<?php echo (!$poll->multichoice) ? "radio" : "checkbox" ?>" value="<?php echo $i++ ?>" /><?php echo $option ?>
+            </div>
         </label>
     <?php
     }
     ?>
     <br />
+    <input type="hidden" name="poll_id" value="<?php echo $poll->id ?>">
     <input type="submit" class="no-margin" value="Abstimmen">
 </form>

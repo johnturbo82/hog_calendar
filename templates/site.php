@@ -1,8 +1,9 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
     <title>H.O.G. Events</title>
-    <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css">
+    <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=2">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo SITE_ADDRESS ?>images/icons/favicon.ico">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS ?>images/icons/favicon.ico">
@@ -76,18 +77,29 @@
                 const copyHotkey = isMac ? '⌘C' : 'CTRL+C';
                 result = prompt(`Press ${copyHotkey}`, string); // eslint-disable-line no-alert
                 if (!result) {
-                return false;
+                    return false;
                 }
             }
             return true;
-            }
+        }
     </script>
 </head>
+
 <body>
     <div class="container">
         <div class="content">
             <img src="<?php echo SITE_ADDRESS ?>images/Ingolstadt-Chapter.png" alt="H.O.G. Ingolstadt Chapter" />
             <h1>H.O.G. Ingolstadt Chapter Events</h1>
+            <?php
+            if ($this->_['menu']) {
+            ?>
+                <div class="menu">
+                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=events">Events</a>
+                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">Abstimmungen</a>
+                </div>
+            <?php
+            }
+            ?>
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
@@ -95,4 +107,5 @@
         </footer>
     </div>
 </body>
+
 </html>

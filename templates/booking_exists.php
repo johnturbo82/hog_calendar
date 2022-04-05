@@ -8,7 +8,7 @@
     <input type="hidden" name="name" value="<?php echo $this->_['name'] ?>" />
     <input type="hidden" name="givenname" value="<?php echo $this->_['givenname'] ?>" />
     <input type="hidden" name="email" value="<?php echo $this->_['email'] ?>" />
-    <input type="hidden" name="plusone" value="<?php echo $this->_['plusone'] ?>" />
+    <input type="hidden" name="persons" value="<?php echo $this->_['persons'] ?>" />
     <input type="hidden" name="from" value="<?php echo $this->_['from'] ?>" />
     <input type="hidden" name="eventname" value="<?php echo $this->_['eventname'] ?>" />
     <input type="hidden" name="mailtext" value="<?php echo $this->_['mailtext'] ?>" />

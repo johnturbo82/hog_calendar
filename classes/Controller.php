@@ -1,5 +1,11 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'vendor/autoload.php';
 class Controller
+
 {
 	private $request = null;
 	private $template = '';
@@ -15,8 +21,22 @@ class Controller
 		$this->request = $request;
 		$this->view = new View();
 		$this->model = new Model();
-		$this->template = !empty($request['view']) ? trim($request['view'], '/') : 'booking_table';
+		$this->template = $this->process_request();
 		$this->event_id = !empty($request['event_id']) ? trim($request['event_id'], '/') : null;
+	}
+
+	/**
+	 * If view not set forward
+	 */
+	private function process_request()
+	{
+		if (empty($this->request['view'])) {
+			$heading = "Location: " . SITE_ADDRESS . "?view=events";
+			header($heading);
+			exit();
+		} else {
+			return trim($this->request['view'], '/');
+		}
 	}
 
 	/**
@@ -27,29 +47,30 @@ class Controller
 	{
 		$view = new View();
 		switch ($this->template) {
-			case 'booking_table':
+			case 'events':
 				$view->assign('event_list', $this->get_event_list());
 				$view->setTemplate($this->template);
+				$this->view->assign('menu', true);
 				break;
 			case 'book':
 				$view->assign('event', $this->get_event());
 				$view->setTemplate($this->template);
 				break;
 			case 'bookme':
-				$this->set_user_cookies();
+				$this->set_booking_cookies();
 				$this->check_booking_closed();
 				if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
 					$view->assign('event_id', $this->request['event_id']);
 					$view->assign('name', $this->request['name']);
 					$view->assign('givenname', $this->request['givenname']);
 					$view->assign('email', $this->request['email']);
-					$view->assign('plusone', $this->request['plusone']);
+					$view->assign('persons', $this->request['persons']);
 					$view->assign('from', $this->request['from']);
 					$view->assign('eventname', $this->request['eventname']);
 					$view->assign('mailtext', $this->request['mailtext']);
 					$view->setTemplate("booking_exists");
 				} else {
-					if ($this->model->new_booking($this->request['event_id'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['plusone'])) {
+					if ($this->model->new_booking($this->request['event_id'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
 						$this->send_booking_success_mail();
 						$view->setTemplate("booked");
 					} else {
@@ -80,16 +101,66 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'polls':
-				$view->assign('polls', $this->model->get_polls());
-				$view->assign('inactive_polls', $this->model->get_polls(0));
+				$view->assign('polls', $this->get_poll_list());
+				$view->assign('inactive_polls', $this->get_poll_list(0));
+				$view->setTemplate($this->template);
+				$this->view->assign('menu', true);
+				break;
+			case 'new_poll':
 				$view->setTemplate($this->template);
 				break;
+			case 'create_poll':
+				$this->model->create_poll($this->request['name'], $this->request['description'], $this->request['options'], $this->request['multichoice']);
+				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
+				header($heading);
+				break;
 			case 'poll':
-				$view->assign('poll', $this->model->get_poll($this->request['poll_id']));
+				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
+				if ($voted == "voted") {
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				}
+				$poll = $this->get_poll($this->request['poll_id']);
+				if (!$poll->active) {
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				}
+				$view->assign('poll', $poll);
 				$view->setTemplate($this->template);
+				break;
+			case 'poll_result':
+				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
+				if ($voted == "voted") {
+					$view->assign('voted', "Du hast bereits abgestimmt! Vielen Dank.");
+				}
+				$view->assign('poll', $this->get_poll($this->request['poll_id']));
+				$view->assign('results', $this->model->get_poll_results($this->request['poll_id']));
+				$view->setTemplate($this->template);
+				break;
+			case 'inactivate_poll':
+				$this->model->change_poll_status($this->request['poll_id'], 0);
+				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
+				header($heading);
+				break;
+			case 'activate_poll':
+				$this->model->change_poll_status($this->request['poll_id'], 1);
+				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
+				header($heading);
+				break;
+			case 'vote':
+				$this->set_cookie("poll_" . $this->request['poll_id'], "voted");
+				if ($this->model->vote_exists($this->request['poll_id'], $this->request['name'], $this->request['givenname'])) {
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				} else {
+					$this->model->process_vote($this->request['poll_id'], $this->request['vote'], $this->request['name'], $this->request['givenname'], $this->request['email']);
+					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
+					header($heading);
+				}
 				break;
 			default:
 				$view->setTemplate("404");
+				$this->view->assign('menu', true);
 				break;
 		}
 		$this->view->setTemplate('site');
@@ -178,13 +249,46 @@ class Controller
 	}
 
 	/**
+	 * Get specific poll and results from db
+	 */
+	private function get_poll($poll_id)
+	{
+		$poll = $this->model->get_poll($poll_id);
+		$poll_results = $this->model->get_poll_results($poll_id);
+		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['active'], $poll['create_date'], $poll_results);
+	}
+
+	/**
+	 * Get array of polls
+	 * @return Array of polls
+	 */
+	private function get_poll_list($active = 1)
+	{
+		$polls = $this->model->get_polls($active);
+		$results = array();
+		foreach ($polls as $poll) {
+			$poll_results = $this->model->get_poll_results($poll['id']);
+			$results[] = new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['active'], $poll['create_date'], $poll_results);
+		}
+		return $results;
+	}
+
+	/**
 	 * Set user cookies to load again when returning
 	 */
-	private function set_user_cookies()
+	private function set_booking_cookies()
 	{
 		setcookie("booking_name", $this->request['name'], time() + 3600 * 24 * 365 * 5);
 		setcookie("booking_givenname", $this->request['givenname'], time() + 3600 * 24 * 365 * 5);
 		setcookie("booking_email", $this->request['email'], time() + 3600 * 24 * 365 * 5);
+	}
+
+	/**
+	 * Set cookie
+	 */
+	private function set_cookie($name, $value)
+	{
+		setcookie($name, $value, time() + 3600 * 24 * 365 * 5);
 	}
 
 	/**
@@ -205,11 +309,46 @@ class Controller
 	 */
 	private function send_booking_success_mail()
 	{
+		$event = $this->get_event();
+		$props = array(
+			'location' => $event->location,
+			'dtstart' => $event->from,
+			'dtend' => $event->to,
+			'summary' => $event->name,
+		);
+		$ics = new ICS($props);
+		$ical = $ics->to_string();
+
 		if (isset($this->request['email'])) {
-			$header = 'From: H.O.G. Ingolstadt Chapter <webmaster@ingolstadt-chapter.de>' . "\r\n" .
-				'Reply-To: webmaster@ingolstadt-chapter.de' . "\r\n" .
-				'X-Mailer: PHP/' . phpversion();
-			mail($this->request['email'], "Event " . $this->request['eventname'] . " erfolgreich gebucht", $this->request['mailtext'], $header);
+			$mail = new PHPMailer(true);
+			try {
+				$mail->isSMTP();
+				$mail->Host       = SMTP_SERVER;
+				$mail->SMTPAuth   = SMTP_AUTH;
+				$mail->Username   = SMTP_USER;
+				$mail->Password   = SMTP_PASSWORD;
+				$mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+				$mail->Port       = SMTP_PORT;
+
+				//Recipients
+				$mail->setFrom('webmaster@ingolstadt-chapter.de', 'H.O.G. Ingolstadt Chapter');
+				$mail->addAddress($this->request['email']);
+
+				//Attachments
+				if (!empty($ical)) {
+					$mail->addStringAttachment($ical, 'ical.ics', 'base64', 'text/calendar');
+				}
+
+				//Content
+				$mail->isHTML(false);
+				$mail->Subject = "Event " . $this->request['eventname'] . " erfolgreich gebucht";
+				$mail->Body    = $this->request['mailtext'];
+
+				$mail->send();
+				return true;
+			} catch (Exception $e) {
+				die("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+			}
 		}
 	}
 }

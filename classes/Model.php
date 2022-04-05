@@ -105,12 +105,8 @@ class Model
 	 * @param string $givenname
 	 * @return True in case of success
 	 */
-	public function new_booking($event_id, $name, $givenname, $email = null, $plus_one = null)
+	public function new_booking($event_id, $name, $givenname, $email = null, $persons = 1)
 	{
-		$persons = 1;
-		if ($plus_one) {
-			$persons = 2;
-		}
 		$query = "INSERT INTO bookings (event_id, name, givenname, email, persons) VALUES (:event_id, :name, :givenname, :email, :persons)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
@@ -171,12 +167,135 @@ class Model
 	 */
 	public function get_poll($poll_id)
 	{
-		$query = "SELECT * FROM polls WHERE id = :poll_id AND active = 1 AND deleted_flag = 0";
+		$query = "SELECT * FROM polls WHERE id = :poll_id AND deleted_flag = 0";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
 		try {
 			$stmt->execute();
 			return $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Get specific poll results from db
+	 */
+	public function get_poll_results($poll_id)
+	{
+		$query = "SELECT * FROM poll_results WHERE poll_id = :poll_id AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Does vote already exist in DB?
+	 * @return bool 
+	 */
+	public function vote_exists($poll_id, $name, $givenname)
+	{
+		$query = "SELECT COUNT(*) AS vote FROM poll_results WHERE poll_id = :poll_id AND name = :name AND givenname = :givenname AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_STR);
+		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
+		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			if ($result[0]['vote'] > 0) {
+				return true;
+			} else {
+				return false;
+			}
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Process vote for poll
+	 */
+	public function process_vote($poll_id, $vote, $name, $givenname, $email = null)
+	{
+		if (is_array($vote)) {
+			foreach ($vote as $single_vote) {
+				$this->vote($poll_id, $single_vote, $name, $givenname, $email);
+			}
+		} else {
+			$this->vote($poll_id, $vote, $name, $givenname, $email);
+		}
+	}
+
+	/**
+	 * Vote for poll
+	 */
+	public function vote($poll_id, $vote, $name, $givenname, $email = null)
+	{
+		$query = "INSERT INTO poll_results (poll_id, vote, name, givenname, email) VALUES (:poll_id, :vote, :name, :givenname, :email)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_STR);
+		$stmt->bindValue(":vote", $vote, PDO::PARAM_STR);
+		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
+		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
+		$stmt->bindValue(":email", $email, PDO::PARAM_STR);
+		try {
+			if ($stmt->execute()) {
+				return true;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Create new poll
+	 */
+	public function create_poll($name, $description, $options, $multichoice = 0)
+	{
+		if (isset($multichoice)) {
+			$multichoice = 1;
+		} else {
+			$multichoice = 0;
+		}
+		$query = "INSERT INTO polls (name, description, options, multichoice) VALUES (:name, :description, :options, :multichoice)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
+		$stmt->bindValue(":description", $description, PDO::PARAM_STR);
+		$stmt->bindValue(":options", $options, PDO::PARAM_STR);
+		$stmt->bindValue(":multichoice", $multichoice, PDO::PARAM_INT);
+		try {
+			if ($stmt->execute()) {
+				return true;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	
+
+	/**
+	 * Set poll inactive
+	 */
+	public function change_poll_status($poll_id, $status)
+	{
+		$query = "UPDATE polls Set active = :status WHERE id = :poll_id";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
+		$stmt->bindValue(":status", $status, PDO::PARAM_INT);
+		try {
+			if ($stmt->execute()) {
+				return true;
+			}
+			return false;
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
 		}

@@ -17,23 +17,23 @@ body {
 .content {
     min-height: 400px;
 }
-.bookings {
+div.bookings, div.polls {
     width: 100%;
     border: 1px solid #000;
     display: inline-block;
 }
-.booking {
+div.booking, div.poll {
     width: 100%;
     padding: 4px;
     border-bottom: 1px solid #000;
 }
-.booking:last-of-type {
+.booking:last-of-type, div.poll:last-of-type {
     border-bottom: none;
 }
-.booking:nth-child(even), table tr:nth-child(even) {
+.booking:nth-child(even), div.poll:nth-child(even), table tr:nth-child(even) {
     background-color: #2a3942;
 }
-.booking:nth-child(odd), table tr:nth-child(odd) {
+.booking:nth-child(odd), div.poll:nth-child(odd), table tr:nth-child(odd) {
     background-color: #16232b;
 }
 .cell {
@@ -82,6 +82,9 @@ input[type=submit], button, .button {
     font-size: 100%;
     text-decoration: none;
 }
+.button:first-of-type {
+    margin-left: 0;
+}
 .no-margin {
     margin: 0 !important;
 }
@@ -91,11 +94,23 @@ input[type=submit], button, .button {
 .button img {
     height: 100%;
 }
-input[type=text], input[type=email] {
+input[type=text], input[type=email], input[type=number] {
     padding: 5px;
     font-size: 120%;
     min-width: 200px;
-    max-width: 500px;
+    width: calc(100% - 30px);
+    font-family: 'Rajdhani', sans-serif !important;
+    font-weight: bold;
+}
+input[type=number] {
+    width: 50px;
+    min-width: 30px;
+}
+textarea {
+    padding: 5px;
+    font-size: 120%;
+    min-width: 200px;
+    min-height: 100px;
     width: calc(100% - 30px);
     font-family: 'Rajdhani', sans-serif !important;
     font-weight: bold;
@@ -115,16 +130,52 @@ table tr th, table tr td {
 table tr td.icons {
     text-align: right;
 }
-label {
+label.poll {
     cursor: pointer;
     display: block;
     background-color: #0a1014;
-    padding: 5px;
     margin: 10px 0;
     border-radius: 3px;
+    position: relative;
+    width: 100%;
+    height: 30px;
 }
-label input {
+label.poll.results {
+    cursor: initial;
+}
+label.poll input {
     margin-right: 15px;
+}
+label.poll .share_visual {
+    display: block;
+    background-color: #144d6d;
+    height: 100%;
+    width: 0%;
+    position: absolute;
+    border-radius: 3px;
+}
+label.poll .text {
+    position: absolute;
+    padding: 5px;
+    user-select: none;
+}
+label.poll .votes {
+    float: right;
+    padding: 5px;
+    position: relative;
+}
+.notice {
+    display: block;
+    width: 100%;
+    border-radius: 3px;
+    padding: 10px;
+    background-color: #25D366;
+    color: #fff;
+    font-weight: bold;
+}
+.notice.error {
+    background-color: #e51c20;
+    color: #fff;
 }
 footer {
     display: block;
@@ -134,24 +185,51 @@ footer {
 }
 
 @media screen and (min-width: 1100px) {
-    .booking {
+    div.booking {
         display: inline-grid;
         grid-template-columns: 3fr 2fr 1fr 2fr;
+    }
+    div.poll {
+        display: inline-grid;
+        grid-template-columns: 1fr 2fr auto;
+        grid-template-rows: 1fr !important;
     }
     .container {
         padding: 20px;
     }
+    div.menu {
+        display: inline-block;
+        margin-right: 4px;
+    }
 }
 @media screen and (min-width: 800px) {
-    .booking {
+    div.booking {
         display: inline-grid;
         grid-template-columns: 6fr 4fr 3fr 5fr;
     }
+    div.poll {
+        display: inline-grid;
+        grid-template-rows: 2fr 2fr auto;
+    }
+    div.menu {
+        display: inline-block;
+        margin-right: 4px;
+    }
 }
 @media screen and (max-width: 799px) {
-    .booking {
+    div.booking {
         display: inline-grid;
         grid-template-rows: 2fr 2fr 2fr 3fr;
+    }
+    div.poll {
+        display: inline-grid;
+        grid-template-rows: 1fr 1fr auto;
+    }
+    div.poll .button {
+        margin-bottom: 5px;
+    }
+    div.menu {
+        margin-bottom: 10px;
     }
     .no-mobile {
         display: none;
