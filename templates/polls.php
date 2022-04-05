@@ -13,7 +13,7 @@
                 <a class="button" href="<?php echo SITE_ADDRESS . "?view=poll_result&poll_id=" . $poll->id ?>" title="Ergebnisse anzeigen">Ergebnisse</a>
                 <a class="button" href="<?php echo SITE_ADDRESS . "?view=inactivate_poll&poll_id=" . $poll->id ?>" title="Umfrage beenden">Beenden</a>
                 <a class="button" onClick="copyToClipboard('<?php echo $link ?>', this)" title="In die Zwischenablage kopieren">Kopieren</a>
-                <a class="button whatsapp" href="whatsapp://send?text=Liebe Member,%0Ahier könnt ihr an der Umfrage %22<?php echo $poll->name ?>%22 ?> teilnehmen:%0A<?php echo $link ?>" title="Link zur Buchung per WhatsApp verschicken">
+                <a class="button whatsapp" href="whatsapp://send?text=Liebe Member,%0Ahier könnt ihr an der Umfrage %22<?php echo $poll->name ?>%22 teilnehmen:%0A<?php echo urlencode($link) ?>" title="Link zur Buchung per WhatsApp verschicken">
                     <img src="<?php echo SITE_ADDRESS ?>images/icons/whatsapp.svg" alt="Whatsapp" />
                 </a>
             </div>

@@ -19,7 +19,7 @@
                 <div class="cell right">
                     <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
                     <a class="button" onClick="copyToClipboard('<?php echo $link ?>', this)" title="In die Zwischenablage kopieren">Kopieren</a>
-                    <a class="button whatsapp" href="whatsapp://send?text=Liebe Member,%0Ahier könnt ihr euch für das Event %22<?php echo $event->name ?>%22, <?php echo $event->get_date_str() ?> anmelden:%0A<?php echo $link ?>" title="Link zur Buchung per WhatsApp verschicken">
+                    <a class="button whatsapp" href="whatsapp://send?text=Liebe Member,%0Ahier könnt ihr euch für das Event %22<?php echo $event->name ?>%22, <?php echo $event->get_date_str() ?> anmelden:%0A<?php echo urlencode($link) ?>" title="Link zur Buchung per WhatsApp verschicken">
                         <img src="<?php echo SITE_ADDRESS ?>images/icons/whatsapp.svg" alt="Whatsapp" />
                     </a>
                 </div>
