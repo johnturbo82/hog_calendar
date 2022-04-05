@@ -3,6 +3,11 @@
 Application to manage all event participations from Google calendar.
  
 ## Change list:
+### 2.1.3
+- Bugfix: Whatsapp Link
+### 2.1.2
+- Fixes
+- New icons
 ### 2.1.1
 - SQL schema added
 ### 2.1.0
