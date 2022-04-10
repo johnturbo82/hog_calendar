@@ -3,13 +3,13 @@ $event = $this->_['event'];
 if ($event->booking_closed) {
 ?>
     <p>Terminbuchung für das Event</>
-    <p><b>"<?php echo $event->name ?>"</b></p>
+    <h2>"<?php echo $event->name ?>"</h2>
     <p><b><?php echo $event->get_from_str() ?></b> ist leider geschlossen.</p>
 <?php
 } else {
 ?>
     <p>Terminbuchung für das Event</>
-    <p><b>"<?php echo $event->name ?>"</b></p>
+    <h2>"<?php echo $event->name ?>"</h2>
     <p><b><?php echo $event->get_from_str() ?></b>.</p>
     <?php
     $mailtext = "Die Anmeldung für das Event " . $event->name . " " . $event->get_from_str() . " war erfolgreich.\n";
