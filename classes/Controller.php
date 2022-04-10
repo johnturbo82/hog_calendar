@@ -53,8 +53,10 @@ class Controller
 				$this->view->assign('menu', true);
 				break;
 			case 'book':
-				$view->assign('event', $this->get_event());
+				$event = $this->get_event();
+				$view->assign('event', $event);
 				$view->setTemplate($this->template);
+				$this->view->assign('title', "Event \"" . $event->name . "\" buchen...");
 				break;
 			case 'bookme':
 				$this->set_booking_cookies();
@@ -127,15 +129,18 @@ class Controller
 				}
 				$view->assign('poll', $poll);
 				$view->setTemplate($this->template);
+				$this->view->assign('title', "An Abstimmung \"" . $poll->name . "\" buchen...");
 				break;
 			case 'poll_result':
 				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
 				if ($voted == "voted") {
 					$view->assign('voted', "Du hast bereits abgestimmt! Vielen Dank.");
 				}
-				$view->assign('poll', $this->get_poll($this->request['poll_id']));
+				$poll = $this->get_poll($this->request['poll_id']);
+				$view->assign('poll', $poll);
 				$view->assign('results', $this->model->get_poll_results($this->request['poll_id']));
 				$view->setTemplate($this->template);
+				$this->view->assign('title', "Ergebnisse \"" . $poll->name . "\"");
 				break;
 			case 'inactivate_poll':
 				$this->model->change_poll_status($this->request['poll_id'], 0);
