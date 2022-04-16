@@ -3,7 +3,7 @@
 <p><strong><?php echo $this->_['givenname'] ?> <?php echo $this->_['name'] ?></strong></p>
 <p>Soll die Buchung trotzdem durchgeführt werden? Eventuell können Doppelbuchungen entstehen.</p>
 <a href="<?php echo SITE_ADDRESS ?>?view=cancel" class="button">Nein, Abbruch!</a>
-<form method="POST" action="">
+<form method="POST" action="<?php echo SITE_ADDRESS . "?view=bookme" ?>">
     <input type="hidden" name="event_id" value="<?php echo $this->_['event_id'] ?>" />
     <input type="hidden" name="name" value="<?php echo $this->_['name'] ?>" />
     <input type="hidden" name="givenname" value="<?php echo $this->_['givenname'] ?>" />

@@ -61,7 +61,17 @@ class Controller
 			case 'bookme':
 				$this->set_booking_cookies();
 				$this->check_booking_closed();
-				if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
+				if ($this->request['persons'] == 0) {
+					$view->assign('event_id', $this->request['event_id']);
+					$view->assign('name', $this->request['name']);
+					$view->assign('givenname', $this->request['givenname']);
+					$view->assign('email', $this->request['email']);
+					$view->assign('persons', $this->request['persons']);
+					$view->assign('from', $this->request['from']);
+					$view->assign('eventname', $this->request['eventname']);
+					$view->assign('mailtext', $this->request['mailtext']); 
+					$view->setTemplate("booking_zero");
+				} else if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
 					$view->assign('event_id', $this->request['event_id']);
 					$view->assign('name', $this->request['name']);
 					$view->assign('givenname', $this->request['givenname']);
