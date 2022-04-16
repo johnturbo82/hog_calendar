@@ -1,4 +1,4 @@
-<h2>Achtung!</h2>
+<h2 class="error">Achtung, <?php echo $this->_['givenname'] ?>!</h2>
 <p>Es besteht bereits eine Buchung auf den Namen:</p>
 <p><strong><?php echo $this->_['givenname'] ?> <?php echo $this->_['name'] ?></strong></p>
 <p>Soll die Buchung trotzdem durchgeführt werden? Eventuell können Doppelbuchungen entstehen.</p>

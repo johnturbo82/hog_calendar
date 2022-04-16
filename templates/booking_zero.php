@@ -1,5 +1,6 @@
-<h2>Achtung!</h2>
-<p>Es wurden 0 Personen eingegeben, bitte beachte, dass die Eingabe die Anzahl aller Personen ist. Wenn du nur dich anmelden willst, trage bitte "1" ein.</p>
+<h2 class="error">Achtung, <?php echo $this->_['givenname'] ?>!</h2>
+<p>Es wurden 0 Personen eingegeben, bitte beachte, dass die Eingabe die Anzahl aller Personen repräsentiert.</p>
+<p>Wenn du nur dich anmelden willst, trage bitte "1" ein.</p>
 <form method="POST" action="<?php echo SITE_ADDRESS . "?view=bookme" ?>">
     <input type="hidden" name="event_id" value="<?php echo $this->_['event_id'] ?>" />
     <p><input type="text" name="name" value="<?php echo $this->_['name'] ?>" /></p>

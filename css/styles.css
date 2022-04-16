@@ -56,6 +56,9 @@ img {
 h1 {
     margin-top: 0;
 }
+h2.error {
+    color: #e51c20;
+}
 a {
     color: #c1aa63;
 }
