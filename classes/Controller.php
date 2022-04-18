@@ -62,6 +62,7 @@ class Controller
 				ksort($event_list);
 				$view->assign('event_list', $event_list);
 				$view->setTemplate($this->template);
+				$this->view->assign('title', "Aktuell offene Terminbuchungen");
 				break;
 			case 'book':
 				$event = $this->get_event();
