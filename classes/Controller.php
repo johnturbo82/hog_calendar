@@ -56,8 +56,10 @@ class Controller
 				$event_ids = $this->model->get_recent_bookable_events();
 				$event_list = array();
 				foreach ($event_ids as $event_id) {
-					$event_list[] = $this->get_event($event_id);
+					$event = $this->get_event($event_id);
+					$event_list[$event->from . " " . $event->id] = $event;
 				}
+				ksort($event_list);
 				$view->assign('event_list', $event_list);
 				$view->setTemplate($this->template);
 				break;
