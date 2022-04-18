@@ -68,7 +68,7 @@
 
 class ICS
 {
-    const DT_FORMAT = 'Ymd\THis\Z';
+    const DT_FORMAT = 'Ymd\THis';
 
     protected $properties = array();
     private $available_properties = array(
@@ -110,19 +110,47 @@ class ICS
         $ics_props = array(
             'BEGIN:VCALENDAR',
             'VERSION:2.0',
-            'PRODID:-//hacksw/handcal//NONSGML v1.0//EN',
+            'PRODID:-//johnturbo82/hog_calendar v1.0//DE',
             'CALSCALE:GREGORIAN',
+            'METHOD:REQUEST',
+            'BEGIN:VTIMEZONE',
+            'TZID:Europe/Berlin',
+            'BEGIN:STANDARD',
+            'DTSTART:20211031T010000',
+            'TZOFFSETFROM:+0200',
+            'TZOFFSETTO:+0100',
+            'TZNAME:CET',
+            'END:STANDARD',
+            'BEGIN:DAYLIGHT',
+            'DTSTART:20220327T010000',
+            'TZOFFSETFROM:+0100',
+            'TZOFFSETTO:+0200',
+            'TZNAME:CEST',
+            'END:DAYLIGHT',
+            'BEGIN:STANDARD',
+            'DTSTART:20221030T010000',
+            'TZOFFSETFROM:+0200',
+            'TZOFFSETTO:+0100',
+            'TZNAME:CET',
+            'END:STANDARD',
+            'END:VTIMEZONE',
             'BEGIN:VEVENT'
         );
 
         // Build ICS properties - add header
         $props = array();
         foreach ($this->properties as $k => $v) {
-            $props[strtoupper($k . ($k === 'url' ? ';VALUE=URI' : ''))] = $v;
+            if ($k === 'url') {
+                $props[strtoupper($k . ';VALUE=URI')] = $v;
+            } else if (($k === 'dtend') || ($k === 'dtstart')) {
+                $props[strtoupper($k) . ';TZID=Europe/Berlin'] = $v;
+            } else {
+                $props[strtoupper($k)] = $v;
+            }
         }
 
         // Set some default values
-        $props['DTSTAMP'] = $this->format_timestamp('now');
+        $props['DTSTAMP;TZID=Europe/Berlin'] = $this->format_timestamp('now');
         $props['UID'] = uniqid();
 
         // Append properties
@@ -131,6 +159,7 @@ class ICS
         }
 
         // Build ICS properties - add footer
+        $ics_props[] = 'ORGANIZER;CN="H.O.G. Ingolstadt Chapter":mailto:webmaster@ingolstadt-chapter.de';
         $ics_props[] = 'END:VEVENT';
         $ics_props[] = 'END:VCALENDAR';
 

@@ -3,6 +3,10 @@
 Application to manage all event participations from Google calendar.
  
 ## Change list:
+
+### 2.1.4
+- Bugfix: Cannot book zero persons
+- Bugfix: Organisator in iCal added, Timezone fix
 ### 2.1.3
 - Bugfix: Whatsapp Link
 ### 2.1.2
