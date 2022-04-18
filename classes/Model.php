@@ -105,11 +105,14 @@ class Model
 	 * @param string $givenname
 	 * @return True in case of success
 	 */
-	public function new_booking($event_id, $name, $givenname, $email = null, $persons = 1)
+	public function new_booking($event_id, $event_name, $event_date, $name, $givenname, $email = null, $persons = 1)
 	{
-		$query = "INSERT INTO bookings (event_id, name, givenname, email, persons) VALUES (:event_id, :name, :givenname, :email, :persons)";
+		$event_date = date("Y-m-d H:i:s", strtotime($event_date));
+		$query = "INSERT INTO bookings (event_id, event_name, event_date, name, givenname, email, persons) VALUES (:event_id, :event_name, :event_date, :name, :givenname, :email, :persons)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		$stmt->bindValue(":event_name", $event_name, PDO::PARAM_STR);
+		$stmt->bindValue(":event_date", $event_date, PDO::PARAM_STR);
 		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
 		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
 		$stmt->bindValue(":persons", $persons, PDO::PARAM_INT);
@@ -141,6 +144,25 @@ class Model
 				return true;
 			}
 			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Get list of event IDs which are open for booking and in the next 6 month
+	 */
+	public function get_recent_bookable_events() { 
+		$query = "SELECT DISTINCT(event_id) FROM bookings WHERE event_date BETWEEN NOW() AND NOW()+INTERVAL 6 MONTH";
+		$stmt = $this->conn->prepare($query);
+		try {
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$values = array();
+			foreach ($result as $event) {
+				$values[] = $event['event_id'];
+			}
+			return $values;
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
 		}

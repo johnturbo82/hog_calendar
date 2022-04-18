@@ -52,6 +52,15 @@ class Controller
 				$view->setTemplate($this->template);
 				$this->view->assign('menu', true);
 				break;
+			case 'bookable_events':
+				$event_ids = $this->model->get_recent_bookable_events();
+				$event_list = array();
+				foreach ($event_ids as $event_id) {
+					$event_list[] = $this->get_event($event_id);
+				}
+				$view->assign('event_list', $event_list);
+				$view->setTemplate($this->template);
+				break;
 			case 'book':
 				$event = $this->get_event();
 				$view->assign('event', $event);
@@ -69,7 +78,7 @@ class Controller
 					$view->assign('persons', $this->request['persons']);
 					$view->assign('from', $this->request['from']);
 					$view->assign('eventname', $this->request['eventname']);
-					$view->assign('mailtext', $this->request['mailtext']); 
+					$view->assign('mailtext', $this->request['mailtext']);
 					$view->setTemplate("booking_zero");
 				} else if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
 					$view->assign('event_id', $this->request['event_id']);
@@ -82,7 +91,7 @@ class Controller
 					$view->assign('mailtext', $this->request['mailtext']);
 					$view->setTemplate("booking_exists");
 				} else {
-					if ($this->model->new_booking($this->request['event_id'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
+					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
 						$this->send_booking_success_mail();
 						$view->setTemplate("booked");
 					} else {
@@ -221,12 +230,15 @@ class Controller
 	 * Get event
 	 * @return Event
 	 */
-	private function get_event()
+	private function get_event($event_id = null)
 	{
-		if (!isset($this->event_id)) {
+		if (!isset($this->event_id) && ($event_id == null)) {
 			die("Kein Event gefunden. Bitte Event ID überprüfen.");
 		}
-		$event = $this->load_specific_event();
+		if ($event_id == null) {
+			$event_id = $this->event_id;
+		}
+		$event = $this->load_specific_event($event_id);
 		if (!isset($event->summary)) {
 			die("Kein Event gefunden. Bitte Event ID überprüfen.");
 		}
@@ -256,9 +268,9 @@ class Controller
 	/**
 	 * Load specific event from Google calendar
 	 */
-	private function load_specific_event()
+	private function load_specific_event($event_id)
 	{
-		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . $this->event_id . "?key=" . ACCESS_TOKEN;
+		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . $event_id . "?key=" . ACCESS_TOKEN;
 		$json = file_get_contents($json_url);
 		return json_decode($json);
 	}
