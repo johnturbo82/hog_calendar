@@ -66,6 +66,16 @@ class Controller
 				break;
 			case 'book':
 				$event = $this->get_event();
+				if (isset($_COOKIE['booking_name']) && isset($_COOKIE['booking_givenname'])) {
+					$booking = $this->model->get_booking_by_name($event->id, $_COOKIE['booking_name'], $_COOKIE['booking_givenname']);
+					if ($booking != null) {
+						$view->assign('event', $event);
+						$view->assign('booking', $booking);
+						$view->setTemplate("booking_exists");
+						$this->view->assign('title', "Event \"" . $event->name . "\" buchen...");
+						break;
+					}
+				}
 				$view->assign('event', $event);
 				$view->setTemplate($this->template);
 				$this->view->assign('title', "Event \"" . $event->name . "\" buchen...");
@@ -83,16 +93,16 @@ class Controller
 					$view->assign('eventname', $this->request['eventname']);
 					$view->assign('mailtext', $this->request['mailtext']);
 					$view->setTemplate("booking_zero");
-				} else if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname']) && $this->request['overwrite'] != "1") {
-					$view->assign('event_id', $this->request['event_id']);
-					$view->assign('name', $this->request['name']);
-					$view->assign('givenname', $this->request['givenname']);
-					$view->assign('email', $this->request['email']);
-					$view->assign('persons', $this->request['persons']);
-					$view->assign('from', $this->request['from']);
-					$view->assign('eventname', $this->request['eventname']);
-					$view->assign('mailtext', $this->request['mailtext']);
-					$view->setTemplate("booking_exists");
+				} else if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname'])) {
+					$event = $this->get_event();
+					$booking = $this->model->get_booking_by_name($event->id, $_COOKIE['booking_name'], $_COOKIE['booking_givenname']);
+					if ($booking != null) {
+						$view->assign('event', $event);
+						$view->assign('booking', $booking);
+						$view->setTemplate("booking_exists");
+						$this->view->assign('title', "Event \"" . $event->name . "\" buchen...");
+						break;
+					}
 				} else {
 					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
 						$this->send_booking_success_mail();
@@ -107,14 +117,25 @@ class Controller
 				$view->assign('bookings', $this->model->get_bookings($this->event_id));
 				$view->setTemplate($this->template);
 				break;
+			case 'change_persons':
+				$this->model->change_persons($this->request['event_id'], $this->request['booking_id'], $this->request['persons']);
+				$view->setTemplate('change_success');
+				break;
 			case 'storno':
+			case 'delete_booking':
 				if (!$this->model->delete_booking($this->request['booking_id'], $this->request['event_id'])) {
 					die("ERROR");
 				}
-				$heading = "Location: " . SITE_ADDRESS . "?view=manage&event_id=" . $this->request['event_id'];
+				if ($this->template == 'storno') {
+					$heading = "Location: " . SITE_ADDRESS . "?view=manage&event_id=" . $this->request['event_id'];
+				} else {
+					$heading = "Location: " . SITE_ADDRESS . "?view=delete_success";
+				}
 				header($heading);
 				exit();
 				break;
+			case 'delete_success':
+				$view->setTemplate($this->template);
 			case 'cancel':
 				$view->setTemplate($this->template);
 				break;

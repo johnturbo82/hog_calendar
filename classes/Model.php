@@ -36,6 +36,26 @@ class Model
 	}
 
 	/**
+	 * Get booking by name
+	 * @return bool 
+	 */
+	public function get_booking_by_name($event_id, $name, $givenname)
+	{
+		$query = "SELECT * FROM bookings WHERE event_id = :event_id AND name = :name AND givenname = :givenname AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
+		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return $result[0];
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
 	 * Get stornos
 	 * @return array 
 	 */
@@ -69,6 +89,23 @@ class Model
 			} else {
 				return 0;
 			}
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Change person count
+	 */
+	public function change_persons($event_id, $booking_id, $persons)
+	{
+		$query = "UPDATE bookings Set persons = :persons WHERE event_id = :event_id AND id = :booking_id AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		$stmt->bindValue(":booking_id", $booking_id, PDO::PARAM_INT);
+		$stmt->bindValue(":persons", $persons, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
 		}
@@ -152,7 +189,8 @@ class Model
 	/**
 	 * Get list of event IDs which are open for booking and in the next 6 month
 	 */
-	public function get_recent_bookable_events() { 
+	public function get_recent_bookable_events()
+	{
 		$query = "SELECT DISTINCT(event_id) FROM bookings WHERE event_date BETWEEN NOW() AND NOW()+INTERVAL 6 MONTH";
 		$stmt = $this->conn->prepare($query);
 		try {
@@ -302,7 +340,7 @@ class Model
 		}
 	}
 
-	
+
 
 	/**
 	 * Set poll inactive
