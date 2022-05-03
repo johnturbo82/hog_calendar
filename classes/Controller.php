@@ -95,7 +95,7 @@ class Controller
 					$view->setTemplate("booking_zero");
 				} else if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname'])) {
 					$event = $this->get_event();
-					$booking = $this->model->get_booking_by_name($event->id, $_COOKIE['booking_name'], $_COOKIE['booking_givenname']);
+					$booking = $this->model->get_booking_by_name($event->id, $this->request['name'], $this->request['givenname']);
 					if ($booking != null) {
 						$view->assign('event', $event);
 						$view->assign('booking', $booking);
@@ -103,6 +103,7 @@ class Controller
 						$this->view->assign('title', "Event \"" . $event->name . "\" buchen...");
 						break;
 					}
+					$view->setTemplate("404");
 				} else {
 					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
 						$this->send_booking_success_mail();
@@ -370,7 +371,7 @@ class Controller
 		$ics = new ICS($props);
 		$ical = $ics->to_string();
 
-		if (isset($this->request['email'])) {
+		if (isset($this->request['email']) && $this->request['email'] != "") {
 			$mail = new PHPMailer(true);
 			try {
 				$mail->isSMTP();

@@ -144,6 +144,7 @@ class Model
 	 */
 	public function new_booking($event_id, $event_name, $event_date, $name, $givenname, $email = null, $persons = 1)
 	{
+		$this->new_event($event_id, $event_name);
 		$event_date = date("Y-m-d H:i:s", strtotime($event_date));
 		$query = "INSERT INTO bookings (event_id, event_name, event_date, name, givenname, email, persons) VALUES (:event_id, :event_name, :event_date, :name, :givenname, :email, :persons)";
 		$stmt = $this->conn->prepare($query);
@@ -154,6 +155,25 @@ class Model
 		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
 		$stmt->bindValue(":persons", $persons, PDO::PARAM_INT);
 		$stmt->bindValue(":email", $email, PDO::PARAM_STR);
+		try {
+			if ($stmt->execute()) {
+				return true;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Insert new event
+	 */
+	public function new_event($event_id, $event_name)
+	{
+		$query = "INSERT IGNORE INTO events (event_id, event_name) VALUES (:event_id, :event_name)";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		$stmt->bindValue(":event_name", $event_name, PDO::PARAM_STR);
 		try {
 			if ($stmt->execute()) {
 				return true;
