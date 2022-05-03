@@ -75,6 +75,32 @@ CREATE TABLE `poll_results` (
   `deleted_flag` int NOT NULL DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
+-- --------------------------------------------------------
+
+--
+-- Tabellenstruktur für Tabelle `events`
+--
+
+CREATE TABLE `events` (
+  `event_id` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
+  `event_name` varchar(512) COLLATE utf8_unicode_ci NOT NULL,
+  `closing_date` datetime DEFAULT NULL,
+  `create_date` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+
+--
+-- Indizes für die Tabelle `events`
+--
+ALTER TABLE `events`
+  ADD PRIMARY KEY (`event_id`),
+  ADD UNIQUE KEY `event_id` (`event_id`);
+COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+
 --
 -- Indizes der exportierten Tabellen
 --
