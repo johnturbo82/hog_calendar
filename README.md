@@ -4,6 +4,10 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.1.5
+- Bugfixes
+- Icons instead of text
+- Manual closing of events
 ### 2.1.4
 - Bugfix: Cannot book zero persons
 - Bugfix: Organisator in iCal added, Timezone fix

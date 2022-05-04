@@ -166,6 +166,28 @@ class Model
 	}
 
 	/**
+	 * Return true if event is closed
+	 */
+	public function is_event_closed($event_id)
+	{
+		$query = "SELECT is_closed FROM events WHERE event_id = :event_id";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		try {
+			if ($stmt->execute()) {
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]['is_closed'];
+				if ($result == "1") {
+					return true;
+				}
+				return false;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
 	 * Insert new event
 	 */
 	public function new_event($event_id, $event_name)
@@ -221,6 +243,38 @@ class Model
 				$values[] = $event['event_id'];
 			}
 			return $values;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Close active event
+	 */
+	public function close_event($event_id)
+	{
+		$query = "INSERT INTO events (event_id, is_closed) VALUES (:event_id, 1) ON DUPLICATE KEY UPDATE is_closed=1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Open closed event
+	 */
+	public function open_event($event_id)
+	{
+		$query = "INSERT INTO events (event_id, is_closed) VALUES (:event_id, 0) ON DUPLICATE KEY UPDATE is_closed=0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
 		}

@@ -180,6 +180,25 @@ label.poll .votes {
     background-color: #e51c20;
     color: #fff;
 }
+.legend {
+    margin-bottom: 10px;
+}
+.legend table tr {
+    background-color: initial !important;
+}
+.legend table tr td {
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+    border-left: none;
+    border-right: none;
+    padding: 5px;
+}
+.legend table tr td:nth-child(1), .legend table tr td:nth-child(3) {
+    width: 40px;
+}
+.legend table tr td:nth-child(0), .legend table tr td:nth-child(2) {
+    width: auto;
+}
 footer {
     display: block;
     margin-top: 20px;

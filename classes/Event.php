@@ -9,7 +9,7 @@ class Event
     var $registrations;
     var $is_closed;
 
-    function __construct($id, $name, $from, $to, $location, $registrations = 0)
+    function __construct($id, $name, $from, $to, $location, $registrations = 0, $closed = false)
     {
         $this->id = $id;
         $this->name = $name;
@@ -17,7 +17,7 @@ class Event
         $this->to = $to;
         $this->location = $location;
         $this->registrations = $registrations;
-        $this->is_closed = $this->is_closed();
+        $this->is_closed = ($closed) ? true : $this->is_closed();
     }
 
     function get_date_str()
@@ -45,10 +45,9 @@ class Event
         $now = new DateTime('NOW');
         $dt = new DateTime($this->from);
         $hour_str = '-' . HOURS_TO_EVENT_TO_CLOSE_BOOKING  . ' hours';
-        $booking_closed = false;
         if ($now >= $dt->modify($hour_str)) {
-            $booking_closed = true;
+            return true;
         }
-        return $booking_closed;
+        return false;
     }
 }

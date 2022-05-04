@@ -1,6 +1,6 @@
 <?php
 $event = $this->_['event'];
-if ($event->booking_closed) {
+if ($event->is_closed) {
 ?>
     <p>Terminbuchung für das Event</>
     <h2>"<?php echo $event->name ?>"</h2>

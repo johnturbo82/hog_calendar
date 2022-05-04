@@ -146,6 +146,12 @@ class Controller
 				$view->assign('stornos', $this->model->get_stornos($this->event_id));
 				$view->setTemplate($this->template);
 				break;
+			case 'close_event':
+				$this->model->close_event($this->request['event_id']);
+				$heading = "Location: " . SITE_ADDRESS . "?view=events";
+				header($heading);
+				exit();
+				break;
 			case 'polls':
 				$view->assign('polls', $this->get_poll_list());
 				$view->assign('inactive_polls', $this->get_poll_list(0));
@@ -243,7 +249,7 @@ class Controller
 			if ($event_date <= $now) {
 				continue;
 			}
-			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id));
+			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
 			$events[$from . " " . $event->id] = $event_obj;
 		}
 		ksort($events);
@@ -277,7 +283,7 @@ class Controller
 			$from = $event->start->date;
 			$to = $event->end->date;
 		}
-		return new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id));
+		return new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
 	}
 
 	/**

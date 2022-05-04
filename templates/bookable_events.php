@@ -2,9 +2,6 @@
 <div class="bookings">
     <?php
     foreach ($this->_['event_list'] as $event) {
-        $now = new DateTime('NOW');
-        $dt = new DateTime($event->from);
-        $hour_str = '-' . HOURS_TO_EVENT_TO_CLOSE_BOOKING  . ' hours';
         $link = SITE_ADDRESS . "?view=book&event_id=" . $event->id;
     ?>
         <div class="booking">
@@ -14,7 +11,7 @@
                 <div class="cell"><?php echo ($event->registrations == 1) ? $event->registrations . " Anmeldung" : $event->registrations . " Anmeldungen" ?></div>
             </a>
             <?php
-            if ($now < $dt->modify($hour_str)) {
+            if (!$event->is_closed) {
             ?>
                 <div class="cell right">
                     <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
