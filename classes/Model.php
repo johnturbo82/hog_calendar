@@ -258,9 +258,10 @@ class Model
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
 		try {
 			$stmt->execute();
-			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return true;
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
+			return false;
 		}
 	}
 
@@ -274,9 +275,10 @@ class Model
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
 		try {
 			$stmt->execute();
-			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+			return true;
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
+			return false;
 		}
 	}
 
