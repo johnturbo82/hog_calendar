@@ -2,6 +2,9 @@
 <div class="bookings">
     <?php
     foreach ($this->_['event_list'] as $event) {
+        if ($event->is_closed) {
+            continue;
+        }
         $link = SITE_ADDRESS . "?view=book&event_id=" . $event->id;
     ?>
         <div class="booking">
