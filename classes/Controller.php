@@ -173,7 +173,7 @@ class Controller
 				}
 				$view->assign('poll', $poll);
 				$view->setTemplate($this->template);
-				$this->view->assign('title', "An Abstimmung \"" . $poll->name . "\" buchen...");
+				$this->view->assign('title', "An Abstimmung \"" . $poll->name . "\" teilnehmen...");
 				break;
 			case 'poll_result':
 				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
