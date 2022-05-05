@@ -104,6 +104,8 @@
         </div>
         <footer>
             <a href="mailto:oliver@schoettner.rocks">Bei Fragen und Anregungen: oliver@schoettner.rocks</a>
+            <br />
+            <span>Version <?php echo CURRENT_VERSION ?></span>
         </footer>
     </div>
 </body>

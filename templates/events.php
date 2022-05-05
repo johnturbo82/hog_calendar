@@ -20,8 +20,6 @@
                 <div class="button whatsapp"><img src="<?php echo SITE_ADDRESS ?>images/icons/whatsapp.svg" alt="Whatsapp" /></div>
             </td>
             <td>Via WhatsApp versenden</td>
-            <td></td>
-            <td></td>
         </tr>
     </table>
 </div>
