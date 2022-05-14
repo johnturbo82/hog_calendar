@@ -1,4 +1,5 @@
 <h2>Aktuell offene Terminbuchungen</h2>
+<p>Eine Übersicht über alle Aktivitäten im Jahr findet ihr auf unserer <a href="https://ingolstadt-chapter.de/events" target="_blank">Chapter Webseite</a>.</p>
 <div class="bookings">
     <?php
     foreach ($this->_['event_list'] as $event) {

@@ -2,12 +2,14 @@
 $event = $this->_['event'];
 if ($event->is_closed) {
 ?>
-    <p>Terminbuchung für das Event</>
+    <a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=bookable_events">&laquo; Zur Eventübersicht</a>
+    <p>Terminbuchung für das Event</p>
     <h2>"<?php echo $event->name ?>"</h2>
     <p><b><?php echo $event->get_from_str() ?></b> ist leider geschlossen.</p>
 <?php
 } else {
 ?>
+    <a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=bookable_events">&laquo; Zur Eventübersicht</a>
     <p>Terminbuchung für das Event</>
     <h2>"<?php echo $event->name ?>"</h2>
     <p><b><?php echo $event->get_from_str() ?></b>.</p>
