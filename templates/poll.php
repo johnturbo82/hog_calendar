@@ -1,8 +1,13 @@
 <?php
 $poll = $this->_['poll'];
+$poll_count = 0;
+foreach ($poll->poll_results as $res) {
+    $poll_count += $res['absolute'];
+}
 ?>
 <h2>Teilnahme an Umfrage "<?php echo $poll->name ?>"</h2>
 <p><?php echo $poll->description ?></p>
+<p><a href="?view=poll_result&poll_id=<?php echo $poll->id ?>">Aktuell <?php echo ($poll_count == 1) ? "eine Teilnahme" : $poll_count . " Teilnahmen" ?></a></p>
 <form method="POST" action="<?php echo SITE_ADDRESS ?>?view=vote">
     <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" required /> *</p>
     <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" required /> *</p>
