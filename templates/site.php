@@ -95,7 +95,18 @@
             ?>
                 <div class="menu">
                     <a class="button" href="<?php echo SITE_ADDRESS ?>?view=events">Events</a>
-                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">Abstimmungen</a>
+                    <?php
+                    if (MODULE_POLLS) {
+                    ?>
+                        <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">Abstimmungen</a>
+                    <?php
+                    }
+                    if (MODULE_SHOP) {
+                    ?>
+                        <a class="button" href="<?php echo SITE_ADDRESS ?>?view=shop">Shop</a>
+                    <?php
+                    }
+                    ?>
                 </div>
             <?php
             }

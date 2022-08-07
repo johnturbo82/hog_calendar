@@ -47,6 +47,7 @@ class Controller
 	{
 		$view = new View();
 		switch ($this->template) {
+			// EVENTS
 			case 'events':
 				$view->assign('event_list', $this->get_event_list());
 				$view->setTemplate($this->template);
@@ -152,21 +153,38 @@ class Controller
 				header($heading);
 				exit();
 				break;
+			// POLLS
 			case 'polls':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$view->assign('polls', $this->get_poll_list());
 				$view->assign('inactive_polls', $this->get_poll_list(0));
 				$view->setTemplate($this->template);
 				$this->view->assign('menu', true);
 				break;
 			case 'new_poll':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$view->setTemplate($this->template);
 				break;
 			case 'create_poll':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$this->model->create_poll($this->request['name'], $this->request['description'], $this->request['options'], $this->request['multichoice']);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
 				header($heading);
 				break;
 			case 'poll':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
 				if ($voted == "voted") {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
@@ -182,6 +200,10 @@ class Controller
 				$this->view->assign('title', "An Abstimmung \"" . $poll->name . "\" teilnehmen...");
 				break;
 			case 'poll_result':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
 				if ($voted == "voted") {
 					$view->assign('voted', "Du hast bereits abgestimmt! Vielen Dank.");
@@ -193,16 +215,28 @@ class Controller
 				$this->view->assign('title', "Ergebnisse \"" . $poll->name . "\"");
 				break;
 			case 'inactivate_poll':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$this->model->change_poll_status($this->request['poll_id'], 0);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
 				header($heading);
 				break;
 			case 'activate_poll':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$this->model->change_poll_status($this->request['poll_id'], 1);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
 				header($heading);
 				break;
 			case 'vote':
+				if (!MODULE_POLLS) {
+					$view->setTemplate("404");
+					break;
+				}
 				$this->set_cookie("poll_" . $this->request['poll_id'], "voted");
 				if ($this->model->vote_exists($this->request['poll_id'], $this->request['name'], $this->request['givenname'])) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
@@ -213,6 +247,16 @@ class Controller
 					header($heading);
 				}
 				break;
+			// SHOP
+			case 'shop':
+				if (!MODULE_SHOP) {
+					$view->setTemplate("404");
+					break;
+				}
+				$this->view->assign('menu', true);
+				$view->setTemplate($this->template);
+				break;
+			// 404
 			default:
 				$view->setTemplate("404");
 				$this->view->assign('menu', true);
