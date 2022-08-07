@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.1.6
+- Added event overview for users
+- Poll can be used for orders
 ### 2.1.5
 - Bugfixes
 - Icons instead of text

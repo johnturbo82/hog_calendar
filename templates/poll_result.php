@@ -27,7 +27,7 @@ foreach ($poll->options as $key => $option) {
     <tr>
         <th>Lfd. Nr.</th>
         <th>Name</th>
-        <th>Stimme</th>
+        <th>Auswahl</th>
         <th class="no-mobile">Datum</th>
     </tr>
     <?php

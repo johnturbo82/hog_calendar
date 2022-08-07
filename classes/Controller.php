@@ -162,20 +162,23 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'create_poll':
-				$this->model->create_poll($this->request['name'], $this->request['description'], $this->request['options'], $this->request['multichoice']);
+				$this->model->create_poll($this->request['name'], $this->request['description'], $this->request['options'], $this->request['is_multichoice'], $this->request['is_order']);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
 				header($heading);
+				exit();
 				break;
 			case 'poll':
 				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
-				if ($voted == "voted") {
+				$poll = $this->get_poll($this->request['poll_id']);
+				if ($voted == "voted" && !$poll->is_order) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
 					header($heading);
+					exit();
 				}
-				$poll = $this->get_poll($this->request['poll_id']);
 				if (!$poll->active) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
 					header($heading);
+					exit();
 				}
 				$view->assign('poll', $poll);
 				$view->setTemplate($this->template);
@@ -196,21 +199,25 @@ class Controller
 				$this->model->change_poll_status($this->request['poll_id'], 0);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
 				header($heading);
+				exit();
 				break;
 			case 'activate_poll':
 				$this->model->change_poll_status($this->request['poll_id'], 1);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
 				header($heading);
+				exit();
 				break;
 			case 'vote':
 				$this->set_cookie("poll_" . $this->request['poll_id'], "voted");
 				if ($this->model->vote_exists($this->request['poll_id'], $this->request['name'], $this->request['givenname'])) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
 					header($heading);
+					exit();
 				} else {
 					$this->model->process_vote($this->request['poll_id'], $this->request['vote'], $this->request['name'], $this->request['givenname'], $this->request['email']);
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
 					header($heading);
+					exit();
 				}
 				break;
 			default:
@@ -313,7 +320,7 @@ class Controller
 	{
 		$poll = $this->model->get_poll($poll_id);
 		$poll_results = $this->model->get_poll_results($poll_id);
-		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['active'], $poll['create_date'], $poll_results);
+		return new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['is_multichoice'], $poll['is_order'], $poll['active'], $poll['create_date'], $poll_results);
 	}
 
 	/**
@@ -326,7 +333,7 @@ class Controller
 		$results = array();
 		foreach ($polls as $poll) {
 			$poll_results = $this->model->get_poll_results($poll['id']);
-			$results[] = new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['multichoice'], $poll['active'], $poll['create_date'], $poll_results);
+			$results[] = new Poll($poll['id'], $poll['name'], $poll['description'], $poll['options'], $poll['is_multichoice'], $poll['is_order'], $poll['active'], $poll['create_date'], $poll_results);
 		}
 		return $results;
 	}

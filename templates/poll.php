@@ -14,7 +14,7 @@ foreach ($poll->poll_results as $res) {
     <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
     <h3>Abstimmung und Ergebnisse</h3>
     <?php
-    if ($poll->multichoice) {
+    if ($poll->is_multichoice) {
     ?>
         <h4>Achtung: Mehrfachauswahl möglich!</h4>
     <?php
@@ -25,7 +25,15 @@ foreach ($poll->poll_results as $res) {
         <label class="poll">
             <div class="share_visual" style="width: <?php echo $poll->poll_results[$key]['percentage'] ?>%;"></div>
             <div class="text">
-                <input name="<?php echo (!$poll->multichoice) ? "vote" : "vote[]" ?>" type="<?php echo (!$poll->multichoice) ? "radio" : "checkbox" ?>" value="<?php echo $i++ ?>" /><?php echo $option ?>
+                <input name="<?php echo (!$poll->is_multichoice) ? "vote" : "vote[]" ?>" type="<?php echo (!$poll->is_multichoice) ? "radio" : "checkbox" ?>" value="<?php echo $i++ ?>" />
+                <?php echo $option ?>
+                <?php
+                if ($poll->is_order) {
+                    ?>
+                        <input class="quantity" name="order_quantity" type="number" value="0" min="0" pattern="\d*" />
+                    <?php
+                }
+                ?>
             </div>
         </label>
     <?php

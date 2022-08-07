@@ -331,11 +331,34 @@ class Model
 	}
 
 	/**
+	 * True if it's order not vote
+	 */
+	public function is_order($poll_id)
+	{
+		$query = "SELECT is_order FROM polls WHERE poll_id = :poll_id AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			if ($result['is_order'][0] == "1") {
+				return true;
+			}
+			return false;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
 	 * Does vote already exist in DB?
 	 * @return bool 
 	 */
 	public function vote_exists($poll_id, $name, $givenname)
 	{
+		if ($this->is_order($poll_id)) {
+			return false;
+		}
 		$query = "SELECT COUNT(*) AS vote FROM poll_results WHERE poll_id = :poll_id AND name = :name AND givenname = :givenname AND deleted_flag = 0";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":poll_id", $poll_id, PDO::PARAM_STR);
@@ -393,19 +416,17 @@ class Model
 	/**
 	 * Create new poll
 	 */
-	public function create_poll($name, $description, $options, $multichoice = 0)
+	public function create_poll($name, $description, $options, $is_multichoice = 0, $is_order = 0)
 	{
-		if (isset($multichoice)) {
-			$multichoice = 1;
-		} else {
-			$multichoice = 0;
-		}
-		$query = "INSERT INTO polls (name, description, options, multichoice) VALUES (:name, :description, :options, :multichoice)";
+		$is_multichoice = (isset($is_multichoice)) ? 1 : 0;
+		$is_order = (isset($is_order)) ? 1 : 0;
+		$query = "INSERT INTO polls (name, description, options, is_multichoice, is_order) VALUES (:name, :description, :options, :is_multichoice, :is_order)";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
 		$stmt->bindValue(":description", $description, PDO::PARAM_STR);
 		$stmt->bindValue(":options", $options, PDO::PARAM_STR);
-		$stmt->bindValue(":multichoice", $multichoice, PDO::PARAM_INT);
+		$stmt->bindValue(":is_multichoice", $is_multichoice, PDO::PARAM_INT);
+		$stmt->bindValue(":is_order", $is_order, PDO::PARAM_INT);
 		try {
 			if ($stmt->execute()) {
 				return true;
