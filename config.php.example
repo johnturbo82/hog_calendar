@@ -5,6 +5,8 @@ define("CURRENT_VERSION", "x.x.x");
 // Site
 define("SITE_ADDRESS", "https://ingolstadt-chapter.de/calendar/");
 define("HOURS_TO_EVENT_TO_CLOSE_BOOKING", 12);
+define("MODULE_POLLS", true);
+define("MODULE_SHOP", true);
 
 // Google calendar
 define("CALENDAR_ID", "xxx@group.calendar.google.com");

@@ -17,24 +17,29 @@ body {
 .content {
     min-height: 400px;
 }
-div.bookings, div.polls {
+div.bookings, div.polls, div.articles {
     width: 100%;
     border: 1px solid #000;
     display: inline-block;
 }
-div.booking, div.poll {
+div.booking, div.poll, div.article {
     width: 100%;
     padding: 4px;
     border-bottom: 1px solid #000;
 }
-.booking:last-of-type, div.poll:last-of-type {
+div.booking:last-of-type, div.poll:last-of-type, div.article:last-of-type {
     border-bottom: none;
 }
-.booking:nth-child(even), div.poll:nth-child(even), table tr:nth-child(even) {
+div.booking:nth-child(even), div.poll:nth-child(even), div.article:nth-child(even), table tr:nth-child(even) {
     background-color: #2a3942;
 }
-.booking:nth-child(odd), div.poll:nth-child(odd), table tr:nth-child(odd) {
+div.booking:nth-child(odd), div.poll:nth-child(odd), div.article:nth-child(odd), table tr:nth-child(odd) {
     background-color: #16232b;
+}
+.article .cell img {
+    height: 200px;
+    float: none;
+    margin: 0ö;
 }
 .cell {
     padding: 4px;
@@ -84,6 +89,9 @@ input[type=submit], button, .button {
     vertical-align: bottom;
     font-size: 100%;
     text-decoration: none;
+}
+select {
+    padding: 3px;
 }
 .button:first-of-type {
     margin-left: 0;
@@ -216,6 +224,11 @@ footer {
         grid-template-columns: 1fr 2fr auto;
         grid-template-rows: 1fr !important;
     }
+    div.article {
+        display: inline-grid;
+        grid-template-columns: 1fr 2fr auto;
+        grid-template-rows: 1fr !important;
+    }
     .container {
         padding: 20px;
     }
@@ -233,6 +246,11 @@ footer {
         display: inline-grid;
         grid-template-rows: 2fr 2fr auto;
     }
+    div.article {
+        display: inline-grid;
+        grid-template-columns: 1fr 2fr auto;
+        grid-template-rows: 1fr !important;
+    }
     div.menu {
         display: inline-block;
         margin-right: 4px;
@@ -249,6 +267,19 @@ footer {
     }
     div.poll .button {
         margin-bottom: 5px;
+    }
+    div.article {
+        display: inline-grid;
+        grid-template-rows: 4fr auto auto;
+    }
+    .article .cell img {
+        max-height: 150px;
+        max-width: 100%;
+        float: none;
+        margin: 0;
+    }
+    .article .cell.price {
+        text-align: right;
     }
     div.menu {
         margin-bottom: 10px;

@@ -47,7 +47,7 @@ class Controller
 	{
 		$view = new View();
 		switch ($this->template) {
-			// EVENTS
+				// EVENTS
 			case 'events':
 				$view->assign('event_list', $this->get_event_list());
 				$view->setTemplate($this->template);
@@ -153,7 +153,7 @@ class Controller
 				header($heading);
 				exit();
 				break;
-			// POLLS
+				// POLLS
 			case 'polls':
 				if (!MODULE_POLLS) {
 					$view->setTemplate("404");
@@ -247,16 +247,21 @@ class Controller
 					header($heading);
 				}
 				break;
-			// SHOP
+				// SHOP
 			case 'shop':
 				if (!MODULE_SHOP) {
 					$view->setTemplate("404");
 					break;
 				}
 				$this->view->assign('menu', true);
+				$view->assign("articles", $this->model->get_articles());
 				$view->setTemplate($this->template);
 				break;
-			// 404
+			case 'add_to_cart':
+				var_dump($this->request);
+				die();
+				break;
+				// 404
 			default:
 				$view->setTemplate("404");
 				$this->view->assign('menu', true);

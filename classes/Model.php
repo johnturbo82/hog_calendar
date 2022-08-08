@@ -416,8 +416,6 @@ class Model
 		}
 	}
 
-
-
 	/**
 	 * Set poll inactive
 	 */
@@ -436,4 +434,39 @@ class Model
 			echo "Connection failed: " . $ex->getMessage();
 		}
 	}
+
+	/**
+	 * Get shop articles
+	 */
+	public function get_articles()
+	{
+		$query = "SELECT * FROM shop WHERE deleted_flag = 0 ORDER BY create_date";
+		$stmt = $this->conn->prepare($query);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
+	 * Get single shop article
+	 */
+	public function get_article($article_id)
+	{
+		if ($article_id != null) {
+			return false;
+		}
+		$query = "SELECT * FROM shop WHERE id = :article_id AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":article_id", $article_id, PDO::PARAM_INT);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+	
 }

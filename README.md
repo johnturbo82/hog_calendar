@@ -4,6 +4,8 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.2.0
+- Shop with mail order added
 ### 2.1.5
 - Bugfixes
 - Icons instead of text
