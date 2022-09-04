@@ -427,9 +427,13 @@ class Controller
 		$ical = $ics->to_string();
 
 		if (isset($this->request['email']) && $this->request['email'] != "") {
+			$header = "X-mailer: PHP/" . phpversion() . "\r\n";
+			$header.= "Precedence: bulk" . "\r\n";
+			$header.= "List-Unsubscribe:" . SMTP_SENDER . "\r\n";
 			$mail = new PHPMailer(true);
 			try {
 				$mail->isSMTP();
+				$mail->CharSet = "utf-8";
 				$mail->Host       = SMTP_SERVER;
 				$mail->SMTPAuth   = SMTP_AUTH;
 				$mail->Username   = SMTP_USER;
@@ -438,7 +442,7 @@ class Controller
 				$mail->Port       = SMTP_PORT;
 
 				//Recipients
-				$mail->setFrom('webmaster@ingolstadt-chapter.de', 'H.O.G. Ingolstadt Chapter');
+				$mail->setFrom(SMTP_SENDER, SMTP_SENDER_NAME);
 				$mail->addAddress($this->request['email']);
 
 				//Attachments
@@ -448,6 +452,7 @@ class Controller
 
 				//Content
 				$mail->isHTML(false);
+				$mail->CreateHeader($header);
 				$mail->Subject = "Event " . $this->request['eventname'] . " erfolgreich gebucht";
 				$mail->Body    = $this->request['mailtext'];
 
