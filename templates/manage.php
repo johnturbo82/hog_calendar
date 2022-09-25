@@ -5,6 +5,12 @@ if ($this->_['event']->registrations == 1) {
     echo "<h2>" . $this->_['event']->registrations . " Anmeldungen für das Event \"" . $this->_['event']->name . "\"</h2>";
 }
 ?>
+<p><b><?php echo $this->_['event']->get_from_str() ?></b></p>
+<?php
+if ($this->_['event']->location != "") {
+    echo "<p><b>" . $this->_['event']->location . "</b></p>";
+}
+?>
 <table>
     <tr>
         <th>Lfd. Nr.</th>
