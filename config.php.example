@@ -19,6 +19,8 @@ define("PASSWORD", "xxx");
 // Mail SMTP
 define("SMTP_SERVER", "smtp.example.de");
 define("SMTP_USER", "webmaster@example.de");
+define("SMTP_SENDER", "webmaster@example.de");
+define("SMTP_SENDER_NAME", "Chapter");
 define("SMTP_PASSWORD", 'xxx');
 define("SMTP_PORT", 465);
 define("SMTP_AUTH", true);
