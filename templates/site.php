@@ -37,52 +37,10 @@
     <meta name="msapplication-square310x310logo" content="images/icons/win8-tile-310x310.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a1014">
-    <script>
-        function copyToClipboard(string, el) {
-            el.innerHTML = "Kopiert!";
-            let textarea;
-            let result;
-
-            try {
-                textarea = document.createElement('textarea');
-                textarea.setAttribute('readonly', true);
-                textarea.setAttribute('contenteditable', true);
-                textarea.style.position = 'fixed'; // prevent scroll from jumping to the bottom when focus is set.
-                textarea.value = string;
-
-                document.body.appendChild(textarea);
-
-                textarea.focus();
-                textarea.select();
-
-                const range = document.createRange();
-                range.selectNodeContents(textarea);
-
-                const sel = window.getSelection();
-                sel.removeAllRanges();
-                sel.addRange(range);
-
-                textarea.setSelectionRange(0, textarea.value.length);
-                result = document.execCommand('copy');
-            } catch (err) {
-                console.error(err);
-                result = null;
-            } finally {
-                document.body.removeChild(textarea);
-            }
-
-            // manual copy fallback using prompt
-            if (!result) {
-                const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
-                const copyHotkey = isMac ? '⌘C' : 'CTRL+C';
-                result = prompt(`Press ${copyHotkey}`, string); // eslint-disable-line no-alert
-                if (!result) {
-                    return false;
-                }
-            }
-            return true;
-        }
-    </script>
+    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery-3.6.1.min.js"></script>
+    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
+    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/datatables.js"></script>
 </head>
 
 <body>
