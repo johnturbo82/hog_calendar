@@ -4,6 +4,10 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.1.6
+- Mail sender updated to avoid spam marking
+- Sorting of tables added with datatables
+- Location and times added in overviews
 ### 2.1.5
 - Bugfixes
 - Icons instead of text
