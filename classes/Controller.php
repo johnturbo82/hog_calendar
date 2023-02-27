@@ -10,7 +10,8 @@ class Controller
 	private $request = null;
 	private $template = '';
 	private $view = null;
-	private $id = null;
+	private $model = null;
+	private $event_id = null;
 
 	/**
 	 * Controller constructor
@@ -57,7 +58,9 @@ class Controller
 				$event_list = array();
 				foreach ($event_ids as $event_id) {
 					$event = $this->get_event($event_id);
-					$event_list[$event->from . " " . $event->id] = $event;
+					if ($event) {
+						$event_list[$event->from . " " . $event->id] = $event;
+					}
 				}
 				ksort($event_list);
 				$view->assign('event_list', $event_list);
@@ -85,17 +88,17 @@ class Controller
 				$this->check_booking_closed();
 				if ($this->request['persons'] == 0) {
 					$view->assign('event_id', $this->request['event_id']);
-					$view->assign('name', $this->request['name']);
-					$view->assign('givenname', $this->request['givenname']);
-					$view->assign('email', $this->request['email']);
+					$view->assign('name', rtrim($this->request['name'], "+"));
+					$view->assign('givenname', rtrim($this->request['givenname'], "+"));
+					$view->assign('email', rtrim($this->request['email'], "+"));
 					$view->assign('persons', $this->request['persons']);
 					$view->assign('from', $this->request['from']);
 					$view->assign('eventname', $this->request['eventname']);
 					$view->assign('mailtext', $this->request['mailtext']);
 					$view->setTemplate("booking_zero");
-				} else if ($this->model->booking_exists($this->request['event_id'], $this->request['name'], $this->request['givenname'])) {
+				} else if ($this->model->booking_exists($this->request['event_id'], rtrim($this->request['name'], "+"), rtrim($this->request['givenname'], "+"))) {
 					$event = $this->get_event();
-					$booking = $this->model->get_booking_by_name($event->id, $this->request['name'], $this->request['givenname']);
+					$booking = $this->model->get_booking_by_name($event->id, rtrim($this->request['name'], "+"), rtrim($this->request['givenname'], "+"));
 					if ($booking != null) {
 						$view->assign('event', $event);
 						$view->assign('booking', $booking);
@@ -105,7 +108,7 @@ class Controller
 					}
 					$view->setTemplate("404");
 				} else {
-					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], $this->request['name'], $this->request['givenname'], $this->request['email'], $this->request['persons'])) {
+					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], rtrim($this->request['name'], "+"), rtrim($this->request['givenname'], "+"), rtrim($this->request['email'], "+"), $this->request['persons'])) {
 						$this->send_booking_success_mail();
 						$view->setTemplate("booked");
 					} else {
@@ -271,7 +274,7 @@ class Controller
 		}
 		$event = $this->load_specific_event($event_id);
 		if (!isset($event->summary)) {
-			die("Kein Event gefunden. Bitte Event ID überprüfen.");
+			return null;
 		}
 		if ($event->visibility == "private") {
 			die("Privates Event!");
@@ -336,9 +339,12 @@ class Controller
 	 */
 	private function set_booking_cookies()
 	{
-		setcookie("booking_name", $this->request['name'], time() + 3600 * 24 * 365 * 5);
-		setcookie("booking_givenname", $this->request['givenname'], time() + 3600 * 24 * 365 * 5);
-		setcookie("booking_email", $this->request['email'], time() + 3600 * 24 * 365 * 5);
+		// workaround for some PHP 8 problem where a "+" magically appeared
+		if ($this->endsWith($this->request['name'], "+")) {
+		}
+		setcookie("booking_name", rtrim($this->request['name'], "+"), time() + 3600 * 24 * 365 * 5);
+		setcookie("booking_givenname", rtrim($this->request['givenname'], "+"), time() + 3600 * 24 * 365 * 5);
+		setcookie("booking_email", rtrim($this->request['email'], "+"), time() + 3600 * 24 * 365 * 5);
 	}
 
 	/**
@@ -379,8 +385,8 @@ class Controller
 
 		if (isset($this->request['email']) && $this->request['email'] != "") {
 			$header = "X-mailer: PHP/" . phpversion() . "\r\n";
-			$header.= "Precedence: bulk" . "\r\n";
-			$header.= "List-Unsubscribe:" . SMTP_SENDER . "\r\n";
+			$header .= "Precedence: bulk" . "\r\n";
+			$header .= "List-Unsubscribe:" . SMTP_SENDER . "\r\n";
 			$mail = new PHPMailer(true);
 			try {
 				$mail->isSMTP();
@@ -413,5 +419,17 @@ class Controller
 				die("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
 			}
 		}
+	}
+
+	/**
+	 * Helper function
+	 */
+	function endsWith($haystack, $needle)
+	{
+		$length = strlen($needle);
+		if (!$length) {
+			return true;
+		}
+		return substr($haystack, -$length) === $needle;
 	}
 }

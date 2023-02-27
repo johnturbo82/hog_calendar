@@ -20,7 +20,7 @@ if ($event->is_closed) {
         echo "<p>Ort: " . $event->location . "</p>";
         $mailtext .= "Ort: " . $event->location . "\n\n";
     }
-    $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid.\n\nVielen Dank,\nDein Ingolstadt Chapter\n\nRIDE AND HAVE FUN!";
+    $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid. Achtung: Die Veranstaltungszeiten können sich noch ändern, bitte halte Dich über die Whatsapp-Gruppe und über die Website auf dem Laufenden.\n\nVielen Dank,\nDein Ingolstadt Chapter\n\nRIDE AND HAVE FUN!";
     if ($event->registrations == 1) {
         echo "<p><a href='?view=bookings&event_id=" . $event->id . "'>Aktuell eine Anmeldung</a></p>";
     } else if ($event->registrations > 1) {

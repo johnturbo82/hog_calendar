@@ -1,5 +1,6 @@
+<a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=bookable_events">&laquo; Zur Eventübersicht</a>
 <h2 class="error">Achtung!</h2>
-<p>Es besteht bereits eine Buchung auf den Namen <strong><?php echo $this->_['booking']['givenname'] ?> <?php echo $this->_['booking']['name'] ?></strong> für die Veranstaltung "<?php echo $this->_['event']->name ?>".</p>
+<p>Es besteht bereits eine Buchung auf den Namen <strong><?php echo $this->_['booking']['givenname'] ?> <?php echo $this->_['booking']['name'] ?></strong> für die Veranstaltung <b>"<?php echo $this->_['event']->name ?>"</b> am <?php echo date("d.m.Y" , strtotime($this->_['event']->from)) ?>.</p>
 <p>Du hast <strong><?php echo $this->_['booking']['persons'] ?> Person(en)</strong> angemeldet.</p>
 <h2>Was möchtest du tun?</h2>
 <h3>Lass mich sehen, wer sonst mit dabei ist.<h3>
