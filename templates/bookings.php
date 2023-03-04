@@ -12,6 +12,11 @@ if ($this->_['event']->location != "") {
     echo "<p><b>" . $this->_['event']->location . "</b></p>";
 }
 ?>
+<?php
+if ($this->_['event']->description != "") {
+    echo "<p><b>Informationen</b>: " . $this->_['event']->description . "</p>";
+}
+?>
 <table class="datatable">
     <thead>
         <tr>
