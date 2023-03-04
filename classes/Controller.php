@@ -48,12 +48,18 @@ class Controller
 	{
 		$view = new View();
 		switch ($this->template) {
-			case 'events':
+			case 'admin':
 				$view->assign('event_list', $this->get_event_list());
 				$view->setTemplate($this->template);
 				$this->view->assign('menu', true);
 				break;
+			case 'events':
+				$view->assign('event_list', $this->get_event_list());
+				$view->setTemplate($this->template);
+				$this->view->assign('menu', false);
+				break;
 			case 'bookable_events':
+				// Not in use anymore
 				$event_ids = $this->model->get_recent_bookable_events();
 				$event_list = array();
 				foreach ($event_ids as $event_id) {
@@ -64,7 +70,7 @@ class Controller
 				}
 				ksort($event_list);
 				$view->assign('event_list', $event_list);
-				$view->setTemplate($this->template);
+				$view->setTemplate("events");
 				$this->view->assign('title', "Aktuell offene Terminbuchungen");
 				break;
 			case 'book':
@@ -252,7 +258,7 @@ class Controller
 			if ($event_date <= $now) {
 				continue;
 			}
-			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
+			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
 			$events[$from . " " . $event->id] = $event_obj;
 		}
 		ksort($events);
@@ -286,7 +292,7 @@ class Controller
 			$from = $event->start->date;
 			$to = $event->end->date;
 		}
-		return new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
+		return new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
 	}
 
 	/**

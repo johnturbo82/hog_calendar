@@ -1,4 +1,4 @@
-<a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=bookable_events">&laquo; Zur Eventübersicht</a>
+<a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=events">&laquo; Zur Eventübersicht</a>
 <?php
 if ($this->_['event']->registrations == 1) {
     echo "<h2>Eine Anmeldung für das Event</h2>";
