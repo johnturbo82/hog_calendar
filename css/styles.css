@@ -82,19 +82,25 @@ table tr:nth-child(odd) {
     left: 0;
 }
 
-.description {
+.description-modal {
     position: relative;
-    height: 95%;
-    width: 95%;
-    background-color: #2a3942;
-    padding: 15px;
+    height: calc(100% - 15px);
+    width: calc(100% - 15px);
     max-width: 400px;
-    max-height: 500px;
+    max-height: 700px;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
+}
+
+.description {
+    height: calc(100% - 40px);
+    width: 100%;
+    background-color: #2a3942;
+    padding: 15px;
     border-radius: 10px;
+    overflow-y: auto;
 }
 
 .description h2 {
@@ -111,10 +117,11 @@ table tr:nth-child(odd) {
     font-size: 140%;
 }
 
-.description .interaction {
+.interaction {
     position: absolute;
-    bottom: 20px;
+    bottom: -5px;
     right: 15px;
+    margin-top: 10px;
 }
 
 div {

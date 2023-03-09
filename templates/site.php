@@ -53,7 +53,7 @@
             if ($this->_['menu']) {
             ?>
                 <div class="menu">
-                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=events">Events</a>
+                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=admin">Events</a>
                     <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">Abstimmungen</a>
                 </div>
             <?php

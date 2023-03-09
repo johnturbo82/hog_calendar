@@ -12,6 +12,7 @@ class Controller
 	private $view = null;
 	private $model = null;
 	private $event_id = null;
+	private $admin = false;
 
 	/**
 	 * Controller constructor
@@ -24,6 +25,7 @@ class Controller
 		$this->model = new Model();
 		$this->template = $this->process_request();
 		$this->event_id = !empty($request['event_id']) ? trim($request['event_id'], '/') : null;
+		$this->admin = ($this->request['admin'] == "dfFwwd97cawer333r") ? true : false;
 	}
 
 	/**
@@ -48,16 +50,19 @@ class Controller
 	{
 		$view = new View();
 		switch ($this->template) {
-			case 'admin':
-				$view->assign('event_list', $this->get_event_list());
-				$view->setTemplate($this->template);
-				$this->view->assign('menu', true);
-				break;
 			case 'events':
-				$view->assign('event_list', $this->get_event_list());
-				$view->setTemplate($this->template);
-				$this->view->assign('menu', false);
-				break;
+				if ($this->admin) {
+					$view->assign('event_list', $this->get_event_list());
+					$view->setTemplate("admin_events");
+					$this->view->assign('menu', true);
+					break;
+				} else {
+
+					$view->assign('event_list', $this->get_event_list());
+					$view->setTemplate($this->template);
+					$this->view->assign('menu', false);
+					break;
+				}
 			case 'bookable_events':
 				// Not in use anymore
 				$event_ids = $this->model->get_recent_bookable_events();
@@ -157,7 +162,7 @@ class Controller
 				break;
 			case 'close_event':
 				$this->model->close_event($this->request['event_id']);
-				$heading = "Location: " . SITE_ADDRESS . "?view=events";
+				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" + $this->request['admin'];
 				header($heading);
 				exit();
 				break;

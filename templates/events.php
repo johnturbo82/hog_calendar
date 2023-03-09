@@ -38,11 +38,13 @@
             if ($event->description != "") {
             ?>
                 <div class="description-container">
-                    <div class="description">
-                        <h2>Event</h2>
-                        <p><strong><?php echo $event->name; ?></strong>, <?php echo $event->get_date_str(); ?></p>
-                        <p><?php echo $event->location; ?></p>
-                        <h3>Weitere Infos</h3><?php echo $event->description ?><span class="close">[x]</span>
+                    <div class="description-modal">
+                        <div class="description">
+                            <h2>Event</h2>
+                            <p><strong><?php echo $event->name; ?></strong>, <?php echo $event->get_date_str(); ?></p>
+                            <p><?php echo $event->location; ?></p>
+                            <h3>Weitere Infos</h3><?php echo $event->description ?><span class="close">[x]</span>
+                        </div>
                         <div class="interaction">
                             <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
                             <a class="button button-close" title="Schließen">Schließen</a>

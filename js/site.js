@@ -5,7 +5,7 @@ $(document).ready(function () {
         $(this).parent().parent().find('.description-container').toggle();
     });
     $('.close').on('click', function () {
-        $(this).parent().parent().toggle(); 
+        $(this).parent().parent().parent().toggle(); 
     });
     $('.button-close').on('click', function () {
         $(this).parent().parent().parent().toggle(); 
