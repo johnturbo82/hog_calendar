@@ -47,8 +47,23 @@
 <body>
     <div class="container">
         <div class="content">
+            <input id="toggle" type="checkbox"></input>
+            <label for="toggle" class="hamburger">
+                <div class="top-bun"></div>
+                <div class="meat"></div>
+                <div class="bottom-bun"></div>
+            </label>
+            <div class="nav">
+                <div class="nav-wrapper">
+                    <nav>
+                        <a href="<?php echo SITE_ADDRESS ?>?view=events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Events</a><br>
+                        <a href="<?php echo SITE_ADDRESS ?>?view=my_events">Meine Events</a><br>
+                        <a href="<?php echo SITE_ADDRESS ?>?view=support">Hilfe</a>
+                    </nav>
+                </div>
+            </div>
             <img src="<?php echo SITE_ADDRESS ?>images/Ingolstadt-Chapter.png" alt="H.O.G. Ingolstadt Chapter" />
-            <h1>H.O.G. Ingolstadt Chapter Events</h1>
+            <h1 class="app-name"><?php echo APP_NAME ?></h1>
             <?php
             if ($this->_['menu']) {
             ?>
@@ -62,7 +77,7 @@
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
-            <a href="mailto:oliver@schoettner.rocks">Bei Fragen und Anregungen: oliver@schoettner.rocks</a>
+            Bei Fragen und Anregungen: <a href="mailto:oliver@schoettner.rocks?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>">oliver@schoettner.rocks</a>
             <br />
             <span>Version <?php echo CURRENT_VERSION ?></span>
         </footer>
