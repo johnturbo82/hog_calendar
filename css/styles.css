@@ -1,18 +1,33 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap');
 
+:root {
+    --color-black: #000;
+    --color-white: #fff;
+    --main-bg-color: #0a1014;
+    --content-bg-color: #202c33;
+    --text-color: #e5e9eb;
+    --even-color: #16232b;
+    --odd-color: #2a3942;
+    --highlight-gold: #c1aa63;
+    --chapter-blue: #2383ba;
+    --chapter-red: #e51c20;
+    --whatsapp-green: #25D366;
+}
+
 body {
     padding: 5px;
     margin: 0;
-    background-color: #0a1014;
+    margin-bottom: 60px;
+    background-color: var(--main-bg-color);
     font-family: 'Rajdhani', sans-serif;
-    color: #e5e9eb;
+    color: var(--text-color);
     font-size: 105%;
 }
 
 .container {
     max-width: 1000px;
     margin: 0 auto;
-    background-color: #202c33;
+    background-color: var(--content-bg-color);
     padding: 12px;
     border-radius: 5px;
 }
@@ -24,13 +39,13 @@ body {
 hr {
     height: 1px;
     border: none;
-    border-top: 1px solid #e5e9eb;
+    border-top: 1px solid var(--text-color);
 }
 
 div.bookings,
 div.polls {
     width: 100%;
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     display: inline-block;
 }
 
@@ -38,7 +53,7 @@ div.booking,
 div.poll {
     width: 100%;
     padding: 4px;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid var(--color-black);
 }
 
 .booking:last-of-type,
@@ -50,13 +65,13 @@ div.poll:last-of-type {
 div.poll:nth-child(even),
 table tbody tr:nth-child(even),
 table thead tr th {
-    background-color: #16232b;
+    background-color: var(--even-color);
 }
 
 .booking:nth-child(odd),
 div.poll:nth-child(odd),
 table tr:nth-child(odd) {
-    background-color: #2a3942;
+    background-color: var(--odd-color);
 }
 
 .cell {
@@ -80,6 +95,7 @@ table tr:nth-child(odd) {
     padding: 4px;
     top: 0;
     left: 0;
+    z-index: 4;
 }
 
 .description-modal {
@@ -87,7 +103,7 @@ table tr:nth-child(odd) {
     height: calc(100% - 15px);
     width: calc(100% - 15px);
     max-width: 400px;
-    max-height: 700px;
+    max-height: 600px;
     top: 50%;
     left: 50%;
     -ms-transform: translate(-50%, -50%);
@@ -97,7 +113,7 @@ table tr:nth-child(odd) {
 .description {
     height: calc(100% - 40px);
     width: 100%;
-    background-color: #2a3942;
+    background-color: var(--odd-color);
     padding: 15px;
     border-radius: 10px;
     overflow-y: auto;
@@ -112,7 +128,7 @@ table tr:nth-child(odd) {
     top: 10px;
     right: 15px;
     cursor: pointer;
-    color: #c1aa63;
+    color: var(--highlight-gold);
     user-select: none;
     font-size: 140%;
 }
@@ -139,11 +155,11 @@ h1 {
 }
 
 h2.error {
-    color: #e51c20;
+    color: var(--chapter-red);
 }
 
 a {
-    color: #c1aa63;
+    color: var(--highlight-gold);
 }
 
 hr {
@@ -156,9 +172,9 @@ button,
     box-sizing: border-box;
     padding: 7px;
     font-size: 120%;
-    background-color: #2383ba;
-    border: 1px solid #e5e9eb;
-    color: #e5e9eb;
+    background-color: var(--chapter-blue);
+    border: 1px solid var(--text-color);
+    color: var(--text-color);
     border-radius: 2px;
     -webkit-appearance: none;
     font-weight: bold !important;
@@ -182,7 +198,7 @@ button,
 }
 
 .button.whatsapp {
-    background-color: #25D366;
+    background-color: var(--whatsapp-green);
 }
 
 .button img {
@@ -228,7 +244,7 @@ table {
 table tr th,
 table tr td {
     text-align: left;
-    border: 1px solid #000;
+    border: 1px solid var(--color-black);
     padding: 4px;
 }
 
@@ -239,7 +255,7 @@ table tr td.icons {
 label.poll {
     cursor: pointer;
     display: block;
-    background-color: #0a1014;
+    background-color: var(--main-bg-color);
     margin: 10px 0;
     border-radius: 3px;
     position: relative;
@@ -281,14 +297,14 @@ label.poll .votes {
     width: 100%;
     border-radius: 3px;
     padding: 10px;
-    background-color: #25D366;
-    color: #fff;
+    background-color: var(--whatsapp-green);
+    color: var(--color-white);
     font-weight: bold;
 }
 
 .notice.error {
-    background-color: #e51c20;
-    color: #fff;
+    background-color: var(--chapter-red);
+    color: var(--color-white);
 }
 
 .legend {
@@ -300,8 +316,8 @@ label.poll .votes {
 }
 
 .legend table tr td {
-    border-top: 1px solid #000;
-    border-bottom: 1px solid #000;
+    border-top: 1px solid var(--color-black);
+    border-bottom: 1px solid var(--color-black);
     border-left: none;
     border-right: none;
     padding: 5px;
@@ -321,7 +337,7 @@ footer {
     display: block;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid #e5e9eb;
+    border-top: 1px solid var(--text-color);
 }
 
 .dataTables_filter input[type=search] {
@@ -332,17 +348,144 @@ footer {
 
 .sorting.sorting_asc::after {
     content: '▲';
-    color: #c1aa63;
+    color: var(--highlight-gold);
     float: right;
 }
 
 .sorting.sorting_desc::after {
     content: '▼';
-    color: #c1aa63;
+    color: var(--highlight-gold);
     float: right;
 }
 
-@media screen and (min-width: 1100px) {
+/**
+BURGER BUTTON
+**/
+#toggle {
+    display: none;
+}
+
+/**
+Hamburger
+**/
+.hamburger-container {
+    display: inline-block;
+    background-color: var(--chapter-blue);
+    border-radius: 3px;
+    border: 1px solid var(--text-color);
+}
+
+.hamburger {
+    position: fixed;
+    z-index: 5;
+    border-radius: 5px;
+    background-color: var(--odd-color);
+    padding: 12px 8px;
+    border: 2px solid var(--highlight-gold);
+    box-shadow: var(--main-bg-color) 0px 4px 16px, var(--main-bg-color) 0px 8px 32px;
+}
+
+
+.hamburger div:first-of-type {
+    margin-top: 0;
+}
+
+.hamburger div {
+    position: relative;
+    width: 30px;
+    height: 3px;
+    background-color: var(--highlight-gold);
+    margin-top: 6px;
+    transition: all 0.3s ease-in-out;
+}
+
+/**
+Nav Styles
+**/
+.nav {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: var(--main-bg-color);
+    top: -100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    transform: scale(0);
+}
+
+.nav-wrapper {
+    position: relative;
+    overflow: hidden;
+    overflow-y: auto;
+    height: 100%;
+}
+
+nav {
+    text-align: left;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+nav a {
+    position: relative;
+    text-decoration: none;
+    color: var(--highlight-gold);
+    font-size: 2em;
+    display: inline-block;
+    margin-top: 1.25em;
+    transition: color 0.2s ease-in-out;
+    letter-spacing: 1px;
+}
+
+nav a:before {
+    content: '';
+    height: 0;
+    position: absolute;
+    width: 0.25em;
+    background-color: white;
+    left: -0.5em;
+    transition: all 0.2s ease-in-out;
+}
+
+nav a:hover {
+    color: white;
+}
+
+nav a:hover:before {
+    height: 100%;
+}
+
+/**
+  Animations
+  **/
+#toggle:checked+.hamburger .top-bun {
+    transform: rotate(-45deg);
+    margin-top: 9px;
+}
+
+#toggle:checked+.hamburger .bottom-bun {
+    opacity: 0;
+    transform: rotate(45deg);
+}
+
+#toggle:checked+.hamburger .meat {
+    transform: rotate(45deg);
+    margin-top: -3px;
+}
+
+#toggle:checked+.hamburger+.nav {
+    top: 0;
+    transform: scale(1);
+}
+
+/**
+RESPONSIVENESS
+**/
+@media screen and (min-width: 1160px) {
     div.booking {
         display: inline-grid;
         grid-template-columns: 3fr 2fr 1fr 2fr;
@@ -362,6 +505,18 @@ footer {
         display: inline-block;
         margin-right: 4px;
     }
+
+    .hamburger {
+        margin-left: -60px;
+        margin-top: -4px;
+        bottom: inherit !important;
+        left: inherit !important;
+        top: 20px;
+    }
+
+    nav {
+        bottom: inherit !important;
+    }
 }
 
 @media screen and (min-width: 800px) {
@@ -378,6 +533,15 @@ footer {
     div.menu {
         display: inline-block;
         margin-right: 4px;
+    }
+
+    .hamburger {
+        bottom: 10px;
+        left: 20px;
+    }
+
+    nav {
+        bottom: 40px;
     }
 }
 
@@ -402,5 +566,14 @@ footer {
 
     .no-mobile {
         display: none;
+    }
+
+    .hamburger {
+        bottom: 10px;
+        left: 20px;
+    }
+
+    nav {
+        bottom: 40px;
     }
 }

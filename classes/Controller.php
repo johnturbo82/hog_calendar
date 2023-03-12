@@ -43,7 +43,7 @@ class Controller
 	}
 
 	/**
-	 * Show content depeding on GET view
+	 * Show content depending on GET view
 	 * @return String application content
 	 */
 	public function display()
@@ -57,12 +57,33 @@ class Controller
 					$this->view->assign('menu', true);
 					break;
 				} else {
-
 					$view->assign('event_list', $this->get_event_list());
 					$view->setTemplate($this->template);
 					$this->view->assign('menu', false);
 					break;
 				}
+			case 'my_events':
+				if ($_COOKIE['booking_name'] == "" && $_COOKIE['booking_givenname'] == "") {
+					$view->setTemplate("no_name");
+					break;
+				}
+				$personal_events = $this->model->get_all_event_ids_by_user($_COOKIE['booking_name'], $_COOKIE['booking_givenname']);
+				$new_list = array();
+				foreach ($this->get_event_list() as $key => $event) {
+					if (in_array($event->id, $personal_events)) {
+						$new_list[$key] = $event;
+					}
+				}
+				$view->assign('event_list', $new_list);
+				$view->assign('name', $_COOKIE['booking_givenname'] . ' ' . $_COOKIE['booking_name']);
+				$view->setTemplate($this->template);
+				$this->view->assign('menu', false);
+				break;
+			case 'set_name':
+				$this->set_booking_cookies();
+				$heading = "Location: " . SITE_ADDRESS . "?view=my_events";
+				header($heading);
+				break;
 			case 'bookable_events':
 				// Not in use anymore
 				$event_ids = $this->model->get_recent_bookable_events();
@@ -227,6 +248,9 @@ class Controller
 					header($heading);
 				}
 				break;
+			case 'support':
+				$view->setTemplate($this->template);
+				break;
 			default:
 				$view->setTemplate("404");
 				$this->view->assign('menu', true);
@@ -234,6 +258,7 @@ class Controller
 		}
 		$this->view->setTemplate('site');
 		$this->view->assign('content', $view->loadTemplate());
+		$this->view->assign('admin', $this->request['admin']);
 		return $this->view->loadTemplate();
 	}
 
@@ -350,9 +375,6 @@ class Controller
 	 */
 	private function set_booking_cookies()
 	{
-		// workaround for some PHP 8 problem where a "+" magically appeared
-		if ($this->endsWith($this->request['name'], "+")) {
-		}
 		setcookie("booking_name", rtrim($this->request['name'], "+"), time() + 3600 * 24 * 365 * 5);
 		setcookie("booking_givenname", rtrim($this->request['givenname'], "+"), time() + 3600 * 24 * 365 * 5);
 		setcookie("booking_email", rtrim($this->request['email'], "+"), time() + 3600 * 24 * 365 * 5);

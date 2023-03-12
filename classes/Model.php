@@ -56,6 +56,29 @@ class Model
 	}
 
 	/**
+	 * Get all events booked by specific user with name
+	 * @return array
+	 */
+	public function get_all_event_ids_by_user($name, $givenname)
+	{
+		$query = "SELECT event_id FROM bookings WHERE name = :name AND givenname = :givenname AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":name", $name, PDO::PARAM_STR);
+		$stmt->bindValue(":givenname", $givenname, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+			$ids = array();
+			foreach ($result as $e) {
+				$ids[] = $e['event_id'];
+			}
+			return $ids;
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+		}
+	}
+
+	/**
 	 * Get stornos
 	 * @return array 
 	 */
