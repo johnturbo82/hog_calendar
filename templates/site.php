@@ -41,6 +41,7 @@
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/datatables.js"></script>
+    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/site.js?v=<?php echo CURRENT_VERSION ?>"></script>
 </head>
 
 <body>
@@ -52,7 +53,7 @@
             if ($this->_['menu']) {
             ?>
                 <div class="menu">
-                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=events">Events</a>
+                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=admin">Events</a>
                     <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">Abstimmungen</a>
                 </div>
             <?php

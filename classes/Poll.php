@@ -7,6 +7,8 @@ class Poll
     var $options;
     var $multichoice;
     var $poll_results;
+    var $active;
+    var $create_date;
 
     function __construct($id, $name, $description, $options, $multichoice, $active, $create_date, $poll_results_from_db = null)
     {

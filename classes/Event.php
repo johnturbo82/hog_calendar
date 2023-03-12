@@ -6,16 +6,18 @@ class Event
     var $from;
     var $to;
     var $location;
+    var $description;
     var $registrations;
     var $is_closed;
 
-    function __construct($id, $name, $from, $to, $location, $registrations = 0, $closed = false)
+    function __construct($id, $name, $from, $to, $location, $description = "", $registrations = 0, $closed = false)
     {
         $this->id = $id;
         $this->name = $name;
         $this->from = $from;
         $this->to = $to;
         $this->location = $location;
+        $this->description = $description;
         $this->registrations = $registrations;
         $this->is_closed = ($closed) ? true : $this->is_closed();
     }

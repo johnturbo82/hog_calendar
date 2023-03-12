@@ -12,6 +12,7 @@ class Controller
 	private $view = null;
 	private $model = null;
 	private $event_id = null;
+	private $admin = false;
 
 	/**
 	 * Controller constructor
@@ -24,6 +25,7 @@ class Controller
 		$this->model = new Model();
 		$this->template = $this->process_request();
 		$this->event_id = !empty($request['event_id']) ? trim($request['event_id'], '/') : null;
+		$this->admin = ($this->request['admin'] == "dfFwwd97cawer333r") ? true : false;
 	}
 
 	/**
@@ -49,11 +51,20 @@ class Controller
 		$view = new View();
 		switch ($this->template) {
 			case 'events':
-				$view->assign('event_list', $this->get_event_list());
-				$view->setTemplate($this->template);
-				$this->view->assign('menu', true);
-				break;
+				if ($this->admin) {
+					$view->assign('event_list', $this->get_event_list());
+					$view->setTemplate("admin_events");
+					$this->view->assign('menu', true);
+					break;
+				} else {
+
+					$view->assign('event_list', $this->get_event_list());
+					$view->setTemplate($this->template);
+					$this->view->assign('menu', false);
+					break;
+				}
 			case 'bookable_events':
+				// Not in use anymore
 				$event_ids = $this->model->get_recent_bookable_events();
 				$event_list = array();
 				foreach ($event_ids as $event_id) {
@@ -64,7 +75,7 @@ class Controller
 				}
 				ksort($event_list);
 				$view->assign('event_list', $event_list);
-				$view->setTemplate($this->template);
+				$view->setTemplate("events");
 				$this->view->assign('title', "Aktuell offene Terminbuchungen");
 				break;
 			case 'book':
@@ -151,7 +162,7 @@ class Controller
 				break;
 			case 'close_event':
 				$this->model->close_event($this->request['event_id']);
-				$heading = "Location: " . SITE_ADDRESS . "?view=events";
+				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" + $this->request['admin'];
 				header($heading);
 				exit();
 				break;
@@ -252,7 +263,7 @@ class Controller
 			if ($event_date <= $now) {
 				continue;
 			}
-			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
+			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
 			$events[$from . " " . $event->id] = $event_obj;
 		}
 		ksort($events);
@@ -286,7 +297,7 @@ class Controller
 			$from = $event->start->date;
 			$to = $event->end->date;
 		}
-		return new Event($event->id, $event->summary, $from, $to, $event->location, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
+		return new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
 	}
 
 	/**

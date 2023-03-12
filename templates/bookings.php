@@ -1,4 +1,4 @@
-<a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=bookable_events">&laquo; Zur Eventübersicht</a>
+<a class="button no-margin" href="<?php echo SITE_ADDRESS ?>?view=events">&laquo; Zur Eventübersicht</a>
 <?php
 if ($this->_['event']->registrations == 1) {
     echo "<h2>Eine Anmeldung für das Event</h2>";
@@ -10,6 +10,11 @@ if ($this->_['event']->registrations == 1) {
 <?php
 if ($this->_['event']->location != "") {
     echo "<p><b>" . $this->_['event']->location . "</b></p>";
+}
+?>
+<?php
+if ($this->_['event']->description != "") {
+    echo "<p><b>Informationen</b>: " . $this->_['event']->description . "</p>";
 }
 ?>
 <table class="datatable">
