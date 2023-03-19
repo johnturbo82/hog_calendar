@@ -23,7 +23,7 @@ if ($event->is_closed) {
     if (isset($event->description)) {
         echo "<p><strong>Weitere Infos:</strong> " . $event->description . "</p>";
     }
-    $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid. Achtung: Die Veranstaltungszeiten können sich noch ändern, bitte halte Dich über die Whatsapp-Gruppe und über die Website auf dem Laufenden.\n\nVielen Dank,\nDein Ingolstadt Chapter\n\nRIDE AND HAVE FUN!";
+    $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid. Achtung: Die Veranstaltungszeiten können sich noch ändern, bitte halte Dich über die Whatsapp-Gruppe und über die Website auf dem Laufenden.\n\nVielen Dank,\n" . MAIL_SIGNATURE;
     if ($event->registrations == 1) {
         echo "<p><a href='?view=bookings&event_id=" . $event->id . "'>Aktuell eine Anmeldung</a></p>";
     } else if ($event->registrations > 1) {

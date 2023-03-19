@@ -159,7 +159,7 @@ class ICS
         }
 
         // Build ICS properties - add footer
-        $ics_props[] = 'ORGANIZER;CN="H.O.G. Ingolstadt Chapter":mailto:webmaster@ingolstadt-chapter.de';
+        $ics_props[] = 'ORGANIZER;CN="' . LEGAL_ENTITY_NAME . '":' . SMTP_SENDER;
         $ics_props[] = 'END:VEVENT';
         $ics_props[] = 'END:VCALENDAR';
 
