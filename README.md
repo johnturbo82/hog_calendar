@@ -1,31 +1,52 @@
-# H.O.G. Chapter Ingolstadt
+# Event list for H.O.G. Chapters
 
 Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.3.1
+- Mail bugfix
+- Minor
+
+### 2.3.0
+- Added Burger button and fullscreen menu
+- Added view for bookings by name of user
+- support site added
+
+### 2.2.0
+- Info view added
+- new events overview
+- management site is now admin
+
 ### 2.1.6
 - Mail sender updated to avoid spam marking
 - Sorting of tables added with datatables
 - Location and times added in overviews
+
 ### 2.1.5
 - Bugfixes
 - Icons instead of text
 - Manual closing of events
+
 ### 2.1.4
 - Bugfix: Cannot book zero persons
 - Bugfix: Organisator in iCal added, Timezone fix
+
 ### 2.1.3
 - Bugfix: Whatsapp Link
+
 ### 2.1.2
 - Fixes
 - New icons
+
 ### 2.1.1
 - SQL schema added
+
 ### 2.1.0
 - PHPMailer added
 - ICS class added
 - Confirmation mail sends ics calendar files
+
 ### 2.0.0
 - MVC ready implemented
 - Polls implemented

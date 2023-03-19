@@ -62,7 +62,7 @@
                     </nav>
                 </div>
             </div>
-            <img src="<?php echo SITE_ADDRESS ?>images/Ingolstadt-Chapter.png" alt="H.O.G. Ingolstadt Chapter" />
+            <img src="<?php echo SITE_ADDRESS ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
             <?php
             if ($this->_['menu']) {
@@ -77,7 +77,7 @@
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
-            Bei Fragen und Anregungen: <a href="mailto:oliver@schoettner.rocks?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>">oliver@schoettner.rocks</a>
+            &copy; Oliver Schöttner 2022 - Bei Fragen und Anregungen: <a href="mailto:<?php echo SUPPORT_EMAIL ?>?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>"><?php echo SUPPORT_EMAIL ?></a>
             <br />
             <span>Version <?php echo CURRENT_VERSION ?></span>
         </footer>

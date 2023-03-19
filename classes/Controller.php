@@ -141,7 +141,9 @@ class Controller
 					$view->setTemplate("404");
 				} else {
 					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], rtrim($this->request['name'], "+"), rtrim($this->request['givenname'], "+"), rtrim($this->request['email'], "+"), $this->request['persons'])) {
-						$this->send_booking_success_mail();
+						if (!$this->send_booking_success_mail()) {
+							$view->assign('error', "Leider ist beim Versand der E-Mail ein Fehler aufgetreten. Bitte wende Dich an den Administrator.");
+						}
 						$view->setTemplate("booked");
 					} else {
 						$view->setTemplate("404");
@@ -449,7 +451,7 @@ class Controller
 				$mail->send();
 				return true;
 			} catch (Exception $e) {
-				die("Message could not be sent. Mailer Error: {$mail->ErrorInfo}");
+				return false;
 			}
 		}
 	}
