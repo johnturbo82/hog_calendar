@@ -25,7 +25,7 @@ class Controller
 		$this->model = new Model();
 		$this->template = $this->process_request();
 		$this->event_id = !empty($request['event_id']) ? trim($request['event_id'], '/') : null;
-		$this->admin = ($this->request['admin'] == "dfFwwd97cawer333r") ? true : false;
+		$this->admin = ($this->request['admin'] == PSEUDO_ADMIM_PASSWORD) ? true : false;
 	}
 
 	/**
