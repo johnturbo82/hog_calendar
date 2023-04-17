@@ -1,8 +1,14 @@
-# Event list for H.O.G. Chapters
+# Event organizer for H.O.G. Chapters
 
 Application to manage all event participations from Google calendar.
  
 ## Change list:
+
+### 2.3.1.2
+- Pseudo admin pass
+
+### 2.3.1.1
+- Fix release
 
 ### 2.3.1
 - Mail bugfix
