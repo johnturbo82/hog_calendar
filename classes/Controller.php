@@ -35,7 +35,7 @@ class Controller
 	{
 		if (empty($this->request['view'])) {
 			$heading = "Location: " . SITE_ADDRESS . "?view=events";
-			header($heading);
+			$this->goto($heading);
 			exit();
 		} else {
 			return trim($this->request['view'], '/');
@@ -53,6 +53,7 @@ class Controller
 			case 'events':
 				if ($this->admin) {
 					$view->assign('event_list', $this->get_event_list());
+					$view->assign('admin', $this->request['admin']);
 					$view->setTemplate("admin_events");
 					break;
 				} else {
@@ -79,22 +80,7 @@ class Controller
 			case 'set_name':
 				$this->set_booking_cookies();
 				$heading = "Location: " . SITE_ADDRESS . "?view=my_events";
-				header($heading);
-				break;
-			case 'bookable_events':
-				// Not in use anymore
-				$event_ids = $this->model->get_recent_bookable_events();
-				$event_list = array();
-				foreach ($event_ids as $event_id) {
-					$event = $this->get_event($event_id);
-					if ($event) {
-						$event_list[$event->from . " " . $event->id] = $event;
-					}
-				}
-				ksort($event_list);
-				$view->assign('event_list', $event_list);
-				$view->setTemplate("events");
-				$this->view->assign('title', "Aktuell offene Terminbuchungen");
+				$this->goto($heading);
 				break;
 			case 'book':
 				$event = $this->get_event();
@@ -148,9 +134,16 @@ class Controller
 				}
 				break;
 			case 'bookings':
-				$view->assign('event', $this->get_event());
-				$view->assign('bookings', $this->model->get_bookings($this->event_id));
-				$view->setTemplate($this->template);
+				if ($this->admin) {
+					$view->assign('event', $this->get_event());
+					$view->assign('bookings', $this->model->get_bookings($this->event_id));
+					$view->assign('stornos', $this->model->get_stornos($this->event_id));
+					$view->setTemplate("admin_bookings");
+				} else {
+					$view->assign('event', $this->get_event());
+					$view->assign('bookings', $this->model->get_bookings($this->event_id));
+					$view->setTemplate($this->template);
+				}
 				break;
 			case 'change_persons':
 				$this->model->change_persons($this->request['event_id'], $this->request['booking_id'], $this->request['persons']);
@@ -166,7 +159,7 @@ class Controller
 				} else {
 					$heading = "Location: " . SITE_ADDRESS . "?view=delete_success";
 				}
-				header($heading);
+				$this->goto($heading);
 				exit();
 				break;
 			case 'delete_success':
@@ -174,22 +167,16 @@ class Controller
 			case 'cancel':
 				$view->setTemplate($this->template);
 				break;
-			case 'manage':
-				$view->assign('event', $this->get_event());
-				$view->assign('bookings', $this->model->get_bookings($this->event_id));
-				$view->assign('stornos', $this->model->get_stornos($this->event_id));
-				$view->setTemplate($this->template);
-				break;
 			case 'close_event':
 				$this->model->close_event($this->request['event_id']);
-				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" . PSEUDO_ADMIM_PASSWORD;
-				header($heading);
+				$heading = "Location: " . SITE_ADDRESS . "?view=events";
+				$this->goto($heading);
 				exit();
 				break;
 			case 'open_event':
 				$this->model->open_event($this->request['event_id']);
-				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" . PSEUDO_ADMIM_PASSWORD;
-				header($heading);
+				$heading = "Location: " . SITE_ADDRESS . "?view=events";
+				$this->goto($heading);
 				exit();
 				break;
 			case 'polls':
@@ -203,18 +190,18 @@ class Controller
 			case 'create_poll':
 				$this->model->create_poll($this->request['name'], $this->request['description'], $this->request['options'], $this->request['multichoice']);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
-				header($heading);
+				$this->goto($heading);
 				break;
 			case 'poll':
 				$voted = $_COOKIE["poll_" . $this->request['poll_id']];
 				if ($voted == "voted") {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
-					header($heading);
+					$this->goto($heading);
 				}
 				$poll = $this->get_poll($this->request['poll_id']);
 				if (!$poll->active) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
-					header($heading);
+					$this->goto($heading);
 				}
 				$view->assign('poll', $poll);
 				$view->setTemplate($this->template);
@@ -234,22 +221,22 @@ class Controller
 			case 'inactivate_poll':
 				$this->model->change_poll_status($this->request['poll_id'], 0);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
-				header($heading);
+				$this->goto($heading);
 				break;
 			case 'activate_poll':
 				$this->model->change_poll_status($this->request['poll_id'], 1);
 				$heading = "Location: " . SITE_ADDRESS . "?view=polls";
-				header($heading);
+				$this->goto($heading);
 				break;
 			case 'vote':
 				$this->set_cookie("poll_" . $this->request['poll_id'], "voted");
 				if ($this->model->vote_exists($this->request['poll_id'], $this->request['name'], $this->request['givenname'])) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
-					header($heading);
+					$this->goto($heading);
 				} else {
 					$this->model->process_vote($this->request['poll_id'], $this->request['vote'], $this->request['name'], $this->request['givenname'], $this->request['email']);
 					$heading = "Location: " . SITE_ADDRESS . "?view=poll_result&poll_id=" . $this->request['poll_id'];
-					header($heading);
+					$this->goto($heading);
 				}
 				break;
 			case 'support':
@@ -263,6 +250,15 @@ class Controller
 		$this->view->assign('content', $view->loadTemplate());
 		$this->view->assign('admin', $this->request['admin']);
 		return $this->view->loadTemplate();
+	}
+
+	private function goto($heading)
+	{
+		if ($this->admin) {
+			$heading .= "&admin=" . PSEUDO_ADMIM_PASSWORD;
+		}
+		header($heading);
+		exit();
 	}
 
 	/**

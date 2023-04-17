@@ -252,26 +252,6 @@ class Model
 	}
 
 	/**
-	 * Get list of event IDs which are open for booking and in the next 6 month
-	 */
-	public function get_recent_bookable_events()
-	{
-		$query = "SELECT DISTINCT(event_id) FROM bookings WHERE event_date BETWEEN NOW() AND NOW()+INTERVAL 6 MONTH";
-		$stmt = $this->conn->prepare($query);
-		try {
-			$stmt->execute();
-			$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-			$values = array();
-			foreach ($result as $event) {
-				$values[] = $event['event_id'];
-			}
-			return $values;
-		} catch (PDOException $ex) {
-			echo "Connection failed: " . $ex->getMessage();
-		}
-	}
-
-	/**
 	 * Close active event
 	 */
 	public function close_event($event_id)
