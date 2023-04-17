@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap');
+
+:root {
+    --color-black: #000;
+    --color-white: #fff;
+    --color-error: #ff0000;
+    --main-bg-color: #222;
+    --content-bg-color: #151515;
+    --text-color: #e5e9eb;
+    --even-color: #444040;
+    --odd-color: #222020;
+    --highlight-color: #ff0006;
+    --chapter-color-1: #000;
+    --chapter-color-2: #ccc;
+    --whatsapp-green: #25D366;
+}

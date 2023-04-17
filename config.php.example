@@ -6,6 +6,7 @@ define("PSEUDO_ADMIM_PASSWORD", "xxx");
 define("LEGAL_ENTITY_NAME", "xxx");
 define("CURRENT_VERSION", "x.x.x");
 define("HOURS_TO_EVENT_TO_CLOSE_BOOKING", 2);
+define("CUSTOM_PATH", "/path/to/custom");
 
 // Database DEV
 define("SERVERNAME", "xxx");
