@@ -138,6 +138,7 @@ class Controller
 					$view->assign('event', $this->get_event());
 					$view->assign('bookings', $this->model->get_bookings($this->event_id));
 					$view->assign('stornos', $this->model->get_stornos($this->event_id));
+					$view->assign('admin', $this->request['admin']);
 					$view->setTemplate("admin_bookings");
 				} else {
 					$view->assign('event', $this->get_event());
@@ -155,7 +156,7 @@ class Controller
 					die("ERROR");
 				}
 				if ($this->template == 'storno') {
-					$heading = "Location: " . SITE_ADDRESS . "?view=manage&event_id=" . $this->request['event_id'];
+					$heading = "Location: " . SITE_ADDRESS . "?view=bookings&event_id=" . $this->request['event_id'];
 				} else {
 					$heading = "Location: " . SITE_ADDRESS . "?view=delete_success";
 				}

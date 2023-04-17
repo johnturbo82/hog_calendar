@@ -14,3 +14,11 @@ fclose($fh);
 ?>
 </pre>
 <a href="https://github.com/johnturbo82/hog_calendar">Mehr auf Github</a>
+
+<h3>Anleitungsvideos für Admins</h3>
+<h4>Neue Veranstaltungen eintragen</h4>
+<iframe width="293" height="633" src="https://www.youtube.com/embed/_sluDhTP8bs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<h4>Einladungen verschicken</h4>
+<iframe width="293" height="633" src="https://www.youtube.com/embed/zx7ww5m3U3E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<h4>Einzelne Buchungen löschen</h4>
+<iframe width="293" height="633" src="https://www.youtube.com/embed/B6lTPgT1ovw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
