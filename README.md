@@ -4,6 +4,12 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.3.2
+- Possibility to re-open closed events
+- Salzburg Chapter added
+- Restructured files: custom folder added for customizing application
+- Fixes
+
 ### 2.3.1.2
 - Pseudo admin pass
 

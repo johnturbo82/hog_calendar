@@ -7,19 +7,27 @@
             </td>
             <td>Event buchen</td>
             <td>
-                <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/stop.svg" alt="Anmeldung schließen" /></div>
+                <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/stop.svg" alt="Eventanmeldung schließen" /></div>
             </td>
-            <td>Anmeldung schließen</td>
+            <td>Eventanmeldung schließen</td>
         </tr>
         <tr>
+            <td>
+                <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/undo.svg" alt="Eventanmeldung wieder öffnen" /></div>
+            </td>
+            <td>Eventanmeldung wieder öffnen</td>
             <td>
                 <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/copy-to-clipboard.svg" alt="Kopieren" /></div>
             </td>
             <td>Link in Zwischenablage kopieren</td>
+        </tr>
+        <tr>
             <td>
                 <div class="button whatsapp"><img src="<?php echo SITE_ADDRESS ?>images/icons/whatsapp.svg" alt="Whatsapp" /></div>
             </td>
             <td>Via WhatsApp versenden</td>
+            <td></td>
+            <td></td>
         </tr>
     </table>
 </div>
@@ -50,7 +58,9 @@
             <?php
             } else {
             ?>
-                <div class="cell right">Anmeldung geschlossen.</div>
+                <div class="cell right">
+                    Geschlossen.
+                    <a class="button" href="<?php echo SITE_ADDRESS . "?view=open_event&event_id=" . $event->id ?>" title="Eventanmeldungen wieder öffnen"><img src="<?php echo SITE_ADDRESS ?>images/icons/undo.svg" alt="Eventanmeldungen wieder öffnen" /></a></div>
             <?php
             }
             ?>

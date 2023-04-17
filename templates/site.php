@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <title><?php echo (isset($this->_['title'])) ? $this->_['title'] : "Events" ?></title>
+    <title><?php echo (isset($this->_['title'])) ? $this->_['title'] : SHORT_NAME . " Events" ?><?php echo ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) ? " ADMIN" : "" ?></title>
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>">
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -57,24 +57,21 @@
             <div class="nav">
                 <div class="nav-wrapper">
                     <nav>
-                        <a href="<?php echo SITE_ADDRESS ?>?view=events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Events</a><br>
-                        <a href="<?php echo SITE_ADDRESS ?>?view=my_events">Meine Events</a><br>
+                        <a href="<?php echo SITE_ADDRESS ?>?view=events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Events</a><br />
+                        <a href="<?php echo SITE_ADDRESS ?>?view=my_events">Meine Events</a><br />
+                        <?php
+                        if ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) {
+                        ?>
+                            <a href="<?php echo SITE_ADDRESS ?>?view=polls<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Abstimmungen</a><br />
+                        <?php
+                        }
+                        ?>
                         <a href="<?php echo SITE_ADDRESS ?>?view=support">Hilfe</a>
                     </nav>
                 </div>
             </div>
             <img src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
-            <?php
-            if ($this->_['menu']) {
-            ?>
-                <div class="menu">
-                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=admin">Events</a>
-                    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">Abstimmungen</a>
-                </div>
-            <?php
-            }
-            ?>
             <?php echo $this->_['content'] ?>
         </div>
         <footer>

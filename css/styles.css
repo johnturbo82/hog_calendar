@@ -312,11 +312,6 @@ label.poll .votes {
     width: 40px;
 }
 
-.legend table tr td:nth-child(0),
-.legend table tr td:nth-child(2) {
-    width: auto;
-}
-
 footer {
     display: block;
     margin-top: 20px;

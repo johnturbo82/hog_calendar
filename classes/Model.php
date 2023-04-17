@@ -289,7 +289,7 @@ class Model
 	}
 
 	/**
-	 * Open closed event
+	 * Open closed event again
 	 */
 	public function open_event($event_id)
 	{

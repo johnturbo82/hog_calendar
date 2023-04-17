@@ -54,12 +54,10 @@ class Controller
 				if ($this->admin) {
 					$view->assign('event_list', $this->get_event_list());
 					$view->setTemplate("admin_events");
-					$this->view->assign('menu', true);
 					break;
 				} else {
 					$view->assign('event_list', $this->get_event_list());
 					$view->setTemplate($this->template);
-					$this->view->assign('menu', false);
 					break;
 				}
 			case 'my_events':
@@ -77,7 +75,6 @@ class Controller
 				$view->assign('event_list', $new_list);
 				$view->assign('name', $_COOKIE['booking_givenname'] . ' ' . $_COOKIE['booking_name']);
 				$view->setTemplate($this->template);
-				$this->view->assign('menu', false);
 				break;
 			case 'set_name':
 				$this->set_booking_cookies();
@@ -185,7 +182,13 @@ class Controller
 				break;
 			case 'close_event':
 				$this->model->close_event($this->request['event_id']);
-				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" + $this->request['admin'];
+				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" . PSEUDO_ADMIM_PASSWORD;
+				header($heading);
+				exit();
+				break;
+			case 'open_event':
+				$this->model->open_event($this->request['event_id']);
+				$heading = "Location: " . SITE_ADDRESS . "?view=events&admin=" . PSEUDO_ADMIM_PASSWORD;
 				header($heading);
 				exit();
 				break;
@@ -193,7 +196,6 @@ class Controller
 				$view->assign('polls', $this->get_poll_list());
 				$view->assign('inactive_polls', $this->get_poll_list(0));
 				$view->setTemplate($this->template);
-				$this->view->assign('menu', true);
 				break;
 			case 'new_poll':
 				$view->setTemplate($this->template);
@@ -255,7 +257,6 @@ class Controller
 				break;
 			default:
 				$view->setTemplate("404");
-				$this->view->assign('menu', true);
 				break;
 		}
 		$this->view->setTemplate('site');
