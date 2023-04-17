@@ -556,3 +556,10 @@ RESPONSIVENESS
         bottom: 40px;
     }
 }
+
+/* It targets only the app used with a system icon in standalone mode */
+@media (display-mode: standalone) {
+    .hamburger {
+        bottom: 60px;
+    }
+}

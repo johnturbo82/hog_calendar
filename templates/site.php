@@ -6,10 +6,10 @@
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>">
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link rel="shortcut icon" type="image/x-icon" href="<?php echo SITE_ADDRESS .CUSTOM_PATH ?>images/icons/favicon.ico">
-    <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS .CUSTOM_PATH ?>images/icons/favicon.ico">
-    <link rel="icon" type="image/gif" href="<?php echo SITE_ADDRESS .CUSTOM_PATH ?>images/icons/favicon.gif">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS .CUSTOM_PATH ?>images/icons/favicon.png">
+    <link rel="shortcut icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
+    <link rel="icon" type="image/gif" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.gif">
+    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.png">
     <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon.png">
     <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-57x57.png" sizes="57x57">
     <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-60x60.png" sizes="60x60">
@@ -38,6 +38,9 @@
     <meta name="msapplication-square310x310logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x310.png">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="theme-color" content="#0a1014">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <link rel="manifest" href="manifest.json">
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
