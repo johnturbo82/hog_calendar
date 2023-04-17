@@ -65,6 +65,7 @@
                         if ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) {
                         ?>
                             <a href="<?php echo SITE_ADDRESS ?>?view=polls<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Abstimmungen</a><br />
+                            <a href="<?php echo SITE_ADDRESS ?>?view=tutorials<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Tutorialvideos</a><br />
                         <?php
                         }
                         ?>

@@ -240,6 +240,9 @@ class Controller
 					$this->goto($heading);
 				}
 				break;
+			case 'tutorials':
+				$view->setTemplate($this->template);
+				break;
 			case 'support':
 				$view->setTemplate($this->template);
 				break;
