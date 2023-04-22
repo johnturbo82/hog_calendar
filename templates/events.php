@@ -42,7 +42,7 @@
                             <h2>Event</h2>
                             <p><strong><?php echo $event->name; ?></strong>, <?php echo $event->get_date_str(); ?></p>
                             <p><?php echo $event->location; ?></p>
-                            <h3>Weitere Infos</h3><?php echo $event->description ?><span class="close">[x]</span>
+                            <h3>Weitere Infos</h3><?php echo nl2br($event->description) ?><span class="close">[x]</span>
                         </div>
                         <div class="interaction">
                             <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
