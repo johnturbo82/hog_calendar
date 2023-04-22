@@ -3,6 +3,8 @@
 <p>Installierte Version: <?php echo CURRENT_VERSION ?></p>
 <p>Bitte bei Supportanfragen Versionsnummer mit angeben.</p>
 <p>Bei Fragen oder Anregungen bitte E-Mail an <a href="mailto:<?php echo SUPPORT_EMAIL ?>?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>"><?php echo SUPPORT_EMAIL ?></a></p>
+<h3>ICS Datei zum abonnieren des Eventkalenders</h3>
+<pre><?php echo CALENDAR_ICS ?></pre>
 <h3>README</h3>
 <pre>
 <?php
@@ -14,11 +16,3 @@ fclose($fh);
 ?>
 </pre>
 <a href="https://github.com/johnturbo82/hog_calendar">Mehr auf Github</a>
-
-<h3>Anleitungsvideos für Admins</h3>
-<h4>Neue Veranstaltungen eintragen</h4>
-<iframe width="293" height="633" src="https://www.youtube.com/embed/_sluDhTP8bs" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-<h4>Einladungen verschicken</h4>
-<iframe width="293" height="633" src="https://www.youtube.com/embed/zx7ww5m3U3E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
-<h4>Einzelne Buchungen löschen</h4>
-<iframe width="293" height="633" src="https://www.youtube.com/embed/B6lTPgT1ovw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>

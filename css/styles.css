@@ -438,6 +438,11 @@ nav a:hover:before {
     height: 100%;
 }
 
+pre {
+    width: 100%;
+    overflow-x: scroll;
+}
+
 /**
   Animations
   **/
