@@ -362,6 +362,7 @@ Hamburger
     padding: 12px 8px;
     border: 2px solid var(--highlight-color);
     box-shadow: var(--main-bg-color) 0px 4px 16px, var(--main-bg-color) 0px 8px 32px;
+    z-index: 51;
 }
 
 

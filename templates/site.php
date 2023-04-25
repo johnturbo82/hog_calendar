@@ -3,8 +3,8 @@
 
 <head>
     <title><?php echo (isset($this->_['title'])) ? $this->_['title'] : SHORT_NAME . " Events" ?><?php echo ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) ? " ADMIN" : "" ?></title>
-    <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>">
-    <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>">
+    <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
+    <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
@@ -44,7 +44,7 @@
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/datatables.js"></script>
-    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/site.js?v=<?php echo CURRENT_VERSION ?>"></script>
+    <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/site.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
 </head>
 
 <body>

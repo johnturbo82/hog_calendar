@@ -4,7 +4,9 @@ define("SITE_ADDRESS", "https://some_url");
 define("APP_NAME", "Our amazing Events");
 define("PSEUDO_ADMIM_PASSWORD", "xxx");
 define("LEGAL_ENTITY_NAME", "xxx");
+define("SHORT_NAME", "x");
 define("CURRENT_VERSION", "x.x.x");
+define("REVISION", "x");
 define("HOURS_TO_EVENT_TO_CLOSE_BOOKING", 2);
 define("CUSTOM_PATH", "/path/to/custom");
 
