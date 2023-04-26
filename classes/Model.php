@@ -290,7 +290,7 @@ class Model
 	 */
 	public function get_polls($active = 1)
 	{
-		$query = "SELECT * FROM polls WHERE active = :active AND deleted_flag = 0 ORDER BY create_date";
+		$query = "SELECT * FROM polls WHERE active = :active AND deleted_flag = 0 ORDER BY create_date DESC";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":active", $active, PDO::PARAM_INT);
 		try {

@@ -41,7 +41,7 @@ foreach ($poll->options as $key => $option) {
                 <td><?php echo ++$k ?></td>
                 <td><?php echo trim($result['name']) ?>, <?php echo trim($result['givenname']) ?></td>
                 <td><?php echo $poll->options[$result['vote']] ?></td>
-                <td class="no-mobile" data-order="<?php echo strtotime($booking['create_date']) ?>"><?php echo date("d.m.Y H:i", strtotime($result['create_date'])); ?></td>
+                <td class="no-mobile" data-order="<?php echo strtotime($result['create_date']) ?>"><?php echo date("d.m.Y H:i", strtotime($result['create_date'])); ?></td>
             </tr>
         <?php
         }
