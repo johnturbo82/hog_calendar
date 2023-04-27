@@ -14,7 +14,7 @@ if ($this->_['event']->location != "") {
 ?>
 <?php
 if ($this->_['event']->description != "") {
-    echo "<p><b>Informationen</b>: " . $this->_['event']->description . "</p>";
+    echo "<p><b>Informationen</b>: " . nl2br($this->_['event']->description) . "</p>";
 }
 ?>
 <table class="datatable">
