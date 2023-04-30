@@ -9,6 +9,15 @@ class Event
     var $description;
     var $registrations;
     var $is_closed;
+    var $days = array(
+        0 => "So",
+        1 => "Mo",
+        2 => "Di",
+        3 => "Mi",
+        4 => "Do",
+        5 => "Fr",
+        6 => "Sa"
+    );
 
     function __construct($id, $name, $from, $to, $location, $description = "", $registrations = 0, $closed = false)
     {
@@ -25,11 +34,11 @@ class Event
     function get_date_str()
     {
         if (date("d.m.Y", strtotime($this->from)) == date("d.m.Y", strtotime($this->to))) {
-            return date("d.m.Y", strtotime($this->from)) . " " . date("H:i", strtotime($this->from)) . " - " . date("H:i", strtotime($this->to)) . " Uhr";
+            return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y", strtotime($this->from)) . " " . date("H:i", strtotime($this->from)) . " - " . date("H:i", strtotime($this->to)) . " Uhr";
         } else if (date("H:i", strtotime($this->from)) == "00:00") {
-            return date("d.m.Y", strtotime($this->from)) . " - " . date("d.m.Y", (strtotime($this->to) - 3600));
+            return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y", strtotime($this->from)) . " - " . $this->days[date("w", strtotime($this->to))] . ", " . date("d.m.Y", (strtotime($this->to) - 3600));
         } else {
-            return date("d.m.Y H:i", strtotime($this->from)) . "Uhr - " . date("d.m.Y H:i", strtotime($this->to)) . " Uhr";
+            return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y H:i", strtotime($this->from)) . "Uhr - " . date("d.m.Y H:i", strtotime($this->to)) . " Uhr";
         }
     }
 

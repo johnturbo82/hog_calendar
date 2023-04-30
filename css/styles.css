@@ -474,7 +474,7 @@ RESPONSIVENESS
 @media screen and (min-width: 1160px) {
     div.booking {
         display: inline-grid;
-        grid-template-columns: 3fr 2fr 1fr 2fr;
+        grid-template-columns: 6fr 4fr 3fr 4fr;
     }
 
     div.poll {
@@ -505,10 +505,10 @@ RESPONSIVENESS
     }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 800px) and (max-width: 1159px) {
     div.booking {
         display: inline-grid;
-        grid-template-columns: 6fr 4fr 3fr 5fr;
+        grid-template-columns: 6fr 4fr 3fr 4fr;
     }
 
     div.poll {
@@ -534,7 +534,7 @@ RESPONSIVENESS
 @media screen and (max-width: 799px) {
     div.booking {
         display: inline-grid;
-        grid-template-rows: 2fr 2fr 2fr 3fr;
+        grid-template-rows: 2fr 2fr 2fr 4fr;
     }
 
     div.poll {
