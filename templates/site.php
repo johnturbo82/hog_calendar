@@ -78,7 +78,7 @@
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
-            &copy; Oliver Schöttner 2022 - Bei Fragen und Anregungen: <a href="mailto:<?php echo SUPPORT_EMAIL ?>?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>"><?php echo SUPPORT_EMAIL ?></a>
+            &copy; Oliver Schöttner 2023 - Bei Fragen und Anregungen: <a href="mailto:<?php echo SUPPORT_EMAIL ?>?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>"><?php echo SUPPORT_EMAIL ?></a>
             <br />
             <span>Version <?php echo CURRENT_VERSION ?></span>
         </footer>

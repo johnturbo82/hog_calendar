@@ -36,7 +36,7 @@ class Event
         if (date("d.m.Y", strtotime($this->from)) == date("d.m.Y", strtotime($this->to))) {
             return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y", strtotime($this->from)) . " " . date("H:i", strtotime($this->from)) . " - " . date("H:i", strtotime($this->to)) . " Uhr";
         } else if (date("H:i", strtotime($this->from)) == "00:00") {
-            return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y", strtotime($this->from)) . " - " . $this->days[date("w", strtotime($this->to))] . ", " . date("d.m.Y", (strtotime($this->to) - 3600));
+            return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y", strtotime($this->from)) . " - " . $this->days[date("w", strtotime($this->to) - 3600)] . ", " . date("d.m.Y", (strtotime($this->to) - 3600));
         } else {
             return $this->days[date("w", strtotime($this->from))] . ", " . date("d.m.Y H:i", strtotime($this->from)) . "Uhr - " . date("d.m.Y H:i", strtotime($this->to)) . " Uhr";
         }
