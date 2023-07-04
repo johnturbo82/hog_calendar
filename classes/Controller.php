@@ -291,7 +291,13 @@ class Controller
 			if ($event_date <= $now) {
 				continue;
 			}
-			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
+			$attachments = [];
+			if (isset($event->attachments)) {
+				foreach ($event->attachments as $att) {
+					$attachments[] = $att->fileId;
+				}
+			}
+			$event_obj = new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id), $attachments);
 			$events[$from . " " . $event->id] = $event_obj;
 		}
 		ksort($events);
@@ -325,7 +331,13 @@ class Controller
 			$from = $event->start->date;
 			$to = $event->end->date;
 		}
-		return new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id));
+		$attachments = [];
+		if (isset($event->attachments)) {
+			foreach ($event->attachments as $att) {
+				$attachments[] = $att->fileId;
+			}
+		}
+		return new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id), $attachments);
 	}
 
 	/**

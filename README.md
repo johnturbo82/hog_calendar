@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.4.0
+- Added images to event description; NOTE: Keep permissions in mind: Only public images can be viewed. Set 'public' in Google docs settings.
+
 ### 2.3.3
 - Bugfix: Event weekday
 

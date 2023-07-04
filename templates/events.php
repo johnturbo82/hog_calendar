@@ -17,10 +17,8 @@
             ?>
                 <div class="cell right">
                     <?php
-                    if ($event->description != "") {
-                    ?>
-                        <a class="button more-button" title="Mehr Informationen">Mehr Infos</a>
-                    <?php
+                    if (($event->description != "") || (count($event->attachments) > 0)) {
+                        echo "<a class='button more-button' title='Mehr Informationen'>Mehr Infos</a>";
                     }
                     ?>
                     <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
@@ -34,7 +32,7 @@
             }
             ?>
             <?php
-            if ($event->description != "") {
+            if (($event->description != "") || (count($event->attachments) > 0)) {
             ?>
                 <div class="description-container">
                     <div class="description-modal">
@@ -42,7 +40,20 @@
                             <h2>Event</h2>
                             <p><strong><?php echo $event->name; ?></strong>, <?php echo $event->get_date_str(); ?></p>
                             <p><?php echo $event->location; ?></p>
-                            <h3>Weitere Infos</h3><?php echo nl2br($event->description) ?><span class="close">[x]</span>
+                            <h3>Weitere Infos</h3>
+                            <?php
+                            if ($event->description != "") {
+                                echo nl2br($event->description);
+                            }
+                            ?>
+                            <span class="close">[x]</span>
+                            <?php
+                            if (isset($event->attachments)) {
+                                foreach ($event->attachments as $file_id) {
+                                    echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/uc?export=view&id=" . $file_id . "' /></a>";
+                                }
+                            }
+                            ?>
                         </div>
                         <div class="interaction">
                             <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>

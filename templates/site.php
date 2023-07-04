@@ -73,7 +73,7 @@
                     </nav>
                 </div>
             </div>
-            <img src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
+            <img class="logo" src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
             <?php echo $this->_['content'] ?>
         </div>

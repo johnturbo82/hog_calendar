@@ -16,6 +16,11 @@ if ($this->_['event']->location != "") {
 if ($this->_['event']->description != "") {
     echo "<p><b>Informationen</b>: " . nl2br($this->_['event']->description) . "</p>";
 }
+if (isset($this->_['event']->attachments)) {
+    foreach ($this->_['event']->attachments as $file_id) {
+        echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/uc?export=view&id=" . $file_id . "' /></a>";
+    }
+}
 ?>
 <table class="datatable">
     <thead>

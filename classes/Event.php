@@ -9,6 +9,8 @@ class Event
     var $description;
     var $registrations;
     var $is_closed;
+    var $attachments;
+
     var $days = array(
         0 => "So",
         1 => "Mo",
@@ -19,7 +21,7 @@ class Event
         6 => "Sa"
     );
 
-    function __construct($id, $name, $from, $to, $location, $description = "", $registrations = 0, $closed = false)
+    function __construct($id, $name, $from, $to, $location, $description = "", $registrations = 0, $closed = false, $attachments = [])
     {
         $this->id = $id;
         $this->name = $name;
@@ -29,6 +31,7 @@ class Event
         $this->description = $description;
         $this->registrations = $registrations;
         $this->is_closed = ($closed) ? true : $this->is_closed();
+        $this->attachments = $attachments;
     }
 
     function get_date_str()
