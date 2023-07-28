@@ -4,8 +4,14 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
-### 2.3.3
+### 2.4.1
 - Fixed formatting in polls
+
+### 2.4.0
+- Added images to event description; NOTE: Keep permissions in mind: Only public images can be viewed. Set 'public' in Google docs settings.
+
+### 2.3.3
+- Bugfix: Event weekday
 
 ### 2.3.2
 - Possibility to re-open closed events
