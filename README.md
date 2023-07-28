@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.3.3
+- Fixed formatting in polls
+
 ### 2.3.2
 - Possibility to re-open closed events
 - Salzburg Chapter added

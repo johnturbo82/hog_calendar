@@ -7,7 +7,7 @@ if (isset($this->_['voted'])) {
 }
 ?>
 <h2>Ergebnisse Umfrage "<?php echo $poll->name ?>"</h2>
-<p><?php echo $poll->description ?></p>
+<p><?php echo nl2br($poll->description) ?></p>
 <h3>Ergebnisse</h3>
 <?php
 foreach ($poll->options as $key => $option) {
