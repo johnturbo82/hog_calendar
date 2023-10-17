@@ -64,6 +64,7 @@
                         <?php
                         if ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) {
                         ?>
+                            <a href="<?php echo SITE_ADDRESS ?>?view=past_events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Vergangene Events</a><br />
                             <a href="<?php echo SITE_ADDRESS ?>?view=polls<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Abstimmungen</a><br />
                             <a href="<?php echo SITE_ADDRESS ?>?view=tutorials<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Tutorialvideos</a><br />
                         <?php
@@ -78,7 +79,12 @@
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
-            &copy; Oliver Schöttner 2023 - Bei Fragen und Anregungen: <a href="mailto:<?php echo SUPPORT_EMAIL ?>?subject=<?php echo SITE_ADDRESS . " - Version " . CURRENT_VERSION ?>"><?php echo SUPPORT_EMAIL ?></a>
+            &copy; Oliver Schöttner 2023
+            <?php 
+            if (defined('SUPPORT_EMAIL')) {
+                echo "- Bei Fragen und Anregungen: <a href='mailto:" . SUPPORT_EMAIL . "?subject=" . SITE_ADDRESS . " - Version " . CURRENT_VERSION ."'>" . SUPPORT_EMAIL ."</a>";
+            }
+            ?>
             <br />
             <span>Version <?php echo CURRENT_VERSION ?></span>
         </footer>

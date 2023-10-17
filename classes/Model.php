@@ -286,6 +286,73 @@ class Model
 	}
 
 	/**
+	 * Get past events
+	 */
+	public function get_past_events()
+	{
+		$query = "SELECT DISTINCT(event_id), event_name, event_date FROM bookings WHERE deleted_flag = 0 AND event_name IS NOT NULL AND event_date < CURRENT_DATE ORDER BY event_date DESC";
+		$stmt = $this->conn->prepare($query);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+			return false;
+		}
+	}
+
+	/**
+	 * Get past event
+	 */
+	public function get_past_event($event_id)
+	{
+		$query = "SELECT event_id, event_name, event_date FROM bookings WHERE event_id = :event_id AND event_name IS NOT NULL LIMIT 1";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC)[0];
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+			return false;
+		}
+	}
+
+	/**
+	 * Get past event
+	 */
+	public function get_past_event_bookings($event_id)
+	{
+		$query = "SELECT * FROM bookings WHERE deleted_flag = 0 AND event_id = :event_id ORDER BY name";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+			return false;
+		}
+	}
+
+	/**
+	 * Get past events attendee count
+	 */
+	public function get_past_event_attendee_count($event_id)
+	{
+		$query = "SELECT COUNT(:event_id) FROM bookings WHERE event_id = :event_id AND deleted_flag = 0";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			return (int)$stmt->fetchColumn();
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+			return false;
+		}
+	}
+
+	/**
 	 * Get all active polls from db
 	 */
 	public function get_polls($active = 1)

@@ -4,8 +4,10 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
-### 2.4.1
+### 2.5.0
 - Fixed formatting in polls
+- Added time to existing event
+- Added past events
 
 ### 2.4.0
 - Added images to event description; NOTE: Keep permissions in mind: Only public images can be viewed. Set 'public' in Google docs settings.

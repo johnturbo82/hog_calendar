@@ -77,6 +77,17 @@ class Controller
 				$view->assign('name', $_COOKIE['booking_givenname'] . ' ' . $_COOKIE['booking_name']);
 				$view->setTemplate($this->template);
 				break;
+			case 'past_events':
+				if ($this->admin) {
+					$view->assign('event_list', $this->get_past_events());
+					$view->assign('admin', $this->request['admin']);
+					$view->setTemplate("admin_past_events");
+					break;
+				} else {
+					$view->assign('event_list', $this->get_event_list());
+					$view->setTemplate($this->template);
+					break;
+				}
 			case 'set_name':
 				$this->set_booking_cookies();
 				$heading = "Location: " . SITE_ADDRESS . "?view=my_events";
@@ -144,6 +155,16 @@ class Controller
 					$view->assign('event', $this->get_event());
 					$view->assign('bookings', $this->model->get_bookings($this->event_id));
 					$view->setTemplate($this->template);
+				}
+				break;
+			case 'past_bookings':
+				if ($this->admin) {
+					$view->assign('event', $this->model->get_past_event($this->event_id));
+					$view->assign('bookings', $this->model->get_past_event_bookings($this->event_id));
+					$view->assign('admin', $this->request['admin']);
+					$view->setTemplate($this->template);
+				} else {
+					$view->setTemplate("404");
 				}
 				break;
 			case 'change_persons':
@@ -338,6 +359,17 @@ class Controller
 			}
 		}
 		return new Event($event->id, $event->summary, $from, $to, $event->location, $event->description, $this->model->get_booking_count($event->id), $this->model->is_event_closed($event->id), $attachments);
+	}
+
+	private function get_past_events() 
+	{
+		$past_events = $this->model->get_past_events();
+		$events = array();
+		foreach ($past_events as $past_event) 
+		{
+			$events[$past_event['event_id']] = array("date" => $past_event['event_date'], "name" => $past_event['event_name'], "attendee_count" => $this->model->get_past_event_attendee_count($past_event['event_id']));
+		}
+		return $events;
 	}
 
 	/**
