@@ -36,7 +36,7 @@
     <meta name="msapplication-square150x150logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-150x150.png">
     <meta name="msapplication-wide310x150logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x150.png">
     <meta name="msapplication-square310x310logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x310.png">
-    <meta name="theme-color" content="#0a1014">
+    <meta name="theme-color" content="<?php echo ($this->_['admin']) ? "#501014" : "#0a1014" ?>">
     <!-- <meta name="mobile-web-app-capable" content="yes"> -->
     <!-- <meta name="apple-mobile-web-app-status-bar-style" content="default"> -->
     <!-- <link rel="manifest" href="manifest.json"> -->
