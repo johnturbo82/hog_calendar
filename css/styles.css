@@ -8,6 +8,10 @@ body {
     font-size: 105%;
 }
 
+body.admin {
+    background-color: var(--admin-bg-color);
+}
+
 .container {
     max-width: 1000px;
     margin: 0 auto;

@@ -47,7 +47,7 @@
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/site.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
 </head>
 
-<body>
+<body <?php echo ($this->_['admin']) ? "class='admin'" : "" ?>>
     <div class="container">
         <div class="content">
             <input id="toggle" type="checkbox"></input>

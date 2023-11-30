@@ -1,16 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;700&display=swap');
 
 :root {
-    --color-black: #000;
-    --color-white: #fff;
-    --color-error: #ff0000;
-    --main-bg-color: #0a1014;
-    --content-bg-color: #202c33;
-    --text-color: #e5e9eb;
-    --even-color: #16232b;
-    --odd-color: #2a3942;
-    --highlight-color: #c1aa63;
+    --admin-bg-color: #501014;
     --chapter-color-1: #2383ba;
     --chapter-color-2: #e51c20;
+    --color-black: #000;
+    --color-error: #ff0000;
+    --color-white: #fff;
+    --content-bg-color: #202c33;
+    --even-color: #16232b;
+    --highlight-color: #c1aa63;
+    --main-bg-color: #0a1014;
+    --odd-color: #2a3942;
+    --text-color: #e5e9eb;
     --whatsapp-green: #25D366;
 }

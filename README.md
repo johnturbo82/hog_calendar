@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.5.1
+- Colored frame for admin mode
+
 ### 2.5.0
 - Fixed formatting in polls
 - Added time to existing event
