@@ -6,13 +6,5 @@
 <h3>ICS Datei zum abonnieren des Eventkalenders</h3>
 <pre><?php echo CALENDAR_ICS ?></pre>
 <h3>README</h3>
-<pre>
-<?php
-$fh = fopen("README.md", "r");
-while ($line = fgets($fh)) {
-    echo $line;
-}
-fclose($fh);
-?>
-</pre>
+<?php echo $this->_['versions'];?>
 <a href="https://github.com/johnturbo82/hog_calendar">Mehr auf Github</a>

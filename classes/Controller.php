@@ -265,6 +265,7 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'support':
+				$view->assign('versions', $this->load_versions_and_convert_MD());
 				$view->setTemplate($this->template);
 				break;
 			default:
@@ -499,6 +500,14 @@ class Controller
 				return false;
 			}
 		}
+	}
+
+	/**
+	 * Load MD from file and convert to HTML
+	 */
+	private function load_versions_and_convert_MD() {
+		$md = file_get_contents("README.md");
+		return Parsedown::instance()->text($md);
 	}
 
 	/**
