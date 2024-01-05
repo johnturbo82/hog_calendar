@@ -29,9 +29,12 @@
     <?php
     foreach ($this->_['event_list'] as $event) {
         $link = SITE_ADDRESS . "?view=book&event_id=" . $event->id;
+        $location = strpos($event->location, ",") ? explode(",", $event->location)[0] : $event->location;
     ?>
         <div class="booking">
-            <div class="cell bold"><?php echo $event->name; ?></div>
+            <div class="cell">
+                <strong><?php echo $event->name; ?></strong><br /><?php echo $location; ?>
+            </div>
             <div class="cell"><?php echo $event->get_date_str(); ?></div>
             <a href="<?php echo SITE_ADDRESS . "?view=bookings&event_id=" . $event->id . "&admin=" . $this->_['admin'] ?>" title='Buchungen anzeigen'>
                 <div class="cell"><?php echo ($event->registrations == 1) ? $event->registrations . " Anmeldung" : $event->registrations . " Anmeldungen" ?></div>

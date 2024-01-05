@@ -552,7 +552,7 @@ RESPONSIVENESS
 @media screen and (max-width: 799px) {
     div.booking {
         display: inline-grid;
-        grid-template-rows: 2fr 2fr 2fr 4fr;
+        grid-template-rows: 4fr 2fr 2fr 3fr;;
     }
 
     div.poll {
