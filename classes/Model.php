@@ -340,7 +340,7 @@ class Model
 	 */
 	public function get_past_event_attendee_count($event_id)
 	{
-		$query = "SELECT COUNT(:event_id) FROM bookings WHERE event_id = :event_id AND deleted_flag = 0";
+		$query = "SELECT SUM(persons) FROM bookings WHERE event_id = :event_id AND deleted_flag = 0";
 		$stmt = $this->conn->prepare($query);
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
 		try {
