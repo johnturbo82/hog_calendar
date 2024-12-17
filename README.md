@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.5.4 Dec 17, 2024
+- Bug fix of attendee count of past events
+
 ### 2.5.3 Jan 4, 2024
 - Added MarkDown converter
 
