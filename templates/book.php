@@ -17,11 +17,16 @@ if ($event->is_closed) {
     $mailtext = "Die Anmeldung für das Event " . $event->name . " " . $event->get_from_str() . " war erfolgreich.\n";
 
     if (isset($event->location)) {
-        echo "<p><strong>Ort:</strong> " . $event->location . "</p>";
+        echo "<p><strong>Ort: </strong><a href='https://maps.google.com/?q=" . urlencode($event->location) . "'>" . $event->location . "</a></p>";
         $mailtext .= "Ort: " . $event->location . "\n\n";
     }
     if (isset($event->description)) {
         echo "<p><strong>Weitere Infos:</strong> " . $event->description . "</p>";
+    }
+    if (isset($event->attachments)) {
+        foreach ($event->attachments as $file_id) {
+            echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/thumbnail?id=" . $file_id . "' /></a>";
+        }
     }
     $mailtext .= "Solltest Du nicht teilnehmen können, gib bitte dem Organisator rechtzeitig Bescheid. Achtung: Die Veranstaltungszeiten können sich noch ändern, bitte halte Dich über die Whatsapp-Gruppe und über die Website auf dem Laufenden.\n\nVielen Dank,\n" . MAIL_SIGNATURE;
     if ($event->registrations == 1) {
@@ -33,8 +38,8 @@ if ($event->is_closed) {
     <p><strong>Hinweis:</strong> Buchungen sind verbindlich sofern Kosten entstehen. Tischreservierungen werden nach Anzahl der angemeldeten Teilnehmer vorgenommen.</p>
     <p>Die Email-Adresse wird nur zum Versand einer Buchungsbestätigung verwendet und ist optional.</p>
     <form method="POST" action="<?php echo SITE_ADDRESS . "?view=bookme" ?>">
-        <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" required /> *</p>
-        <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" required /> *</p>
+        <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" autocomplete="given-name" required /> *</p>
+        <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" autocomplete="family-name" required /> *</p>
         <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
         <p><input type="number" name="persons" value="1" min="1" max="5" pattern="\d*" /> Person(en) insgesamt</p>
         <input type="hidden" name="event_id" value="<?php echo $event->id ?>" />

@@ -9,7 +9,7 @@ if ($this->_['event']->registrations == 1) {
 <p><b><?php echo $this->_['event']->get_from_str() ?></b></p>
 <?php
 if ($this->_['event']->location != "") {
-    echo "<p><b>" . $this->_['event']->location . "</b></p>";
+    echo "<p><b>Ort:</b> <a href='https://maps.google.com/?q=" . urlencode($this->_['event']->location) . "'>" . $this->_['event']->location . "</a></p>";
 }
 ?>
 <?php

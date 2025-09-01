@@ -378,7 +378,7 @@ class Controller
 	 */
 	private function load_events()
 	{
-		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events?key=" . ACCESS_TOKEN;
+		$json_url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events?key=" . ACCESS_TOKEN . "&maxResults=1000";
 		$json = file_get_contents($json_url);
 		return json_decode($json);
 	}

@@ -42,16 +42,17 @@
                             <p><strong><?php echo $event->name; ?></strong>, <?php echo $event->get_date_str(); ?></p>
                             <p><?php echo $event->location; ?></p>
                             <h3>Weitere Infos</h3>
+                            <span class="close">[x]</span>
                             <?php
                             if ($event->description != "") {
                                 echo nl2br($event->description);
                             }
                             ?>
-                            <span class="close">[x]</span>
+                            <br /><br />
                             <?php
                             if (isset($event->attachments)) {
                                 foreach ($event->attachments as $file_id) {
-                                    echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/uc?export=view&id=" . $file_id . "' /></a>";
+                                    echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/thumbnail?id=" . $file_id . "' /></a>";
                                 }
                             }
                             ?>
