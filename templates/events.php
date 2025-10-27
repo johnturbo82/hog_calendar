@@ -1,3 +1,4 @@
+Kompletter Jahresplan zum Drucken: <a href="https://www.ingolstadt-chapter.de/events/druckansicht/?event_year=<?php echo date("Y") ?>" target="_blank"><?php echo date("Y") ?></a> | <a href="https://www.ingolstadt-chapter.de/events/druckansicht/?event_year=<?php echo date("Y") + 1 ?>" target="_blank"><?php echo date("Y") + 1 ?></a>
 <h2>Aktuelle Terminbuchungen</h2>
 <div class="bookings">
     <?php

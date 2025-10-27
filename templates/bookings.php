@@ -18,7 +18,7 @@ if ($this->_['event']->description != "") {
 }
 if (isset($this->_['event']->attachments)) {
     foreach ($this->_['event']->attachments as $file_id) {
-        echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/uc?export=view&id=" . $file_id . "' /></a>";
+        echo "<a class='event_image' target='_blank'href='https://drive.google.com/uc?export=view&id=" . $file_id . "'><img src='https://drive.google.com/thumbnail?id=" . $file_id . "' /></a>";
     }
 }
 ?>
