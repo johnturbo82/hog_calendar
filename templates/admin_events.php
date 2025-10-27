@@ -21,6 +21,12 @@
             </td>
             <td>Via WhatsApp versenden</td>
         </tr>
+        <tr>
+            <td>
+                <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/keine_kutte.svg" alt="Keine Kuttenpflicht" /></div>
+            </td>
+            <td colspan="3">Um das Symbol an das Event zu bekommen muss im Beschreibungstext "Keine Kuttenpflicht" stehen.</td>
+        </tr>
     </table>
 </div>
 <h2>Anstehende Events</h2>
