@@ -4,6 +4,10 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.5.5 Oct 27, 2025
+- Wording of booking changed
+- "keine Kutte" added as icon
+
 ### 2.5.4 Dec 17, 2024
 - Bug fix of attendee count of past events
 

@@ -19,11 +19,18 @@ Kompletter Jahresplan zum Drucken: <a href="https://www.ingolstadt-chapter.de/ev
             ?>
                 <div class="cell right">
                     <?php
-                    if (($event->description != "") || (count($event->attachments) > 0)) {
-                        echo "<a class='button more-button' title='Mehr Informationen'>Mehr Infos</a>";
+                    if (stripos($event->description, "Keine Kuttenpflicht") !== false) {
+                    ?>
+                        <img class="keine_kutte" src="<?php echo SITE_ADDRESS ?>images/icons/keine_kutte.svg" alt="Keine Kuttenspflicht" />
+                    <?php
                     }
                     ?>
-                    <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
+                    <?php
+                    if (($event->description != "") || (count($event->attachments) > 0)) {
+                        echo "<a class='button more-button' title='Mehr Informationen'>Infos</a>";
+                    }
+                    ?>
+                    <a class="button" href="<?php echo $link ?>" title="Zur Veranstaltung an- oder abmelden">An-/Abmelden</a>
                 </div>
 
             <?php
@@ -59,7 +66,7 @@ Kompletter Jahresplan zum Drucken: <a href="https://www.ingolstadt-chapter.de/ev
                             ?>
                         </div>
                         <div class="interaction">
-                            <a class="button" href="<?php echo $link ?>" title="Veranstaltung buchen">Buchen</a>
+                            <a class="button" href="<?php echo $link ?>" title="Zur Veranstaltung an- oder abmelden">An-/Abmelden</a>
                             <a class="button button-close" title="Schließen">Schließen</a>
                         </div>
                     </div>
