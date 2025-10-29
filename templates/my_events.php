@@ -18,9 +18,16 @@
             ?>
                 <div class="cell right">
                     <?php
+                    if (stripos($event->description, "Keine Kuttenpflicht") !== false) {
+                    ?>
+                        <img class="keine_kutte" src="<?php echo SITE_ADDRESS ?>images/icons/keine_kutte.svg" alt="Keine Kuttenspflicht" />
+                    <?php
+                    }
+                    ?>
+                    <?php
                     if ($event->description != "") {
                     ?>
-                        <a class="button more-button" title="Mehr Informationen">Mehr Infos</a>
+                        <a class="button more-button" title="Mehr Informationen">Infos</a>
                     <?php
                     }
                     ?>
