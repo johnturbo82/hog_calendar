@@ -78,16 +78,9 @@ class Controller
 				$view->setTemplate($this->template);
 				break;
 			case 'past_events':
-				if ($this->admin) {
-					$view->assign('event_list', $this->get_past_events());
-					$view->assign('admin', $this->request['admin']);
-					$view->setTemplate("admin_past_events");
-					break;
-				} else {
-					$view->assign('event_list', $this->get_event_list());
-					$view->setTemplate($this->template);
-					break;
-				}
+				$view->assign('event_list', $this->get_past_events());
+				$view->setTemplate("past_events");
+				break;
 			case 'set_name':
 				$this->set_booking_cookies();
 				$heading = "Location: " . SITE_ADDRESS . "?view=my_events";
@@ -158,14 +151,10 @@ class Controller
 				}
 				break;
 			case 'past_bookings':
-				if ($this->admin) {
-					$view->assign('event', $this->model->get_past_event($this->event_id));
-					$view->assign('bookings', $this->model->get_past_event_bookings($this->event_id));
-					$view->assign('admin', $this->request['admin']);
-					$view->setTemplate($this->template);
-				} else {
-					$view->setTemplate("404");
-				}
+				$view->assign('event', $this->model->get_past_event($this->event_id));
+				$view->assign('bookings', $this->model->get_past_event_bookings($this->event_id));
+				$view->assign('admin', $this->request['admin']);
+				$view->setTemplate($this->template);
 				break;
 			case 'change_persons':
 				$this->model->change_persons($this->request['event_id'], $this->request['booking_id'], $this->request['persons']);
@@ -262,6 +251,9 @@ class Controller
 				}
 				break;
 			case 'tutorials':
+				$view->setTemplate($this->template);
+				break;
+			case 'help':
 				$view->setTemplate($this->template);
 				break;
 			case 'support':

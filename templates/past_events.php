@@ -8,7 +8,7 @@
                 <tr>
                     <td><?php echo date("d.m.Y H:i", strtotime($event['date'])); ?></td>
                     <td><?php echo $event['name']; ?></td>
-                    <td><a href="?view=past_bookings&event_id=<?php echo $id; ?><?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>"><?php echo ($event['attendee_count'] == 1) ? $event['attendee_count'] . " Anmeldungen" : $event['attendee_count'] . " Anmeldungen" ?></a></td>
+                    <td><a href="?view=past_bookings&event_id=<?php echo $id; ?>"><?php echo ($event['attendee_count'] == 1) ? $event['attendee_count'] . "<span class='no-mobile'> Anmeldung</span>" : $event['attendee_count'] . "<span class='no-mobile'> Anmeldungen</span>" ?></a></td>
                 </tr>
             <?php
             }

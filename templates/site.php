@@ -50,29 +50,42 @@
 <body <?php echo ($this->_['admin']) ? "class='admin'" : "" ?>>
     <div class="container">
         <div class="content">
-            <input id="toggle" type="checkbox"></input>
-            <label for="toggle" class="hamburger">
-                <div class="top-bun"></div>
-                <div class="meat"></div>
-                <div class="bottom-bun"></div>
-            </label>
-            <div class="nav">
-                <div class="nav-wrapper">
-                    <nav>
-                        <a href="<?php echo SITE_ADDRESS ?>?view=events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Events</a><br />
-                        <a href="<?php echo SITE_ADDRESS ?>?view=my_events">Meine Events</a><br />
-                        <?php
-                        if ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) {
-                        ?>
-                            <a href="<?php echo SITE_ADDRESS ?>?view=past_events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Vergangene Events</a><br />
-                            <a href="<?php echo SITE_ADDRESS ?>?view=polls<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Abstimmungen</a><br />
-                            <a href="<?php echo SITE_ADDRESS ?>?view=tutorials<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">Tutorialvideos</a><br />
-                        <?php
-                        }
-                        ?>
-                        <a href="<?php echo SITE_ADDRESS ?>?view=support">Hilfe</a>
-                    </nav>
-                </div>
+            <div class="nav <?php echo ($this->_['admin']) ? "admin" : "" ?>">
+                <nav>
+                    <a class="<?php echo ($_GET['view'] == "events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
+                        <img src="<?php echo SITE_ADDRESS ?>images/icons/events<?php echo ($_GET['view'] == "events") ? "_active" : "" ?>.svg" alt="Events">
+                        <span>Events</span>
+                    </a>
+                    <a class="<?php echo ($_GET['view'] == "my_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=my_events">
+                        <img src="<?php echo SITE_ADDRESS ?>images/icons/my_events<?php echo ($_GET['view'] == "my_events") ? "_active" : "" ?>.svg" alt="Meine Events">
+                        <span>Meine<br />Events</span>
+                    </a>
+                    <a class="<?php echo ($_GET['view'] == "past_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=past_events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
+                        <img src="<?php echo SITE_ADDRESS ?>images/icons/past_events<?php echo ($_GET['view'] == "past_events") ? "_active" : "" ?>.svg" alt="Vergangene Events">
+                        <span>Vergangene<br />Events</span>
+                    </a>
+                    <?php
+                    if ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) {
+                    ?>
+                        <a class="<?php echo ($_GET['view'] == "polls") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=polls<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
+                            <img src="<?php echo SITE_ADDRESS ?>images/icons/survey<?php echo ($_GET['view'] == "polls") ? "_active" : "" ?>.svg" alt="Abstimmungen">
+                            <span>Umfragen</span>
+                        </a>
+                        <a class="<?php echo ($_GET['view'] == "tutorials") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=tutorials<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
+                            <img src="<?php echo SITE_ADDRESS ?>images/icons/help<?php echo ($_GET['view'] == "tutorials") ? "_active" : "" ?>.svg" alt="Hilfe">
+                            <span>Hilfe</span>
+                        </a>
+                    <?php
+                    } else {
+                    ?>
+                        <a class="<?php echo ($_GET['view'] == "help") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=help">
+                            <img src="<?php echo SITE_ADDRESS ?>images/icons/help<?php echo ($_GET['view'] == "help") ? "_active" : "" ?>.svg" alt="Hilfe">
+                            <span>Hilfe</span>
+                        </a>
+                    <?php
+                    }
+                    ?>
+                </nav>
             </div>
             <img class="logo" src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
@@ -86,7 +99,7 @@
             }
             ?>
             <br />
-            <span>Version <?php echo CURRENT_VERSION ?></span>
+            <span>Version <?php echo CURRENT_VERSION ?> | <a href="<?php echo SITE_ADDRESS ?>?view=support">Support und Versionshinweise</a></span>
         </footer>
     </div>
 </body>
