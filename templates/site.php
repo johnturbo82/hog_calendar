@@ -5,7 +5,7 @@
     <title><?php echo (isset($this->_['title'])) ? $this->_['title'] : SHORT_NAME . " Events" ?><?php echo ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) ? " ADMIN" : "" ?></title>
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
     <link rel="icon" type="image/gif" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.gif">
@@ -37,9 +37,6 @@
     <meta name="msapplication-wide310x150logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x150.png">
     <meta name="msapplication-square310x310logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x310.png">
     <meta name="theme-color" content="<?php echo ($this->_['admin']) ? "#501014" : "#0a1014" ?>">
-    <!-- <meta name="mobile-web-app-capable" content="yes"> -->
-    <!-- <meta name="apple-mobile-web-app-status-bar-style" content="default"> -->
-    <!-- <link rel="manifest" href="manifest.json"> -->
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
@@ -92,10 +89,10 @@
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
-            &copy; Oliver Schöttner 2023
+            <strong>&copy; Oliver Schöttner 2023 - <?php echo date("Y") ?></strong><br />
             <?php 
             if (defined('SUPPORT_EMAIL')) {
-                echo "- Bei Fragen und Anregungen: <a href='mailto:" . SUPPORT_EMAIL . "?subject=" . SITE_ADDRESS . " - Version " . CURRENT_VERSION ."'>" . SUPPORT_EMAIL ."</a>";
+                echo "Bei Fragen und Anregungen: <a href='mailto:" . SUPPORT_EMAIL . "?subject=" . SITE_ADDRESS . " - Version " . CURRENT_VERSION ."'>" . SUPPORT_EMAIL ."</a>";
             }
             ?>
             <br />
