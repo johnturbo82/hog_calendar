@@ -53,17 +53,13 @@
                         <img src="<?php echo SITE_ADDRESS ?>images/icons/events<?php echo ($_GET['view'] == "events") ? "_active" : "" ?>.svg" alt="Events">
                         <span>Events</span>
                     </a>
-                    <a class="<?php echo ($_GET['view'] == "my_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=my_events">
-                        <img src="<?php echo SITE_ADDRESS ?>images/icons/my_events<?php echo ($_GET['view'] == "my_events") ? "_active" : "" ?>.svg" alt="Meine Events">
-                        <span>Meine<br />Events</span>
-                    </a>
-                    <a class="<?php echo ($_GET['view'] == "past_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=past_events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
-                        <img src="<?php echo SITE_ADDRESS ?>images/icons/past_events<?php echo ($_GET['view'] == "past_events") ? "_active" : "" ?>.svg" alt="Vergangene Events">
-                        <span>Vergangene<br />Events</span>
-                    </a>
                     <?php
                     if ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) {
                     ?>
+                        <a class="<?php echo ($_GET['view'] == "past_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=past_events<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
+                            <img src="<?php echo SITE_ADDRESS ?>images/icons/past_events<?php echo ($_GET['view'] == "past_events") ? "_active" : "" ?>.svg" alt="Vergangene Events">
+                            <span>Vergangene<br />Events</span>
+                        </a>
                         <a class="<?php echo ($_GET['view'] == "polls") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=polls<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
                             <img src="<?php echo SITE_ADDRESS ?>images/icons/survey<?php echo ($_GET['view'] == "polls") ? "_active" : "" ?>.svg" alt="Abstimmungen">
                             <span>Umfragen</span>
@@ -75,6 +71,14 @@
                     <?php
                     } else {
                     ?>
+                        <a class="<?php echo ($_GET['view'] == "my_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=my_events">
+                            <img src="<?php echo SITE_ADDRESS ?>images/icons/my_events<?php echo ($_GET['view'] == "my_events") ? "_active" : "" ?>.svg" alt="Meine Events">
+                            <span>Meine<br />Events</span>
+                        </a>
+                        <a class="<?php echo ($_GET['view'] == "past_events") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=past_events">
+                            <img src="<?php echo SITE_ADDRESS ?>images/icons/past_events<?php echo ($_GET['view'] == "past_events") ? "_active" : "" ?>.svg" alt="Vergangene Events">
+                            <span>Vergangene<br />Events</span>
+                        </a>
                         <a class="<?php echo ($_GET['view'] == "help") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=help">
                             <img src="<?php echo SITE_ADDRESS ?>images/icons/help<?php echo ($_GET['view'] == "help") ? "_active" : "" ?>.svg" alt="Hilfe">
                             <span>Hilfe</span>

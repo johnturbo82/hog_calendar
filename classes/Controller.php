@@ -5,7 +5,6 @@ use PHPMailer\PHPMailer\Exception;
 
 require 'vendor/autoload.php';
 class Controller
-
 {
 	private $request = null;
 	private $template = '';
@@ -61,6 +60,41 @@ class Controller
 					$view->setTemplate($this->template);
 					break;
 				}
+			case 'new_event':
+				$view->assign('admin', $this->request['admin']);
+				$view->setTemplate($this->template);
+				break;
+			case 'create_event':
+				if (!$this->admin) {
+					$heading = "Location: " . SITE_ADDRESS . "?view=events";
+					$this->goto($heading);
+					exit();
+				}
+				$event_data = [
+					'summary' => $this->request['name'],
+					'location' => $this->request['location'],
+					'description' => "Organisator: " . $this->request['organisator'] . "\n" . $this->request['description'],
+					'start' => [
+						'dateTime' => date('c', strtotime($this->request['event_date_start'])),
+						'timeZone' => 'Europe/Berlin',
+					],
+					'end' => [
+						'dateTime' => date('c', strtotime($this->request['event_date_end'])),
+						'timeZone' => 'Europe/Berlin',
+					],
+				];
+
+				$result = CalendarAPI::create_event($event_data);
+
+				if ($result['success']) {
+					$heading = "Location: " . SITE_ADDRESS . "?view=events";
+					$this->goto($heading);
+				} else {
+					$view->assign('error', $result['error']);
+					$view->assign('admin', $this->request['admin']);
+					$view->setTemplate("new_event_error");
+				}
+				break;
 			case 'my_events':
 				if ($_COOKIE['booking_name'] == "" && $_COOKIE['booking_givenname'] == "") {
 					$view->setTemplate("no_name");
@@ -191,11 +225,13 @@ class Controller
 				exit();
 				break;
 			case 'polls':
+				$view->assign('admin', $this->request['admin']);
 				$view->assign('polls', $this->get_poll_list());
 				$view->assign('inactive_polls', $this->get_poll_list(0));
 				$view->setTemplate($this->template);
 				break;
 			case 'new_poll':
+				$view->assign('admin', $this->request['admin']);
 				$view->setTemplate($this->template);
 				break;
 			case 'create_poll':

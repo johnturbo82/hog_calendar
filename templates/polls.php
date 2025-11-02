@@ -1,4 +1,4 @@
-<a class="button" href="<?php echo SITE_ADDRESS . "?view=new_poll" ?>">+ Neue Umfrage</a>
+<a class="button" href="<?php echo SITE_ADDRESS . "?view=new_poll&admin=" . $this->_['admin'] ?>">+ Neue Umfrage</a>
 <div class="legend">
     <h3>Legende</h3>
     <table>

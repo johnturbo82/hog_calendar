@@ -1,8 +1,8 @@
 <div class="menu">
-    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls">&laquo; Zurück zur Übersicht</a>
+    <a class="button" href="<?php echo SITE_ADDRESS ?>?view=polls&admin=<?php echo $this->_['admin'] ?>">&laquo; Zurück zur Übersicht</a>
 </div>
 <h2>Neue Umfrage anlegen</h2>
-<form method="POST" action="<?php echo SITE_ADDRESS . "?view=create_poll" ?>">
+<form method="POST" action="<?php echo SITE_ADDRESS . "?view=create_poll&admin=" . $this->_['admin'] ?>">
     <p><input type="text" name="name" placeholder="Name der Umfrage" required /> *</p>
     <p><textarea name="description" placeholder="Beschreibung"></textarea></p>
     <p><textarea name="options" placeholder="Werte (Ein Wert pro Zeile)" required></textarea> *</p>

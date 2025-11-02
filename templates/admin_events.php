@@ -1,3 +1,4 @@
+<a class="button" href="<?php echo SITE_ADDRESS . "?view=new_event&admin=" . $this->_['admin'] ?>">+ Neues Event</a>
 <div class="legend">
     <h3>Legende</h3>
     <table>

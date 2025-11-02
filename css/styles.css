@@ -215,7 +215,8 @@ button,
 
 input[type=text],
 input[type=email],
-input[type=number] {
+input[type=number],
+input[type=datetime-local] {
     padding: 5px;
     font-size: 120%;
     min-width: 200px;
