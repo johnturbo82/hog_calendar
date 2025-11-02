@@ -3,19 +3,20 @@
 </div>
 <h2>Neues Event anlegen</h2>
 <form method="POST" action="<?php echo SITE_ADDRESS . "?view=create_event&admin=" . $this->_['admin'] ?>">
-    <p><input type="text" name="name" placeholder="Name des Events" required /> *</p>
+    <p>Name<br /><input type="text" name="name" placeholder="z.B. Feierabendrunde" required /> *</p>
     <p>
+        Ort<br />
         <input type="text" 
                id="location-input" 
                name="location" 
-               placeholder="Ort des Events" 
+               placeholder="Zielort des Events, nicht Treffpunkt!" 
                autocomplete="off"
                required /> *
     </p>
-    <p><input type="text" name="organisator" placeholder="Organisator" required /> *</p>
-    <p><input type="datetime-local" name="event_date_start" value="<?php echo date('Y-m-d\TH:00', strtotime('+1 hour')); ?>" required /> *</p>
-    <p><input type="datetime-local" name="event_date_end" value="<?php echo date('Y-m-d\TH:00', strtotime('+2 hour')); ?>" required /> *</p>
-    <p><textarea id="description" name="description" placeholder="Beschreibung"></textarea></p>
+    <p>Organisator<br /><input type="text" name="organisator" placeholder="Organisator" value="<?php echo isset($_COOKIE['booking_givenname']) ? htmlspecialchars($_COOKIE['booking_givenname']) : ''; ?>" required /> *</p>
+    <p>Von<br /><input type="datetime-local" name="event_date_start" value="<?php echo date('Y-m-d\TH:00', strtotime('+1 hour')); ?>" required /> *</p>
+    <p>Bis<br /><input type="datetime-local" name="event_date_end" value="<?php echo date('Y-m-d\TH:00', strtotime('+2 hour')); ?>" required /> *</p>
+    <p>Beschreibung<br /><textarea id="description" name="description" placeholder="z.B. wann und wo ist Treffpunkt? Wie wird gefahren?"></textarea></p>
     <p><label><input type="checkbox" id="keine_kutte" name="keine_kutte" /> Keine Kuttenpflicht</label></p>
     <p><input type="submit" value="Anlegen" /></p>
 </form>
