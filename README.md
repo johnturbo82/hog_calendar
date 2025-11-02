@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.7.0 Nov 2, 2025
+- Create events screed added
+
 ### 2.6.0 Oct 29, 2025
 - New navigation
 - Old bookings for everyone
