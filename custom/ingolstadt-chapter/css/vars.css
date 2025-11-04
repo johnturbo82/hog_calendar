@@ -2,6 +2,10 @@
 
 :root {
     --admin-bg-color: #501014;
+    --admin-content-bg-color: #332020;
+    --admin-even-color: #2b1616;
+    --admin-main-bg-color: #140a0a;
+    --admin-odd-color: #422a2a;
     --chapter-color-1: #2383ba;
     --chapter-color-2: #e51c20;
     --color-black: #000;

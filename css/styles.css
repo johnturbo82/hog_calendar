@@ -20,6 +20,10 @@ body.admin {
     border-radius: 5px;
 }
 
+body.admin .container {
+    background-color: var(--admin-content-bg-color);
+}
+
 .content {
     min-height: 400px;
 }
@@ -56,10 +60,23 @@ table thead tr th {
     background-color: var(--even-color);
 }
 
+body.admin .booking:nth-child(even),
+body.admin div.poll:nth-child(even),
+body.admin table tbody tr:nth-child(even),
+body.admin table thead tr th {
+    background-color: var(--admin-even-color);
+}
+
 .booking:nth-child(odd),
 div.poll:nth-child(odd),
 table tr:nth-child(odd) {
     background-color: var(--odd-color);
+}
+
+body.admin .booking:nth-child(odd),
+body.admin div.poll:nth-child(odd),
+body.admin table tr:nth-child(odd) {
+    background-color: var(--admin-odd-color);
 }
 
 .cell {
@@ -105,6 +122,10 @@ table tr:nth-child(odd) {
     padding: 15px;
     border-radius: 10px;
     overflow-y: auto;
+}
+
+body.admin .description {
+    background-color: var(--admin-odd-color);
 }
 
 .description h2 {
