@@ -4,6 +4,10 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.7.1 Nov 4, 2025
+- New colors for admin
+- Fixes
+
 ### 2.7.0 Nov 2, 2025
 - Create events screen added
 
