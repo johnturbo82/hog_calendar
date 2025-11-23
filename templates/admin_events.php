@@ -67,6 +67,13 @@
             } else {
             ?>
                 <div class="cell right">
+                    <?php
+                    if (stripos($event->description, "Keine Kuttenpflicht") !== false) {
+                    ?>
+                        <img class="keine_kutte" src="<?php echo SITE_ADDRESS ?>images/icons/keine_kutte.svg" alt="Keine Kuttenspflicht" />
+                    <?php
+                    }
+                    ?>
                     Geschlossen.
                     <a class="button" href="<?php echo SITE_ADDRESS . "?view=open_event&event_id=" . $event->id . "&admin=" . $this->_['admin'] ?>" title="Eventanmeldungen wieder öffnen"><img src="<?php echo SITE_ADDRESS ?>images/icons/undo.svg" alt="Eventanmeldungen wieder öffnen" /></a></div>
             <?php

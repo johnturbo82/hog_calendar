@@ -36,7 +36,16 @@ Kompletter Jahresplan zum Drucken: <a href="https://www.ingolstadt-chapter.de/ev
             <?php
             } else {
             ?>
-                <div class="cell right">Anmeldung geschlossen.</div>
+                <div class="cell right">
+                    <?php
+                    if (stripos($event->description, "Keine Kuttenpflicht") !== false) {
+                    ?>
+                        <img class="keine_kutte" src="<?php echo SITE_ADDRESS ?>images/icons/keine_kutte.svg" alt="Keine Kuttenspflicht" />
+                    <?php
+                    }
+                    ?>
+                    Anmeldung geschlossen.
+                </div>
             <?php
             }
             ?>

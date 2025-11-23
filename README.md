@@ -4,6 +4,9 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.7.2 Nov 23, 2025
+- Bugfix: "Keine Kutte"-Icon for closed events
+
 ### 2.7.1 Nov 4, 2025
 - New colors for admin
 - Fixes
