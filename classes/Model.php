@@ -198,8 +198,8 @@ class Model
 		$stmt->bindValue(":event_id", $event_id, PDO::PARAM_STR);
 		try {
 			if ($stmt->execute()) {
-				$result = $stmt->fetchAll(PDO::FETCH_ASSOC)[0]['is_closed'];
-				if ($result == "1") {
+				$result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+				if (isset($result[0]['is_closed']) && $result[0]['is_closed'] == "1") {
 					return true;
 				}
 				return false;
@@ -207,6 +207,7 @@ class Model
 			return false;
 		} catch (PDOException $ex) {
 			echo "Connection failed: " . $ex->getMessage();
+			return false;
 		}
 	}
 
