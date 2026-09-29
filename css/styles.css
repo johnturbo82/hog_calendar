@@ -234,6 +234,27 @@ button,
     height: 100%;
 }
 
+.push-controls {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.push-controls button {
+    margin: 0;
+}
+
+.push-controls[hidden],
+.push-controls [hidden] {
+    display: none;
+}
+
+#push-status {
+    flex-basis: 100%;
+}
+
 input[type=text],
 input[type=email],
 input[type=number],
@@ -408,6 +429,10 @@ Nav Styles
     display: flex;
     white-space: nowrap;
     overflow-x: auto;
+}
+
+.is-webapp .nav {
+    bottom: 40px;
 }
 
 .nav nav {

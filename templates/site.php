@@ -2,46 +2,73 @@
 <html>
 
 <head>
+    <!-- Workaround für iOS/WebKit-Bug: Nach einem Push-Notification-Klick beim
+         Kaltstart der PWA landet iOS auf der Startseite statt der Ziel-URL.
+         Hier wird geprüft, ob der Service Worker eine "wartende" Ziel-URL in
+         IndexedDB hinterlegt hat, und dorthin weitergeleitet. -->
+    <script>
+        (function () {
+            if (!("indexedDB" in window)) return;
+            try {
+                var request = indexedDB.open("push-nav", 1);
+                request.onupgradeneeded = function () {
+                    request.result.createObjectStore("kv");
+                };
+                request.onsuccess = function () {
+                    var db = request.result;
+                    var tx = db.transaction("kv", "readwrite");
+                    var store = tx.objectStore("kv");
+                    var getReq = store.get("pendingUrl");
+                    getReq.onsuccess = function () {
+                        var url = getReq.result;
+                        if (url) {
+                            store.delete("pendingUrl");
+                            var target = new URL(url, location.origin);
+                            var current = location.pathname + location.search;
+                            if (current !== target.pathname + target.search) {
+                                location.replace(url);
+                            }
+                        }
+                    };
+                };
+            } catch (e) {
+                // IndexedDB nicht verfügbar oder blockiert -> einfach ignorieren
+            }
+        })();
+
+        // Zweiter Teil des Workarounds: Wenn die App bereits läuft (auch aus dem
+        // Hintergrund reaktiviert, ohne Neuladen der Seite), schickt der Service
+        // Worker beim Notification-Klick eine Nachricht direkt an diese Seite.
+        if ("serviceWorker" in navigator) {
+            navigator.serviceWorker.addEventListener("message", function (event) {
+                if (event.data && event.data.type === "push-navigate" && event.data.url) {
+                    var target = new URL(event.data.url, location.origin);
+                    var current = location.pathname + location.search;
+                    if (current !== target.pathname + target.search) {
+                        location.href = event.data.url;
+                    }
+                }
+            });
+        }
+    </script>
     <title><?php echo (isset($this->_['title'])) ? $this->_['title'] : SHORT_NAME . " Events" ?><?php echo ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) ? " ADMIN" : "" ?></title>
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-    <link rel="shortcut icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
+    <link rel="manifest" href="<?php echo SITE_ADDRESS ?>manifest.json">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
-    <link rel="icon" type="image/gif" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.gif">
     <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.png">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon.png">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-57x57.png" sizes="57x57">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-60x60.png" sizes="60x60">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-72x72.png" sizes="72x72">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-76x76.png" sizes="76x76">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-114x114.png" sizes="114x114">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-120x120.png" sizes="120x120">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-128x128.png" sizes="128x128">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-144x144.png" sizes="144x144">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-152x152.png" sizes="152x152">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-180x180.png" sizes="180x180">
-    <link rel="apple-touch-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/apple-touch-icon-precomposed.png">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon-16x16.png" sizes="16x16">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon-32x32.png" sizes="32x32">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon-96x96.png" sizes="96x96">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon-160x160.png" sizes="160x160">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon-192x192.png" sizes="192x192">
-    <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon-196x196.png" sizes="196x196">
-    <meta name="msapplication-TileImage" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-144x144.png">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    <meta name="msapplication-navbutton-color" content="#ffffff">
-    <meta name="msapplication-square70x70logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-70x70.png">
-    <meta name="msapplication-square144x144logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-144x144.png">
-    <meta name="msapplication-square150x150logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-150x150.png">
-    <meta name="msapplication-wide310x150logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x150.png">
-    <meta name="msapplication-square310x310logo" content="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/win8-tile-310x310.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo SITE_ADDRESS ?>icons/event_app_96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="<?php echo SITE_ADDRESS ?>icons/event_app_192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="<?php echo SITE_ADDRESS ?>icons/event_app_512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="<?php echo SITE_ADDRESS ?>icons/event_app_192.png">
     <meta name="theme-color" content="<?php echo ($this->_['admin']) ? "#501014" : "#0a1014" ?>">
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/datatables.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/site.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
+    <script defer src="<?php echo SITE_ADDRESS ?>js/push-subscribe.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
 </head>
 
 <body <?php echo ($this->_['admin']) ? "class='admin'" : "" ?>>
@@ -90,6 +117,11 @@
             </div>
             <img class="logo" src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
+             <div class="push-controls" id="push-controls" hidden>
+                <button class="button" type="button" id="enable-push-btn">Benachrichtigungen aktivieren</button>
+                <button class="button" type="button" id="disable-push-btn" hidden>Benachrichtigungen deaktivieren</button>
+                <span id="push-status" role="status" aria-live="polite"></span>
+            </div>
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
