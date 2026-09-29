@@ -34,8 +34,8 @@ self.addEventListener("push", (event) => {
   const options = {
     body: data.body,
     data: { url: data.url || "/calendar/" },
-    icon: "icons/event_app_96.png",
-    badge: "icons/event_app_192.png",
+    icon: "images/icons/event_app_96.png",
+    badge: "images/icons/event_app_192.png",
     tag: "inchap-push", // ersetzt ältere Notifications statt sie zu stapeln
   };
 

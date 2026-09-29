@@ -58,10 +58,10 @@
     <link rel="manifest" href="<?php echo SITE_ADDRESS ?>manifest.json">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
     <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.png">
-    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo SITE_ADDRESS ?>icons/event_app_96.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="<?php echo SITE_ADDRESS ?>icons/event_app_192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="<?php echo SITE_ADDRESS ?>icons/event_app_512.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="<?php echo SITE_ADDRESS ?>icons/event_app_192.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="<?php echo SITE_ADDRESS ?>images/icons/event_app_96.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="<?php echo SITE_ADDRESS ?>images/icons/event_app_192.png">
+    <link rel="icon" type="image/png" sizes="512x512" href="<?php echo SITE_ADDRESS ?>images/icons/event_app_512.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="<?php echo SITE_ADDRESS ?>images/icons/event_app_192.png">
     <meta name="theme-color" content="<?php echo ($this->_['admin']) ? "#501014" : "#0a1014" ?>">
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
