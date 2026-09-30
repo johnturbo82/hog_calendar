@@ -569,7 +569,9 @@ WEB APP
 }
 
 .is-webapp body {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-bottom: 30px;
 }
 
+html.is-webapp body {
+  padding-top: calc(env(safe-area-inset-top, 0px) + 15px);
+}

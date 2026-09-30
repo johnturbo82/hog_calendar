@@ -1,21 +1,20 @@
 {
-  "name": "Ingolstadt Chapter Events",
-  "short_name": "InChap Events",
-  "theme_color": "#c1aa63",
+  "name": "Ingolstadt Chapter Events ADMIN",
+  "short_name": "ADMIN",
+  "theme_color": "#501014",
   "background_color": "#0a1014",
   "display": "standalone",
   "orientation": "any",
   "scope": "./",
-  "start_url": "./",
   "description": "",
   "icons": [
     {
-      "src": "custom/ingolstadt-chapter/images/icons/event_app_192.png",
+      "src": "custom/ingolstadt-chapter/images/icons/event_app_192_admin.png",
       "sizes": "192x192",
       "type": "image/png"
     },
     {
-      "src": "custom/ingolstadt-chapter/images/icons/event_app_512.png",
+      "src": "custom/ingolstadt-chapter/images/icons/event_app_512_admin.png",
       "sizes": "512x512",
       "type": "image/png"
     }

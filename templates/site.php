@@ -57,13 +57,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <link rel="manifest" href="<?php echo SITE_ADDRESS ?>manifest.json">
+    <link rel="manifest" href="<?php echo SITE_ADDRESS . (($this->_['admin']) ? 'manifest_admin.json' : 'manifest.json') ?>">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
     <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.png">
     <link rel="icon" type="image/png" sizes="96x96" href="<?php echo CUSTOM_PATH ?>images/icons/event_app_96.png">
     <link rel="icon" type="image/png" sizes="192x192" href="<?php echo CUSTOM_PATH ?>images/icons/event_app_192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="<?php echo CUSTOM_PATH ?>images/icons/event_app_512.png">
-    <link rel="apple-touch-icon" sizes="192x192" href="<?php echo CUSTOM_PATH ?>images/icons/event_app_192.png">
+    <link rel="apple-touch-icon" sizes="192x192" href="<?php echo CUSTOM_PATH ?>images/icons/<?php echo ($this->_['admin']) ? 'event_app_192_admin.png' : 'event_app_192.png' ?>">
     <link rel="apple-touch-startup-image" href="<?php echo CUSTOM_PATH ?>images/splashscreen/apple-splash-2064-2752.jpg" media="(device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="<?php echo CUSTOM_PATH ?>images/splashscreen/apple-splash-2752-2064.jpg" media="(device-width: 1032px) and (device-height: 1376px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
     <link rel="apple-touch-startup-image" href="<?php echo CUSTOM_PATH ?>images/splashscreen/apple-splash-2048-2732.jpg" media="(device-width: 1024px) and (device-height: 1366px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
