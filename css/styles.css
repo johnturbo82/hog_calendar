@@ -431,10 +431,6 @@ Nav Styles
     overflow-x: auto;
 }
 
-.is-webapp .nav {
-    bottom: 40px;
-}
-
 .nav nav {
     display: flex;
 }
@@ -562,3 +558,18 @@ RESPONSIVENESS
         zoom: 0.85;
     }
 }
+
+
+/**
+WEB APP
+**/
+
+.is-webapp .nav {
+    bottom: 40px;
+}
+
+.is-webapp body {
+    padding-top: 80px;
+    padding-bottom: 80px;
+}
+
