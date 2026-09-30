@@ -60,23 +60,23 @@ function urlBase64ToUint8Array(base64String) {
 async function enablePushNotifications(onProgress) {
   const log = onProgress || (() => {});
 
-  if (!("serviceWorker" in navigator) || !("PushManager" in window)) {
+  if (!("serviceWorker" in navigator) || !("PushManager" in window) || !("Notification" in window)) {
     alert("Push-Benachrichtigungen werden von diesem Browser nicht unterstützt.");
     return;
   }
 
-  log("Schritt 1/5: Service Worker registrieren…");
-  const registration = await navigator.serviceWorker.register(PUSH_WORKER_URL, {
-    scope: PUSH_WORKER_SCOPE,
-  });
-  await waitForActiveWorker(registration);
-
-  log("Schritt 2/5: Berechtigung anfragen…");
+  log("Schritt 1/5: Berechtigung anfragen…");
   const permission = await Notification.requestPermission();
   if (permission !== "granted") {
     log("Berechtigung nicht erteilt (" + permission + ").");
     return false;
   }
+
+  log("Schritt 2/5: Service Worker registrieren…");
+  const registration = await navigator.serviceWorker.register(PUSH_WORKER_URL, {
+    scope: PUSH_WORKER_SCOPE,
+  });
+  await waitForActiveWorker(registration);
 
   log("Schritt 3/5: VAPID Key laden…");
   const { publicKey } = await fetchJson(`${PUSH_API_BASE}vapid-public-key.php`);
@@ -166,6 +166,70 @@ if (pushControls) {
       }
     });
   }
+}
+
+const pushOnboarding = document.getElementById("push-onboarding");
+if (pushOnboarding) {
+  const onboardingButton = document.getElementById("push-onboarding-enable");
+  const dismissButton = document.getElementById("push-onboarding-dismiss");
+  const onboardingStatus = document.getElementById("push-onboarding-status");
+  const dismissedKey = "push-onboarding-dismissed";
+  const isStandalone = navigator.standalone === true ||
+    window.matchMedia("(display-mode: standalone)").matches;
+
+  function dismissPushOnboarding() {
+    pushOnboarding.hidden = true;
+    try {
+      localStorage.setItem(dismissedKey, "true");
+    } catch (error) {
+      // The overlay can still be dismissed when storage is unavailable.
+    }
+  }
+
+  async function showPushOnboarding() {
+    if (!isStandalone || !("serviceWorker" in navigator) ||
+        !("PushManager" in window) || !("Notification" in window) ||
+        Notification.permission !== "default") {
+      return;
+    }
+
+    try {
+      if (localStorage.getItem(dismissedKey) === "true") return;
+    } catch (error) {
+      // Continue without persistence when storage is unavailable.
+    }
+
+    const registration = await getPushRegistration();
+    if (await registration?.pushManager.getSubscription()) return;
+
+    pushOnboarding.hidden = false;
+  }
+
+  dismissButton.addEventListener("click", dismissPushOnboarding);
+  onboardingButton.addEventListener("click", async () => {
+    onboardingButton.disabled = true;
+    onboardingStatus.textContent = "Aktiviere Benachrichtigungen…";
+    try {
+      const enabled = await enablePushNotifications((message) => {
+        onboardingStatus.textContent = message;
+      });
+      if (enabled) {
+        dismissPushOnboarding();
+      } else if (Notification.permission === "denied") {
+        dismissPushOnboarding();
+      } else {
+        onboardingStatus.textContent = "Berechtigung wurde nicht erteilt.";
+      }
+    } catch (error) {
+      onboardingStatus.textContent = `Aktivierung fehlgeschlagen: ${error.message}`;
+    } finally {
+      onboardingButton.disabled = false;
+    }
+  });
+
+  showPushOnboarding().catch((error) => {
+    console.error("Push-Onboarding konnte nicht geladen werden:", error);
+  });
 }
 
 // Aufräumen: Alte Service-Worker-Registrierung unter js/sw.js (Scope js/)

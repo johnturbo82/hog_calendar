@@ -1,3 +1,10 @@
+<h2>Einstellungen</h2>
+<p>In diesem Bereich kannst du die allgemeinen Einstellungen der Anwendung anpassen.</p>
+<div class="push-controls" id="push-controls" hidden>
+    <button class="button" type="button" id="enable-push-btn">Benachrichtigungen aktivieren</button>
+    <button class="button" type="button" id="disable-push-btn" hidden>Benachrichtigungen deaktivieren</button>
+    <span id="push-status" role="status" aria-live="polite"></span>
+</div>
 <h2>Hilfe</h2>
 <p>Hier findet ihr Antworten auf häufig gestellte Fragen sowie Anleitungen zur Nutzung der Anwendung.</p>
 <h3>Häufig gestellte Fragen (FAQ)</h3>

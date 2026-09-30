@@ -165,11 +165,6 @@
             </div>
             <img class="logo" src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
-             <div class="push-controls" id="push-controls" hidden>
-                <button class="button" type="button" id="enable-push-btn">Benachrichtigungen aktivieren</button>
-                <button class="button" type="button" id="disable-push-btn" hidden>Benachrichtigungen deaktivieren</button>
-                <span id="push-status" role="status" aria-live="polite"></span>
-            </div>
             <?php echo $this->_['content'] ?>
         </div>
         <footer>
@@ -183,6 +178,19 @@
             <span>Version <?php echo CURRENT_VERSION ?> | <a href="<?php echo SITE_ADDRESS ?>?view=support">Support und Versionshinweise</a></span>
         </footer>
     </div>
+    <?php if (!$this->_['admin'] && isset($_GET['view']) && $_GET['view'] === 'events') { ?>
+        <div class="push-onboarding" id="push-onboarding" hidden>
+            <section class="push-onboarding__dialog" role="dialog" aria-modal="true" aria-labelledby="push-onboarding-title" aria-describedby="push-onboarding-description">
+                <h2 id="push-onboarding-title">Keine Events verpassen</h2>
+                <p id="push-onboarding-description">Möchtest du Push-Benachrichtigungen zu neuen Events und wichtigen Änderungen erhalten?</p>
+                <div class="push-onboarding__actions">
+                    <button class="button" type="button" id="push-onboarding-enable">Benachrichtigungen aktivieren</button>
+                    <button class="button" type="button" id="push-onboarding-dismiss">Später</button>
+                </div>
+                <p id="push-onboarding-status" role="status" aria-live="polite"></p>
+            </section>
+        </div>
+    <?php } ?>
 </body>
 
 </html>
