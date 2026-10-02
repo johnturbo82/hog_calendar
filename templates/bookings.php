@@ -14,7 +14,7 @@ if ($this->_['event']->location != "") {
 ?>
 <?php
 if ($this->_['event']->description != "") {
-    echo "<p><b>Informationen</b>: " . nl2br($this->_['event']->description) . "</p>";
+    echo "<p class='event-description'><b>Informationen</b>: " . nl2br($this->_['event']->description) . "</p>";
 }
 if (isset($this->_['event']->attachments)) {
     foreach ($this->_['event']->attachments as $file_id) {

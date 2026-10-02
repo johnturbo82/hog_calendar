@@ -43,7 +43,7 @@ $(document).ready(function () {
         textNode.parentNode.replaceChild(fragment, textNode);
     }
 
-    document.querySelectorAll(".description-modal .description").forEach(function (description) {
+    document.querySelectorAll(".description-modal .description, .event-description").forEach(function (description) {
         description.querySelectorAll("a[href]").forEach(function (link) {
             var linkUrl = new URL(link.href, window.location.href);
             if (linkUrl.protocol === "http:" || linkUrl.protocol === "https:") {

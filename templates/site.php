@@ -54,9 +54,9 @@
     <title><?php echo (isset($this->_['title'])) ? $this->_['title'] : SHORT_NAME . " Events" ?><?php echo ($this->_['admin'] == PSEUDO_ADMIM_PASSWORD) ? " ADMIN" : "" ?></title>
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>css/vars.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
     <link rel="stylesheet" href="<?php echo SITE_ADDRESS ?>css/styles.css?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>">
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=auto">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="manifest" href="<?php echo SITE_ADDRESS . (($this->_['admin']) ? 'manifest_admin.json' : 'manifest.json') ?>">
     <link rel="icon" type="image/x-icon" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.ico">
     <link rel="icon" type="image/png" href="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/icons/favicon.png">
@@ -110,7 +110,7 @@
     <link rel="apple-touch-startup-image" href="<?php echo CUSTOM_PATH ?>images/splashscreen/apple-splash-1334-750.jpg" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
     <link rel="apple-touch-startup-image" href="<?php echo CUSTOM_PATH ?>images/splashscreen/apple-splash-640-1136.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
     <link rel="apple-touch-startup-image" href="<?php echo CUSTOM_PATH ?>images/splashscreen/apple-splash-1136-640.jpg" media="(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2) and (orientation: landscape)">
-    <meta name="theme-color" content="<?php echo ($this->_['admin']) ? "#501014" : "#0a1014" ?>">
+    <meta name="theme-color" content="<?php echo ($this->_['admin']) ? "#140a0a" : "#0a1014" ?>">
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery-3.6.1.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/jquery.dataTables.min.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/copy_to_clipboard.js"></script>
@@ -120,6 +120,7 @@
 </head>
 
 <body <?php echo ($this->_['admin']) ? "class='admin'" : "" ?>>
+    <div class="webapp-bar" aria-hidden="true"></div>
     <div class="container">
         <div class="content">
             <div class="nav <?php echo ($this->_['admin']) ? "admin" : "" ?>">

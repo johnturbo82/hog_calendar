@@ -21,7 +21,7 @@ if ($event->is_closed) {
         $mailtext .= "Ort: " . $event->location . "\n\n";
     }
     if (isset($event->description)) {
-        echo "<p><strong>Weitere Infos:</strong> " . $event->description . "</p>";
+        echo "<p class='event-description'><strong>Weitere Infos:</strong> " . $event->description . "</p>";
     }
     if (isset($event->attachments)) {
         foreach ($event->attachments as $file_id) {

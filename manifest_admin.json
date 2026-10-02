@@ -1,8 +1,8 @@
 {
   "name": "Ingolstadt Chapter Events ADMIN",
   "short_name": "ADMIN",
-  "theme_color": "#501014",
-  "background_color": "#0a1014",
+  "theme_color": "#140a0a",
+  "background_color": "#140a0a",
   "display": "standalone",
   "orientation": "any",
   "scope": "./",
