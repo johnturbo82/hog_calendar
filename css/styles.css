@@ -715,11 +715,11 @@ RESPONSIVENESS
 
     div.booking {
         display: inline-grid;
-        grid-template-rows: 4fr 2fr 2fr 3fr;;
     }
 
     div.booking,
     div.poll {
+        grid-template-rows: auto;
         margin-bottom: 0;
         padding: 12px 12px 14px !important;
         border: 0;
@@ -727,9 +727,39 @@ RESPONSIVENESS
         border-radius: 0;
     }
 
+    div.booking .cell {
+        padding: 2px 3px;
+        line-height: 1.25;
+    }
+
+    div.booking > .cell:first-child {
+        color: color-mix(in srgb, var(--text-color) 68%, transparent);
+        font-size: 0.9rem;
+    }
+
+    div.booking > .cell:first-child strong {
+        display: block;
+        margin-bottom: 2px;
+        color: var(--text-color);
+        font-size: 1.2rem;
+        line-height: 1.15;
+    }
+
+    div.booking > .cell:first-child br {
+        display: none;
+    }
+
+    div.booking > .cell:nth-child(2) {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        color: color-mix(in srgb, var(--highlight-color) 35%, var(--text-color));
+        font-size: 0.9rem;
+        font-weight: bold;
+    }
+
     div.poll {
         display: inline-grid;
-        grid-template-rows: 1fr 1fr auto;
     }
 
     div.poll .button {
