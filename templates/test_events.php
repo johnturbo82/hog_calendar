@@ -59,7 +59,7 @@
                                 <p><strong><?php echo $event->name; ?></strong>, <?php echo $event->get_date_str(); ?></p>
                                 <p><?php echo $event->location; ?></p>
                                 <h3>Weitere Infos</h3>
-                                <span class="close">[x]</span>
+                                <span class="close">x</span>
                                 <?php
                                 if ($event->description != "") {
                                     echo nl2br($event->description);

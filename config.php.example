@@ -1,4 +1,9 @@
 <?php
+if (isset($_SERVER["SCRIPT_FILENAME"]) && realpath($_SERVER["SCRIPT_FILENAME"]) === realpath(__FILE__)) {
+    http_response_code(404);
+    exit;
+}
+
 // Site DEV
 define("SITE_ADDRESS", "https://some_url");
 define("APP_NAME", "Our amazing Events");
