@@ -17,7 +17,6 @@ if ($_SERVER["REQUEST_METHOD"] !== "POST") {
 }
 
 require_once dirname(__DIR__) . "/config.php";
-require_once dirname(__FILE__) . "/config.php";
 
 $payload = json_decode(file_get_contents("php://input"), true);
 if (!is_array($payload)) {
