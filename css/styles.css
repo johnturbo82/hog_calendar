@@ -3,9 +3,12 @@ body {
     margin: 0;
     margin-bottom: 80px;
     background-color: var(--main-bg-color);
+    background-image: linear-gradient(145deg, color-mix(in srgb, var(--highlight-color) 5%, transparent), transparent 44%);
+    background-attachment: fixed;
     font-family: 'Rajdhani', sans-serif;
     color: var(--text-color);
     font-size: 105%;
+    line-height: 1.4;
 }
 
 body.admin {
@@ -17,7 +20,9 @@ body.admin {
     margin: 0 auto;
     background-color: var(--content-bg-color);
     padding: 12px;
-    border-radius: 5px;
+    border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+    border-radius: 8px;
+    box-shadow: 0 16px 44px rgba(0, 0, 0, 0.18);
 }
 
 body.admin .container {
@@ -43,8 +48,16 @@ div.polls {
 div.booking,
 div.poll {
     width: 100%;
-    padding: 4px;
-    border-bottom: 1px solid var(--color-black);
+    margin-bottom: 6px;
+    padding: 8px;
+    border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+    border-radius: 5px;
+    transition: border-color 160ms ease, background-color 160ms ease;
+}
+
+div.booking:hover,
+div.poll:hover {
+    border-color: color-mix(in srgb, var(--highlight-color) 42%, transparent);
 }
 
 .booking:last-of-type,
@@ -79,7 +92,7 @@ body.admin table tr:nth-child(odd) {
 }
 
 .cell {
-    padding: 4px;
+    padding: 5px;
 }
 
 .cell.bold {
@@ -112,7 +125,7 @@ body.admin table tr:nth-child(odd) {
     -ms-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
     border: 1px solid var(--highlight-color);
-    border-radius: 5px;
+    border-radius: 8px;
     background: var(--content-bg-color);
     color: var(--text-color);
     box-shadow: 0 12px 36px rgba(0, 0, 0, 0.35);
@@ -185,6 +198,12 @@ a.event_image img {
 
 h1 {
     margin-top: 0;
+    line-height: 1.15;
+}
+
+h1.app-name {
+    margin-bottom: 16px;
+    font-size: 1.65rem;
 }
 
 h2.error {
@@ -195,8 +214,14 @@ a {
     color: var(--highlight-color);
 }
 
+a:not(.button):not(.event_image):hover {
+    text-decoration-thickness: 2px;
+    text-underline-offset: 3px;
+}
+
 hr {
     margin: 20px 0;
+    border-top-color: color-mix(in srgb, var(--text-color) 22%, transparent);
 }
 
 input[type=submit],
@@ -208,7 +233,7 @@ button,
     background-color: var(--chapter-color-1);
     border: 1px solid var(--text-color);
     color: var(--text-color);
-    border-radius: 2px;
+    border-radius: 4px;
     -webkit-appearance: none;
     font-weight: bold !important;
     cursor: pointer;
@@ -220,6 +245,36 @@ button,
     vertical-align: bottom;
     font-size: 100%;
     text-decoration: none;
+    transition: background-color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease;
+}
+
+input[type=submit]:hover,
+button:hover,
+.button:hover {
+    filter: brightness(1.08);
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.18);
+}
+
+input[type=submit]:active,
+button:active,
+.button:active {
+    transform: translateY(1px);
+}
+
+input[type=submit]:focus-visible,
+button:focus-visible,
+.button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+    outline: 2px solid var(--highlight-color);
+    outline-offset: 2px;
+}
+
+button:disabled,
+input[type=submit]:disabled {
+    cursor: wait;
+    opacity: 0.65;
 }
 
 .button:first-of-type {
@@ -381,6 +436,10 @@ input[type=datetime-local] {
     font-size: 120%;
     min-width: 200px;
     width: calc(100% - 30px);
+    border: 1px solid color-mix(in srgb, var(--text-color) 24%, transparent);
+    border-radius: 4px;
+    background-color: color-mix(in srgb, var(--content-bg-color) 82%, #000);
+    color: var(--text-color);
     font-family: 'Rajdhani', sans-serif !important;
     font-weight: bold;
 }
@@ -396,6 +455,11 @@ textarea {
     min-width: 200px;
     min-height: 100px;
     width: calc(100% - 30px);
+    border: 1px solid color-mix(in srgb, var(--text-color) 24%, transparent);
+    border-radius: 4px;
+    background-color: color-mix(in srgb, var(--content-bg-color) 82%, #000);
+    color: var(--text-color);
+    line-height: 1.45;
     font-family: 'Rajdhani', sans-serif !important;
     font-weight: bold;
 }
@@ -500,7 +564,7 @@ footer {
     display: block;
     margin-top: 20px;
     padding-top: 20px;
-    border-top: 1px solid var(--text-color);
+    border-top: 1px solid color-mix(in srgb, var(--text-color) 22%, transparent);
 }
 
 .dataTables_filter input[type=search] {
@@ -565,6 +629,12 @@ Nav Styles
     text-align: center;
     min-width: 80px;
     min-height: 60px;
+    transition: background-color 160ms ease, color 160ms ease;
+}
+
+.nav a:not(.active):hover {
+    border-radius: 50px;
+    background-color: color-mix(in srgb, var(--color-white) 18%, transparent);
 }
 
 .nav a svg,
@@ -650,7 +720,11 @@ RESPONSIVENESS
 
     div.booking,
     div.poll {
-        padding: 6px !important;
+        margin-bottom: 0;
+        padding: 12px 12px 14px !important;
+        border: 0;
+        border-top: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
+        border-radius: 0;
     }
 
     div.poll {

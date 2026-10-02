@@ -4,6 +4,11 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.8.0 Oct 2, 2026
+- Added push notifications
+- Slight improvements to UI
+- Webapp improvements, including splash screen and new icons
+
 ### 2.7.2 Nov 23, 2025
 - Bugfix: "Keine Kutte"-Icon for closed events
 
