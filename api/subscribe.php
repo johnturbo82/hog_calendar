@@ -1,7 +1,7 @@
 <?php
 /**
- * Proxy für POST /subscribe -> push.schoettner.dev
- * Läuft same-origin auf ingolstadt-chapter.de.
+ * Proxy for POST /subscribe -> push.schoettner.dev
+ * Runs same-origin on ingolstadt-chapter.de.
  */
 
 header("Content-Type: application/json");

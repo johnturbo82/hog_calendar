@@ -1,11 +1,10 @@
-// sw.js - Service Worker für Push-Benachrichtigungen
-// Muss im Web-Root von ingolstadt-chapter.de liegen (oder mind. im Pfad-Scope von /calendar)
+// sw.js - Service worker for push notifications
+// Must be located in the ingolstadt-chapter.de web root (or at least within the /calendar path scope).
 
-// Workaround für einen bekannten iOS/WebKit-Bug: Beim Kaltstart der PWA
-// (App war komplett geschlossen) ignoriert iOS die an clients.openWindow()
-// übergebene URL und öffnet stattdessen zwingend die start_url aus dem
-// Manifest. Deshalb wird die Ziel-URL zusätzlich in IndexedDB abgelegt;
-// die Startseite liest sie beim Laden aus und navigiert selbst dorthin.
+// Workaround for a known iOS/WebKit bug: On a cold PWA start (the app was fully
+// closed), iOS ignores the URL passed to clients.openWindow() and always opens
+// the manifest's start_url instead. Store the target URL in IndexedDB as well;
+// the start page reads it on load and navigates to it.
 function setPendingUrl(url) {
   return new Promise((resolve) => {
     const request = indexedDB.open("push-nav", 1);
@@ -48,7 +47,7 @@ self.addEventListener("notificationclick", (event) => {
 
   event.waitUntil(
     (async () => {
-      // Immer zuerst als Fallback ablegen, falls die Seite gerade lädt/neu lädt.
+      // Always store this first as a fallback in case the page is loading or reloading.
       await setPendingUrl(url);
 
       const allClients = await clients.matchAll({
@@ -56,11 +55,10 @@ self.addEventListener("notificationclick", (event) => {
         includeUncontrolled: true,
       });
 
-      // Falls die App bereits offen ist (auch im Hintergrund/suspendiert):
-      // beide Mechanismen gleichzeitig versuchen, da je nach iOS-Zustand nur
-      // einer zuverlässig greift: postMessage (falls JS der Seite noch läuft)
-      // und navigate() (browser-seitig, funktioniert teils auch wenn die
-      // Seite selbst gerade eingefroren/suspendiert ist).
+      // If the app is already open (including in the background or suspended),
+      // try both mechanisms at once because only one may work reliably depending
+      // on the iOS state: postMessage (if the page's JS is still running) and
+      // navigate() (browser-side; sometimes works when the page itself is frozen).
       if (allClients.length > 0) {
         for (const client of allClients) {
           client.postMessage({ type: "push-navigate", url });
@@ -69,17 +67,17 @@ self.addEventListener("notificationclick", (event) => {
             try {
               await client.navigate(url);
             } catch (e) {
-              // navigate() kann fehlschlagen (z.B. cross-origin) -> ignorieren,
-              // postMessage/pendingUrl-Fallback greifen dann trotzdem.
+              // navigate() can fail (e.g. cross-origin); ignore it and let the
+              // postMessage/pendingUrl fallback handle the navigation.
             }
           }
         }
         return;
       }
 
-      // Kein offenes Fenster gefunden -> neues öffnen.
-      // Die Startseite liest die abgelegte pendingUrl beim Laden aus und
-      // navigiert selbst dorthin (Kaltstart-Fall).
+      // No open window was found -> open a new one.
+      // On a cold start, the start page reads the stored pendingUrl and
+      // navigates to it itself.
       return clients.openWindow(url);
     })()
   );

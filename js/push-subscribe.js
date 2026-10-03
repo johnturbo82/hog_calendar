@@ -1,17 +1,17 @@
 // push-subscribe.js
-// In der Calendar-Webapp einbinden, z.B. mit einem Button "Benachrichtigungen aktivieren"
+// Include this in the Calendar web app, e.g. from an "Enable notifications" button.
 //
-// Nutzt same-origin PHP-Proxy-Endpunkte (./api/*.php), die intern an
-// push.schoettner.dev weiterleiten. Das umgeht bekannte iOS-Safari-Probleme
-// mit Cross-Origin-fetch() in installierten Standalone-PWAs.
+// Uses same-origin PHP proxy endpoints (./api/*.php), which forward requests to
+// push.schoettner.dev. This avoids known iOS Safari issues with cross-origin
+// fetch() in installed standalone PWAs.
 
 const PUSH_SCRIPT_URL = document.currentScript.src;
 const PUSH_API_BASE = new URL("../api/", PUSH_SCRIPT_URL).href;
-// sw.js liegt bewusst im Web-Root von /calendar/ (nicht unter js/), damit sein
-// Default-Scope die gesamte App abdeckt. Ein Scope, der nur js/ umfasst, würde
-// dazu führen, dass clients.matchAll() im notificationclick-Handler die
-// eigentliche App-Seite nie findet (sie liegt außerhalb des Scopes) und damit
-// der iOS-Workaround für den Notification-Klick nie zuverlässig greift.
+// sw.js is intentionally located in the /calendar/ web root (not under js/)
+// so its default scope covers the entire app. A scope limited to js/ would keep
+// clients.matchAll() in the notificationclick handler from finding the app page
+// (which is outside that scope), preventing the iOS notification-click workaround
+// from working reliably.
 const PUSH_WORKER_URL = new URL("../sw.js", PUSH_SCRIPT_URL).href;
 const PUSH_WORKER_SCOPE = new URL("../", PUSH_SCRIPT_URL).href;
 
@@ -232,10 +232,10 @@ if (pushOnboarding) {
   });
 }
 
-// Aufräumen: Alte Service-Worker-Registrierung unter js/sw.js (Scope js/)
-// stammt von einer früheren Version und würde sonst parallel zur neuen
-// Registrierung (Scope /calendar/) aktiv bleiben -> doppelte Notifications
-// möglich. Bei jedem Seitenaufruf entfernen, falls noch vorhanden.
+// Cleanup: An old service worker registered at js/sw.js (scope js/) comes from
+// an earlier version and would otherwise remain active alongside the new
+// registration (scope /calendar/), potentially causing duplicate notifications.
+// Unregister it on each page load if it is still present.
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker.getRegistrations().then((registrations) => {
     registrations.forEach((registration) => {

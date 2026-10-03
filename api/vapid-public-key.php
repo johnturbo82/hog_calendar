@@ -1,8 +1,8 @@
 <?php
 /**
- * Proxy für GET /vapid-public-key -> push.schoettner.dev
- * Läuft same-origin auf ingolstadt-chapter.de, damit iOS Safari (Standalone-PWA)
- * keine Cross-Origin-Fetch-Probleme bekommt.
+ * Proxy for GET /vapid-public-key -> push.schoettner.dev
+ * Runs same-origin on ingolstadt-chapter.de to avoid cross-origin fetch issues
+ * in iOS Safari (standalone PWA).
  */
 
 header("Content-Type: application/json");

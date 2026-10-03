@@ -4,6 +4,11 @@ Application to manage all event participations from Google calendar.
  
 ## Change list:
 
+### 2.8.1 Oct 3, 2026
+- Minor bugfixes
+- Design improvements
+- Active users tracking added
+
 ### 2.8.0 Oct 2, 2026
 - Added push notifications
 - Slight improvements to UI

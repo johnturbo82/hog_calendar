@@ -2,10 +2,10 @@
 <html>
 
 <head>
-    <!-- Workaround für iOS/WebKit-Bug: Nach einem Push-Notification-Klick beim
-         Kaltstart der PWA landet iOS auf der Startseite statt der Ziel-URL.
-         Hier wird geprüft, ob der Service Worker eine "wartende" Ziel-URL in
-         IndexedDB hinterlegt hat, und dorthin weitergeleitet. -->
+        <!-- Workaround for an iOS/WebKit bug: After a push notification is clicked
+            during a cold PWA start, iOS opens the start page instead of the target URL.
+            Check whether the service worker stored a pending target URL in IndexedDB
+            and redirect to it. -->
     <script>
         (function () {
             if (!("indexedDB" in window)) return;
@@ -32,13 +32,13 @@
                     };
                 };
             } catch (e) {
-                // IndexedDB nicht verfügbar oder blockiert -> einfach ignorieren
+                // IndexedDB is unavailable or blocked; ignore and continue.
             }
         })();
 
-        // Zweiter Teil des Workarounds: Wenn die App bereits läuft (auch aus dem
-        // Hintergrund reaktiviert, ohne Neuladen der Seite), schickt der Service
-        // Worker beim Notification-Klick eine Nachricht direkt an diese Seite.
+        // Second part of the workaround: If the app is already running (including
+        // when resumed from the background without reloading), the service worker
+        // sends a message directly to this page when a notification is clicked.
         if ("serviceWorker" in navigator) {
             navigator.serviceWorker.addEventListener("message", function (event) {
                 if (event.data && event.data.type === "push-navigate" && event.data.url) {

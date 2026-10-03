@@ -28,10 +28,10 @@ function initAutocomplete() {
     autocomplete = new google.maps.places.Autocomplete(
         document.getElementById('location-input'),
         {
-            types: ['establishment', 'geocode'], // Geschäfte und Adressen
+            types: ['establishment', 'geocode'], // Businesses and addresses
             fields: ['place_id', 'name', 'formatted_address', 'geometry'],
             componentRestrictions: {
-                country: ['de', 'at', 'ch'] // Beschränke auf DACH-Region
+                country: ['de', 'at', 'ch'] // Restrict to the DACH region
             }
         }
     );
