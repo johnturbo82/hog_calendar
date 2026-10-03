@@ -1,4 +1,25 @@
 (function () {
+    var subscriptionCount = document.getElementById("push-subscription-count");
+    if (subscriptionCount) {
+        fetch(subscriptionCount.dataset.endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ admin: subscriptionCount.dataset.admin })
+        })
+            .then(function (response) {
+                return response.json().then(function (result) {
+                    if (!response.ok) throw new Error(result.error || "HTTP " + response.status);
+                    return result;
+                });
+            })
+            .then(function (result) {
+                subscriptionCount.textContent = "Aktuell gespeicherte Push-Abonnenten: " + result.count;
+            })
+            .catch(function () {
+                subscriptionCount.textContent = "Push-Abonnentenzahl konnte nicht geladen werden.";
+            });
+    }
+
     var pushDialog = document.getElementById("push-broadcast-dialog");
     if (!pushDialog) return;
 

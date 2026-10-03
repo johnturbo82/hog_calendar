@@ -30,6 +30,10 @@
         </tr>
     </table>
 </div>
+<p id="push-subscription-count"
+    data-endpoint="<?php echo htmlspecialchars(SITE_ADDRESS . "api/subscription-count.php", ENT_QUOTES, "UTF-8") ?>"
+    data-admin="<?php echo htmlspecialchars($this->_['admin'], ENT_QUOTES, "UTF-8") ?>"
+    role="status" aria-live="polite">Push-Abonnenten werden geladen …</p>
 <h2>Anstehende Events</h2>
 <p>Terminbuchungen für alle anstehenden Termine des Chapters.</p>
 <div class="bookings">

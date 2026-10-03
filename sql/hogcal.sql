@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Erstellungszeit: 19. Mrz 2022 um 16:08
+-- Exported on: 19 Mar 2022 at 16:08
 -- Server-Version: 8.0.20-0ubuntu0.20.04.1
 -- PHP-Version: 7.4.3
 
@@ -19,13 +19,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Datenbank: `hogcal`
+-- Database: `hogcal`
 --
 
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `bookings`
+-- Table structure for table `bookings`
 --
 
 CREATE TABLE `bookings` (
@@ -43,7 +43,7 @@ CREATE TABLE `bookings` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `polls`
+-- Table structure for table `polls`
 --
 
 CREATE TABLE `polls` (
@@ -61,7 +61,7 @@ CREATE TABLE `polls` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `poll_results`
+-- Table structure for table `poll_results`
 --
 
 CREATE TABLE `poll_results` (
@@ -78,7 +78,7 @@ CREATE TABLE `poll_results` (
 -- --------------------------------------------------------
 
 --
--- Tabellenstruktur für Tabelle `events`
+-- Table structure for table `events`
 --
 
 CREATE TABLE `events` (
@@ -90,7 +90,7 @@ CREATE TABLE `events` (
 
 
 --
--- Indizes für die Tabelle `events`
+-- Indexes for table `events`
 --
 ALTER TABLE `events`
   ADD PRIMARY KEY (`event_id`),
@@ -102,45 +102,45 @@ COMMIT;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 
 --
--- Indizes der exportierten Tabellen
+-- Indexes for exported tables
 --
 
 --
--- Indizes für die Tabelle `bookings`
+-- Indexes for table `bookings`
 --
 ALTER TABLE `bookings`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `polls`
+-- Indexes for table `polls`
 --
 ALTER TABLE `polls`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indizes für die Tabelle `poll_results`
+-- Indexes for table `poll_results`
 --
 ALTER TABLE `poll_results`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT für exportierte Tabellen
+-- AUTO_INCREMENT for exported tables
 --
 
 --
--- AUTO_INCREMENT für Tabelle `bookings`
+-- AUTO_INCREMENT for table `bookings`
 --
 ALTER TABLE `bookings`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `polls`
+-- AUTO_INCREMENT for table `polls`
 --
 ALTER TABLE `polls`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT für Tabelle `poll_results`
+-- AUTO_INCREMENT for table `poll_results`
 --
 ALTER TABLE `poll_results`
   MODIFY `id` int NOT NULL AUTO_INCREMENT;
