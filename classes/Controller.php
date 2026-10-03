@@ -115,6 +115,25 @@ class Controller
 				$view->assign('event_list', $this->get_past_events());
 				$view->setTemplate("past_events");
 				break;
+			case 'activity_ace':
+				if (!$this->admin) {
+					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
+				}
+				$currentYear = (int)date("Y");
+				$year = $currentYear;
+				$requestedYear = $this->request['year'] ?? null;
+				if (is_scalar($requestedYear) && preg_match('/^\d{4}$/', (string)$requestedYear)) {
+					$requestedYear = (int)$requestedYear;
+					if ($requestedYear >= 1000 && $requestedYear <= $currentYear) {
+						$year = $requestedYear;
+					}
+				}
+				$view->assign('year', $year);
+				$view->assign('current_year', $currentYear);
+				$view->assign('admin', $this->request['admin']);
+				$view->assign('results', $this->model->get_activity_ace_results($year));
+				$view->setTemplate("activity_ace");
+				break;
 			case 'set_name':
 				$this->set_booking_cookies();
 				$heading = "Location: " . SITE_ADDRESS . "?view=my_events";

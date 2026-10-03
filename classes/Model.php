@@ -36,6 +36,31 @@ class Model
 	}
 
 	/**
+	 * Get Activity Ace ranking for a calendar year
+	 */
+	public function get_activity_ace_results($year)
+	{
+		$year = (int)$year;
+		$startDate = sprintf("%04d-01-01", $year);
+		$endDate = sprintf("%04d-01-01", $year + 1);
+		$query = "SELECT name, givenname, COUNT(*) AS booking_count
+			FROM bookings
+			WHERE deleted_flag = 0 AND event_date >= :start_date AND event_date < :end_date
+			GROUP BY name, givenname
+			ORDER BY booking_count DESC, name ASC, givenname ASC";
+		$stmt = $this->conn->prepare($query);
+		$stmt->bindValue(":start_date", $startDate, PDO::PARAM_STR);
+		$stmt->bindValue(":end_date", $endDate, PDO::PARAM_STR);
+		try {
+			$stmt->execute();
+			return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		} catch (PDOException $ex) {
+			echo "Connection failed: " . $ex->getMessage();
+			return [];
+		}
+	}
+
+	/**
 	 * Get booking by name
 	 * @return bool 
 	 */
