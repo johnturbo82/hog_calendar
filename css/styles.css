@@ -594,13 +594,9 @@ Nav Styles
     width: auto;
     left: 50%;
     transform: translateX(-50%);
-    background: linear-gradient(135deg, 
-        color-mix(in srgb, var(--highlight-color) 75%, transparent),
-        color-mix(in srgb, var(--highlight-color) 65%, transparent)
-    );
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
-    border: 1px solid color-mix(in srgb, var(--highlight-color) 60%, transparent);
+    background-color: #c1aa63;
+    background-color: var(--highlight-color, #c1aa63);
+    border: 1px solid #99864e;
     box-shadow: 
         0 8px 32px rgba(0, 0, 0, 0.1),
         0 2px 8px rgba(0, 0, 0, 0.08),
@@ -820,9 +816,6 @@ WEB APP
 
 .is-webapp .nav {
     bottom: 40px;
-    -webkit-backdrop-filter: none;
-    backdrop-filter: none;
-    background: color-mix(in srgb, var(--highlight-color) 82%, var(--content-bg-color));
 }
 
 .webapp-bar {
