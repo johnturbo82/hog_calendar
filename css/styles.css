@@ -717,8 +717,8 @@ RESPONSIVENESS
     }
 
     div.bookings {
-        margin: -10px !important;
-        width: calc(100% + 20px) !important;
+        margin: 0 !important;
+        width: 100% !important;
     }
 
     div.booking {
@@ -727,12 +727,18 @@ RESPONSIVENESS
 
     div.booking,
     div.poll {
+        width: calc(100% - 6px);
         grid-template-rows: auto;
-        margin-bottom: 0;
-        padding: 12px 10px 14px !important;
-        border: 0;
-        border-top: 1px solid color-mix(in srgb, var(--text-color) 12%, transparent);
-        border-radius: 0;
+        margin: 6px 3px !important;
+        padding: 8px 10px !important;
+        border: 1px solid color-mix(in srgb, var(--text-color) 10%, transparent);
+        border-radius: 5px;
+    }
+
+    div.booking {
+        width: 100%;
+        margin-right: 0 !important;
+        margin-left: 0 !important;
     }
 
     div.booking .cell {
