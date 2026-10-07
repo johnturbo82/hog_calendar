@@ -26,7 +26,7 @@
             <td>
                 <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></div>
             </td>
-            <td>Event bearbeiten (nicht für ganztägige Events)</td>
+            <td>Event bearbeiten</td>
             <td>
                 <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/trash.svg" alt="Event löschen" /></div>
             </td>
@@ -74,9 +74,7 @@
                     <?php
                     }
                     ?>
-                    <?php if (strlen($event->from) > 10) { ?>
-                        <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
-                    <?php } ?>
+                    <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
                     <form class="inline-form" method="POST" action="<?php echo SITE_ADDRESS . "?view=delete_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" onsubmit="return confirm('Event &quot;<?php echo htmlspecialchars(addslashes($event->name), ENT_QUOTES, "UTF-8") ?>&quot; wirklich löschen?<?php echo ($event->registrations > 0) ? '\n\nAchtung: ' . (int)$event->registrations . ' Anmeldung(en) vorhanden!' : '' ?>');">
                         <button class="button" type="submit" title="Event löschen" aria-label="Event löschen"><img src="<?php echo SITE_ADDRESS ?>images/icons/trash.svg" alt="" /></button>
                     </form>
@@ -99,9 +97,7 @@
                     }
                     ?>
                     Geschlossen.
-                    <?php if (strlen($event->from) > 10) { ?>
-                        <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
-                    <?php } ?>
+                    <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
                     <form class="inline-form" method="POST" action="<?php echo SITE_ADDRESS . "?view=delete_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" onsubmit="return confirm('Event &quot;<?php echo htmlspecialchars(addslashes($event->name), ENT_QUOTES, "UTF-8") ?>&quot; wirklich löschen?<?php echo ($event->registrations > 0) ? '\n\nAchtung: ' . (int)$event->registrations . ' Anmeldung(en) vorhanden!' : '' ?>');">
                         <button class="button" type="submit" title="Event löschen" aria-label="Event löschen"><img src="<?php echo SITE_ADDRESS ?>images/icons/trash.svg" alt="" /></button>
                     </form>

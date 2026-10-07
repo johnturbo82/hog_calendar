@@ -436,7 +436,8 @@ input[type=submit]:disabled {
 input[type=text],
 input[type=email],
 input[type=number],
-input[type=datetime-local] {
+input[type=datetime-local],
+input[type=date] {
     padding: 5px;
     font-size: 120%;
     min-width: 200px;

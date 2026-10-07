@@ -95,18 +95,28 @@ class Controller
 				if ($is_update && empty($this->event_id)) {
 					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
 				}
+				$is_all_day = !empty($this->request['all_day']);
+				if ($is_all_day) {
+					$start_date = $this->request['event_start_date'];
+					$end_date = (new DateTime($this->request['event_end_date']))->modify('+1 day')->format('Y-m-d');
+					$start = ['date' => $start_date];
+					$end = ['date' => $end_date];
+				} else {
+					$start = [
+						'dateTime' => date('c', strtotime($this->request['event_date_start'])),
+						'timeZone' => 'Europe/Berlin',
+					];
+					$end = [
+						'dateTime' => date('c', strtotime($this->request['event_date_end'])),
+						'timeZone' => 'Europe/Berlin',
+					];
+				}
 				$event_data = [
 					'summary' => $this->request['name'],
 					'location' => $this->request['location'],
 					'description' => "Organisator: " . $this->request['organisator'] . "\n" . $this->request['description'],
-					'start' => [
-						'dateTime' => date('c', strtotime($this->request['event_date_start'])),
-						'timeZone' => 'Europe/Berlin',
-					],
-					'end' => [
-						'dateTime' => date('c', strtotime($this->request['event_date_end'])),
-						'timeZone' => 'Europe/Berlin',
-					],
+					'start' => $start,
+					'end' => $end,
 				];
 
 				if ($is_update) {
