@@ -261,6 +261,19 @@ class Controller
 			case 'cancel':
 				$view->setTemplate($this->template);
 				break;
+			case 'delete_event':
+				if (!$this->admin || empty($this->event_id) || $_SERVER['REQUEST_METHOD'] !== 'POST') {
+					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
+				}
+				$result = CalendarAPI::delete_event($this->event_id);
+				if ($result['success']) {
+					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
+				}
+				$view->assign('error', $result['error']);
+				$view->assign('error_heading', 'Fehler beim Löschen des Events');
+				$view->assign('admin', $this->request['admin']);
+				$view->setTemplate("new_event_error");
+				break;
 			case 'close_event':
 				$this->model->close_event($this->request['event_id']);
 				$heading = "Location: " . SITE_ADDRESS . "?view=events";

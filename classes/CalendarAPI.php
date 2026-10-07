@@ -153,5 +153,45 @@ class CalendarAPI
 
         return ['success' => false, 'error' => 'Unexpected API response'];
     }
+
+    /**
+     * Delete Calendar Event
+     */
+    public static function delete_event($event_id) {
+        $accessToken = self::get_service_account_token();
+
+        if (!$accessToken) {
+            return ['success' => false, 'error' => 'Could not obtain access token'];
+        }
+
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'DELETE',
+                'header' => 'Authorization: Bearer ' . $accessToken,
+                'ignore_errors' => true
+            ]
+        ]);
+
+        $url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . rawurlencode($event_id);
+
+        $result = file_get_contents($url, false, $context);
+        $status = 0;
+        $headers = function_exists('http_get_last_response_headers') ? http_get_last_response_headers() : ($http_response_header ?? []);
+        if (isset($headers[0]) && preg_match('/\s(\d{3})\s/', $headers[0], $m)) {
+            $status = (int)$m[1];
+        }
+
+        // 204 = deleted, 410 = already deleted
+        if ($status === 204 || $status === 410) {
+            return ['success' => true];
+        }
+
+        $response = json_decode((string)$result, true);
+        return [
+            'success' => false,
+            'error' => $response['error']['message'] ?? 'Unexpected API response',
+            'code' => $status
+        ];
+    }
 }
 ?>

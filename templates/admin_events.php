@@ -26,7 +26,11 @@
             <td>
                 <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></div>
             </td>
-            <td colspan="3">Event bearbeiten (nicht für ganztägige Events)</td>
+            <td>Event bearbeiten (nicht für ganztägige Events)</td>
+            <td>
+                <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/trash.svg" alt="Event löschen" /></div>
+            </td>
+            <td>Event löschen</td>
         </tr>
         <tr>
             <td>
@@ -73,6 +77,9 @@
                     <?php if (strlen($event->from) > 10) { ?>
                         <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
                     <?php } ?>
+                    <form class="inline-form" method="POST" action="<?php echo SITE_ADDRESS . "?view=delete_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" onsubmit="return confirm('Event &quot;<?php echo htmlspecialchars(addslashes($event->name), ENT_QUOTES, "UTF-8") ?>&quot; wirklich löschen?<?php echo ($event->registrations > 0) ? '\n\nAchtung: ' . (int)$event->registrations . ' Anmeldung(en) vorhanden!' : '' ?>');">
+                        <button class="button" type="submit" title="Event löschen" aria-label="Event löschen"><img src="<?php echo SITE_ADDRESS ?>images/icons/trash.svg" alt="" /></button>
+                    </form>
                     <a class="button" href="<?php echo SITE_ADDRESS . "?view=close_event&event_id=" . $event->id . "&admin=" . $this->_['admin'] ?>" title="Eventanmeldungen schließen"><img src="<?php echo SITE_ADDRESS ?>images/icons/stop.svg" alt="Eventanmeldungen schließen" /></a>
                     <a class="button" onClick="copyToClipboard('<?php echo $link ?>', this)" title="In die Zwischenablage kopieren"><img src="<?php echo SITE_ADDRESS ?>images/icons/copy-to-clipboard.svg" alt="Kopieren" /></a>
                     <a class="button whatsapp" href="whatsapp://send?text=Liebe Member,%0Ahier könnt ihr euch für das Event %22<?php echo $event->name ?>%22, <?php echo $event->get_date_str() ?> anmelden:%0A<?php echo urlencode($link) ?>" title="Link zur Buchung per WhatsApp verschicken">
@@ -95,6 +102,9 @@
                     <?php if (strlen($event->from) > 10) { ?>
                         <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
                     <?php } ?>
+                    <form class="inline-form" method="POST" action="<?php echo SITE_ADDRESS . "?view=delete_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" onsubmit="return confirm('Event &quot;<?php echo htmlspecialchars(addslashes($event->name), ENT_QUOTES, "UTF-8") ?>&quot; wirklich löschen?<?php echo ($event->registrations > 0) ? '\n\nAchtung: ' . (int)$event->registrations . ' Anmeldung(en) vorhanden!' : '' ?>');">
+                        <button class="button" type="submit" title="Event löschen" aria-label="Event löschen"><img src="<?php echo SITE_ADDRESS ?>images/icons/trash.svg" alt="" /></button>
+                    </form>
                     <a class="button" href="<?php echo SITE_ADDRESS . "?view=open_event&event_id=" . $event->id . "&admin=" . $this->_['admin'] ?>" title="Eventanmeldungen wieder öffnen"><img src="<?php echo SITE_ADDRESS ?>images/icons/undo.svg" alt="Eventanmeldungen wieder öffnen" /></a></div>
             <?php
             }

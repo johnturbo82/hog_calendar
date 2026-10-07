@@ -281,6 +281,11 @@ input[type=submit]:disabled {
     margin-left: 0;
 }
 
+.inline-form {
+    display: inline;
+    margin: 0;
+}
+
 .cell.right .button {
     margin-left: 5px;
 }
