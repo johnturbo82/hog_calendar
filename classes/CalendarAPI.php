@@ -106,5 +106,52 @@ class CalendarAPI
         
         return ['success' => false, 'error' => 'Unexpected API response'];
     }
+
+    /**
+     * Update Calendar Event (partial update, keeps the event ID)
+     */
+    public static function update_event($event_id, $event_data) {
+        $accessToken = self::get_service_account_token();
+
+        if (!$accessToken) {
+            return ['success' => false, 'error' => 'Could not obtain access token'];
+        }
+
+        $context = stream_context_create([
+            'http' => [
+                'method' => 'PATCH',
+                'header' => [
+                    'Content-Type: application/json',
+                    'Authorization: Bearer ' . $accessToken,
+                ],
+                'content' => json_encode($event_data),
+                'ignore_errors' => true
+            ]
+        ]);
+
+        $url = "https://www.googleapis.com/calendar/v3/calendars/" . CALENDAR_ID . "/events/" . rawurlencode($event_id);
+
+        $result = file_get_contents($url, false, $context);
+
+        if ($result === false) {
+            return ['success' => false, 'error' => 'Error occurred during API call'];
+        }
+
+        $response = json_decode($result, true);
+
+        if (isset($response['error'])) {
+            return [
+                'success' => false,
+                'error' => $response['error']['message'],
+                'code' => $response['error']['code']
+            ];
+        }
+
+        if (isset($response['id'])) {
+            return ['success' => true, 'event_id' => $response['id']];
+        }
+
+        return ['success' => false, 'error' => 'Unexpected API response'];
+    }
 }
 ?>

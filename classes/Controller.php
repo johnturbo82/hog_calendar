@@ -64,11 +64,36 @@ class Controller
 				$view->assign('admin', $this->request['admin']);
 				$view->setTemplate($this->template);
 				break;
+			case 'edit_event':
+				if (!$this->admin) {
+					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
+				}
+				$event = $this->get_event();
+				if ($event === null) {
+					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
+				}
+				$organisator = '';
+				$description = (string)$event->description;
+				if (preg_match('/^Organisator: ([^\r\n]*)\r?\n?(.*)$/s', $description, $matches)) {
+					$organisator = $matches[1];
+					$description = $matches[2];
+				}
+				$view->assign('event', $event);
+				$view->assign('organisator', $organisator);
+				$view->assign('description', $description);
+				$view->assign('admin', $this->request['admin']);
+				$view->setTemplate("new_event");
+				break;
 			case 'create_event':
+			case 'update_event':
 				if (!$this->admin) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=events";
 					$this->goto($heading);
 					exit();
+				}
+				$is_update = ($this->template == 'update_event');
+				if ($is_update && empty($this->event_id)) {
+					$this->goto("Location: " . SITE_ADDRESS . "?view=events");
 				}
 				$event_data = [
 					'summary' => $this->request['name'],
@@ -84,7 +109,12 @@ class Controller
 					],
 				];
 
-				$result = CalendarAPI::create_event($event_data);
+				if ($is_update) {
+					$result = CalendarAPI::update_event($this->event_id, $event_data);
+					$view->assign('error_heading', 'Fehler beim Speichern des Events');
+				} else {
+					$result = CalendarAPI::create_event($event_data);
+				}
 
 				if ($result['success']) {
 					$heading = "Location: " . SITE_ADDRESS . "?view=events";

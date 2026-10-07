@@ -24,6 +24,12 @@
         </tr>
         <tr>
             <td>
+                <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></div>
+            </td>
+            <td colspan="3">Event bearbeiten (nicht für ganztägige Events)</td>
+        </tr>
+        <tr>
+            <td>
                 <div class="button"><img src="<?php echo SITE_ADDRESS ?>images/icons/keine_kutte.svg" alt="Keine Kuttenpflicht" /></div>
             </td>
             <td colspan="3">Um das Symbol an das Event zu bekommen muss im Beschreibungstext "Keine Kuttenpflicht" stehen.</td>
@@ -64,6 +70,9 @@
                     <?php
                     }
                     ?>
+                    <?php if (strlen($event->from) > 10) { ?>
+                        <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
+                    <?php } ?>
                     <a class="button" href="<?php echo SITE_ADDRESS . "?view=close_event&event_id=" . $event->id . "&admin=" . $this->_['admin'] ?>" title="Eventanmeldungen schließen"><img src="<?php echo SITE_ADDRESS ?>images/icons/stop.svg" alt="Eventanmeldungen schließen" /></a>
                     <a class="button" onClick="copyToClipboard('<?php echo $link ?>', this)" title="In die Zwischenablage kopieren"><img src="<?php echo SITE_ADDRESS ?>images/icons/copy-to-clipboard.svg" alt="Kopieren" /></a>
                     <a class="button whatsapp" href="whatsapp://send?text=Liebe Member,%0Ahier könnt ihr euch für das Event %22<?php echo $event->name ?>%22, <?php echo $event->get_date_str() ?> anmelden:%0A<?php echo urlencode($link) ?>" title="Link zur Buchung per WhatsApp verschicken">
@@ -83,6 +92,9 @@
                     }
                     ?>
                     Geschlossen.
+                    <?php if (strlen($event->from) > 10) { ?>
+                        <a class="button" href="<?php echo SITE_ADDRESS . "?view=edit_event&event_id=" . rawurlencode($event->id) . "&admin=" . $this->_['admin'] ?>" title="Event bearbeiten"><img src="<?php echo SITE_ADDRESS ?>images/icons/edit.svg" alt="Event bearbeiten" /></a>
+                    <?php } ?>
                     <a class="button" href="<?php echo SITE_ADDRESS . "?view=open_event&event_id=" . $event->id . "&admin=" . $this->_['admin'] ?>" title="Eventanmeldungen wieder öffnen"><img src="<?php echo SITE_ADDRESS ?>images/icons/undo.svg" alt="Eventanmeldungen wieder öffnen" /></a></div>
             <?php
             }

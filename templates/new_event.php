@@ -1,9 +1,16 @@
+<?php
+$event = $this->_['event'] ?? null;
+$is_edit = $event !== null;
+$e = function ($value) {
+    return htmlspecialchars((string)$value, ENT_QUOTES, 'UTF-8');
+};
+?>
 <div class="menu">
     <a class="button" href="<?php echo SITE_ADDRESS ?>?view=events&admin=<?php echo $this->_['admin'] ?>">&laquo; Zurück zur Übersicht</a>
 </div>
-<h2>Neues Event anlegen</h2>
-<form method="POST" action="<?php echo SITE_ADDRESS . "?view=create_event&admin=" . $this->_['admin'] ?>">
-    <p>Name<br /><input type="text" name="name" placeholder="z.B. Feierabendrunde" required /> *</p>
+<h2><?php echo $is_edit ? "Event bearbeiten" : "Neues Event anlegen" ?></h2>
+<form method="POST" action="<?php echo SITE_ADDRESS . ($is_edit ? "?view=update_event&event_id=" . rawurlencode($event->id) . "&admin=" : "?view=create_event&admin=") . $this->_['admin'] ?>">
+    <p>Name<br /><input type="text" name="name" placeholder="z.B. Feierabendrunde" value="<?php echo $is_edit ? $e($event->name) : '' ?>" required /> *</p>
     <p>
         Ort<br />
         <input type="text" 
@@ -11,14 +18,15 @@
                name="location" 
                placeholder="Zielort des Events, nicht Treffpunkt!" 
                autocomplete="off"
+               value="<?php echo $is_edit ? $e($event->location) : '' ?>"
                required /> *
     </p>
-    <p>Organisator<br /><input type="text" name="organisator" placeholder="Organisator" value="<?php echo isset($_COOKIE['booking_givenname']) ? htmlspecialchars($_COOKIE['booking_givenname']) : ''; ?>" required /> *</p>
-    <p>Von<br /><input type="datetime-local" name="event_date_start" value="<?php echo date('Y-m-d\TH:00', strtotime('+1 hour')); ?>" required /> *</p>
-    <p>Bis<br /><input type="datetime-local" name="event_date_end" value="<?php echo date('Y-m-d\TH:00', strtotime('+2 hour')); ?>" required /> *</p>
-    <p>Beschreibung<br /><textarea id="description" name="description" placeholder="z.B. wann und wo ist Treffpunkt? Wie wird gefahren?"></textarea></p>
-    <p><label><input type="checkbox" id="keine_kutte" name="keine_kutte" /> Keine Kuttenpflicht</label></p>
-    <p><input type="submit" value="Anlegen" /></p>
+    <p>Organisator<br /><input type="text" name="organisator" placeholder="Organisator" value="<?php echo $is_edit ? $e($this->_['organisator']) : (isset($_COOKIE['booking_givenname']) ? $e($_COOKIE['booking_givenname']) : ''); ?>" required /> *</p>
+    <p>Von<br /><input type="datetime-local" name="event_date_start" value="<?php echo $is_edit ? date('Y-m-d\TH:i', strtotime($event->from)) : date('Y-m-d\TH:00', strtotime('+1 hour')); ?>" required /> *</p>
+    <p>Bis<br /><input type="datetime-local" name="event_date_end" value="<?php echo $is_edit ? date('Y-m-d\TH:i', strtotime($event->to)) : date('Y-m-d\TH:00', strtotime('+2 hour')); ?>" required /> *</p>
+    <p>Beschreibung<br /><textarea id="description" name="description" placeholder="z.B. wann und wo ist Treffpunkt? Wie wird gefahren?"><?php echo $is_edit ? $e($this->_['description']) : '' ?></textarea></p>
+    <p><label><input type="checkbox" id="keine_kutte" name="keine_kutte"<?php echo ($is_edit && stripos($this->_['description'], 'keine kuttenpflicht') !== false) ? ' checked' : '' ?> /> Keine Kuttenpflicht</label></p>
+    <p><input type="submit" value="<?php echo $is_edit ? 'Speichern' : 'Anlegen' ?>" /></p>
 </form>
 
 <script>
