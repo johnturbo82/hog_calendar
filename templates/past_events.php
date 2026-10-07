@@ -5,7 +5,7 @@
             <tr>
                 <th>Datum</th>
                 <th>Event</th>
-                <th>Anmeldungen</th>
+                <th>Anm.</th>
             </tr>
         </thead>
         <tbody>

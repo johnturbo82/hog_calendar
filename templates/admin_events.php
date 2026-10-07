@@ -97,6 +97,12 @@
         <h2 id="push-broadcast-title">Push senden</h2>
         <button class="push-broadcast-dialog-close" id="push-broadcast-close" type="button" title="Schließen" aria-label="Schließen">x</button>
     </div>
+    <label for="push-broadcast-type">Was möchtest du mitteilen?</label>
+    <select id="push-broadcast-type">
+        <option value="new_event">Neuer Termin – Jetzt anmelden</option>
+        <option value="time_changed">Geänderte Zeit oder Datum</option>
+        <option value="details_changed">Geänderte Details</option>
+    </select>
     <p id="push-broadcast-description"></p>
     <p id="push-broadcast-status" role="status" aria-live="polite" hidden></p>
     <div class="push-broadcast-actions">

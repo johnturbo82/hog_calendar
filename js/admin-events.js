@@ -24,6 +24,7 @@
     if (!pushDialog) return;
 
     var pushDescription = document.getElementById("push-broadcast-description");
+    var pushType = document.getElementById("push-broadcast-type");
     var pushStatus = document.getElementById("push-broadcast-status");
     var pushCancel = document.getElementById("push-broadcast-cancel");
     var pushConfirm = document.getElementById("push-broadcast-confirm");
@@ -33,6 +34,17 @@
     var activePushButton = null;
     var pushIsSending = false;
 
+    function updatePushDescription() {
+        if (!activePushButton) return;
+        var eventTitle = activePushButton.dataset.eventTitle;
+        var messages = {
+            new_event: 'Jetzt anmelden! – ' + eventTitle,
+            time_changed: 'Achtung: Bei "' + eventTitle + '" hat sich Uhrzeit oder Datum geändert.',
+            details_changed: 'Achtung: Bei "' + eventTitle + '" hat sich die Beschreibung geändert.'
+        };
+        pushDescription.textContent = messages[pushType.value];
+    }
+
     function closePushDialog() {
         pushDialog.close();
         if (!pushIsSending && activePushButton) activePushButton.focus();
@@ -41,7 +53,8 @@
     pushButtons.forEach(function (button) {
         button.addEventListener("click", function () {
             activePushButton = button;
-            pushDescription.textContent = 'Push an alle Abonnenten für "' + button.dataset.eventTitle + '" senden?';
+            pushType.value = "new_event";
+            updatePushDescription();
             pushStatus.textContent = "";
             pushStatus.hidden = true;
             pushCancel.hidden = false;
@@ -54,6 +67,7 @@
             pushConfirm.focus();
         });
     });
+    pushType.addEventListener("change", updatePushDescription);
 
     pushCancel.addEventListener("click", closePushDialog);
     pushClose.addEventListener("click", closePushDialog);
@@ -86,7 +100,8 @@
                 body: JSON.stringify({
                     admin: button.dataset.admin,
                     event_id: button.dataset.eventId,
-                    title: eventTitle
+                    title: eventTitle,
+                    notification_type: pushType.value
                 })
             });
             var result = await response.json();

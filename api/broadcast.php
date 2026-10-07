@@ -30,7 +30,15 @@ if ($adminKey === "" || $adminKey !== PSEUDO_ADMIM_PASSWORD) {
 
 $eventId = isset($payload["event_id"]) && is_string($payload["event_id"]) ? $payload["event_id"] : "";
 $eventTitle = isset($payload["title"]) && is_string($payload["title"]) ? trim($payload["title"]) : "";
-if (!preg_match('/^[A-Za-z0-9_-]+$/', $eventId) || $eventTitle === "" || strlen($eventTitle) > 500) {
+$notificationType = isset($payload["notification_type"]) && is_string($payload["notification_type"])
+    ? $payload["notification_type"]
+    : "";
+if (
+    !preg_match('/^[A-Za-z0-9_-]+$/', $eventId)
+    || $eventTitle === ""
+    || strlen($eventTitle) > 500
+    || !in_array($notificationType, ["new_event", "time_changed", "details_changed"], true)
+) {
     respond(400, ["error" => "invalid_event"]);
 }
 
@@ -39,11 +47,24 @@ if ($broadcastToken === "" || $broadcastToken === "xxx") {
     respond(500, ["error" => "broadcast_not_configured"]);
 }
 
-$broadcast = [
-    "title" => "Jetzt anmelden!",
-    "body" => $eventTitle,
-    "url" => SITE_ADDRESS . "?view=book&event_id=" . rawurlencode($eventId),
+$messages = [
+    "new_event" => [
+        "title" => "Jetzt anmelden!",
+        "body" => $eventTitle,
+    ],
+    "time_changed" => [
+        "title" => "Achtung",
+        "body" => "Bei \"" . $eventTitle . "\" hat sich Uhrzeit oder Datum geändert.",
+    ],
+    "details_changed" => [
+        "title" => "Achtung",
+        "body" => "Bei \"" . $eventTitle . "\" hat sich die Beschreibung geändert.",
+    ],
 ];
+
+$broadcast = array_merge($messages[$notificationType], [
+    "url" => SITE_ADDRESS . "?view=book&event_id=" . rawurlencode($eventId),
+]);
 
 $ch = curl_init("https://push.schoettner.dev/broadcast");
 if ($ch === false) {

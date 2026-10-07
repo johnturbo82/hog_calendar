@@ -10,9 +10,13 @@
         (function () {
             if (!("indexedDB" in window)) return;
             try {
-                var request = indexedDB.open("push-nav", 1);
+                var request = indexedDB.open("push-nav", 2);
                 request.onupgradeneeded = function () {
-                    request.result.createObjectStore("kv");
+                    var db = request.result;
+                    if (!db.objectStoreNames.contains("kv")) db.createObjectStore("kv");
+                    if (!db.objectStoreNames.contains("messages")) {
+                        db.createObjectStore("messages", { keyPath: "id" });
+                    }
                 };
                 request.onsuccess = function () {
                     var db = request.result;
@@ -30,6 +34,15 @@
                             }
                         }
                     };
+                    tx.oncomplete = function () {
+                        db.close();
+                    };
+                    tx.onerror = function () {
+                        db.close();
+                    };
+                };
+                request.onerror = function () {
+                    console.error("Push-Navigationsziel konnte nicht gelesen werden.", request.error);
                 };
             } catch (e) {
                 // IndexedDB is unavailable or blocked; ignore and continue.
@@ -117,6 +130,7 @@
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/datatables.js"></script>
     <script type="text/javascript" src="<?php echo SITE_ADDRESS ?>js/site.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
     <script defer src="<?php echo SITE_ADDRESS ?>js/push-subscribe.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
+    <script defer src="<?php echo SITE_ADDRESS ?>js/notifications.js?v=<?php echo CURRENT_VERSION ?>&r=<?php echo REVISION ?>"></script>
 </head>
 
 <body <?php echo ($this->_['admin']) ? "class='admin'" : "" ?>>
@@ -140,6 +154,13 @@
                             <img src="<?php echo SITE_ADDRESS ?>images/icons/survey<?php echo ($_GET['view'] == "polls") ? "_active" : "" ?>.svg" alt="Abstimmungen">
                             <span>Umfragen</span>
                         </a>
+                        <button class="notifications-menu-button" id="notifications-menu-button" type="button" aria-haspopup="dialog" aria-controls="notifications-dialog" hidden>
+                            <span class="notifications-menu-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                                <span class="notifications-menu-count is-empty" id="notifications-menu-count">0</span>
+                            </span>
+                            <span>Meldungen</span>
+                        </button>
                         <a class="<?php echo ($_GET['view'] == "tutorials") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=tutorials<?php echo ($this->_['admin']) ? "&admin=" . $this->_['admin'] : "" ?>">
                             <img src="<?php echo SITE_ADDRESS ?>images/icons/help<?php echo ($_GET['view'] == "tutorials") ? "_active" : "" ?>.svg" alt="Hilfe">
                             <span>Hilfe</span>
@@ -155,6 +176,13 @@
                             <img src="<?php echo SITE_ADDRESS ?>images/icons/past_events<?php echo ($_GET['view'] == "past_events") ? "_active" : "" ?>.svg" alt="Vergangene Events">
                             <span>Vergangene<br />Events</span>
                         </a>
+                        <button class="notifications-menu-button" id="notifications-menu-button" type="button" aria-haspopup="dialog" aria-controls="notifications-dialog" hidden>
+                            <span class="notifications-menu-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></svg>
+                                <span class="notifications-menu-count is-empty" id="notifications-menu-count">0</span>
+                            </span>
+                            <span>Meldungen</span>
+                        </button>
                         <a class="<?php echo ($_GET['view'] == "help") ? "active" : "" ?>" href="<?php echo SITE_ADDRESS ?>?view=help">
                             <img src="<?php echo SITE_ADDRESS ?>images/icons/help<?php echo ($_GET['view'] == "help") ? "_active" : "" ?>.svg" alt="Hilfe">
                             <span>Hilfe</span>
@@ -192,6 +220,18 @@
             </section>
         </div>
     <?php } ?>
+    <dialog class="notifications-dialog" id="notifications-dialog" aria-labelledby="notifications-title">
+        <div class="notifications-dialog-header">
+            <h2 id="notifications-title">Meldungen</h2>
+            <button class="notifications-dialog-close" id="notifications-close" type="button" title="Schließen" aria-label="Schließen">x</button>
+        </div>
+        <p id="notifications-empty" hidden>Du hast noch keine Push-Meldungen erhalten.</p>
+        <ul class="notifications-list" id="notifications-list"></ul>
+        <div class="notifications-dialog-actions">
+            <button class="button" id="notifications-delete-all" type="button">Alle löschen</button>
+            <button class="button" id="notifications-done" type="button">Schließen</button>
+        </div>
+    </dialog>
 </body>
 
 </html>
