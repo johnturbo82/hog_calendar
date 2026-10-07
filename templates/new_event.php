@@ -84,12 +84,14 @@ function initAllDayToggle() {
             field.hidden = !allDayCheckbox.checked;
             field.querySelector('input').disabled = !allDayCheckbox.checked;
         });
-        updateEndDate();
     }
 
     timedStart.addEventListener('change', updateEndDate);
     allDayStart.addEventListener('change', updateEndDate);
-    allDayCheckbox.addEventListener('change', updateDateFields);
+    allDayCheckbox.addEventListener('change', function() {
+        updateDateFields();
+        updateEndDate();
+    });
     updateDateFields();
 }
 
