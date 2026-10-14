@@ -40,7 +40,9 @@ if ($event->is_closed) {
     <form method="POST" action="<?php echo SITE_ADDRESS . "?view=bookme" ?>">
         <p><input type="text" name="givenname" placeholder="Vorname" value="<?php echo $_COOKIE['booking_givenname'] ?>" autocomplete="given-name" required /> *</p>
         <p><input type="text" name="name" placeholder="Name" value="<?php echo $_COOKIE['booking_name'] ?>" autocomplete="family-name" required /> *</p>
-        <p><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /></p>
+        <div id="email-list">
+            <p class="email-row"><input type="email" name="email" placeholder="Email-Adresse" value="<?php echo $_COOKIE['booking_email'] ?>" /><button type="button" id="add-email" class="add-email-button" title="weiteren Empfänger hinzufügen" aria-label="weiteren Empfänger hinzufügen">+</button></p>
+        </div>
         <p><input type="number" name="persons" value="1" min="1" max="5" pattern="\d*" /> Person(en) insgesamt</p>
         <input type="hidden" name="event_id" value="<?php echo $event->id ?>" />
         <input type="hidden" name="from" value="<?php echo $event->from ?>" />

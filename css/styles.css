@@ -547,9 +547,19 @@ label.poll .votes {
     width: 100%;
     border-radius: 3px;
     padding: 10px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
     background-color: var(--whatsapp-green);
     color: var(--color-white);
     font-weight: bold;
+}
+
+.notice-flash {
+    transition: opacity 0.5s ease;
+}
+
+.notice-flash.hide {
+    opacity: 0;
 }
 
 .notice.error {
@@ -1105,4 +1115,30 @@ body.admin .notifications-list > li:nth-child(even) {
 .notifications-dialog-actions #notifications-delete-all {
     border-color: color-mix(in srgb, var(--text-color) 28%, transparent);
     background: transparent;
+}
+
+.email-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.email-row input[type=email] {
+    flex: 1;
+    width: auto;
+    min-width: 0;
+}
+
+.add-email-button,
+.remove-email-button {
+    width: 34px;
+    height: 34px;
+    padding: 0;
+    font-size: 150%;
+    line-height: 1;
+    cursor: pointer;
+    border: 1px solid color-mix(in srgb, var(--text-color) 24%, transparent);
+    border-radius: 4px;
+    background-color: color-mix(in srgb, var(--content-bg-color) 82%, #000);
+    color: var(--text-color);
 }

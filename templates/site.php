@@ -194,6 +194,9 @@
             </div>
             <img class="logo" src="<?php echo SITE_ADDRESS . CUSTOM_PATH ?>images/logo.png" alt="<?php echo LEGAL_ENTITY_NAME ?>" />
             <h1 class="app-name"><?php echo APP_NAME ?></h1>
+            <?php if (!empty($this->_['notice'])) { ?>
+                <div class="notice notice-flash<?php echo $this->_['notice']['type'] ? ' ' . $this->_['notice']['type'] : '' ?>"><?php echo htmlspecialchars($this->_['notice']['text']) ?></div>
+            <?php } ?>
             <?php echo $this->_['content'] ?>
         </div>
         <footer>

@@ -90,3 +90,34 @@ const isIOSWebApp =
 if (isIOSWebApp) {
     document.documentElement.classList.add('is-webapp');
 }
+
+// Add additional recipient fields on the booking page
+$(document).on('click', '#add-email', function () {
+    var row = $('<p class="email-row"></p>');
+    row.append('<input type="email" name="extra_emails[]" placeholder="Weitere Email-Adresse" />');
+    row.append($('<button type="button" class="remove-email-button" title="Empfänger entfernen" aria-label="Empfänger entfernen">&minus;</button>'));
+    $('#email-list').append(row);
+    row.find('input').trigger('focus');
+});
+
+$(document).on('click', '.remove-email-button', function () {
+    $(this).closest('.email-row').remove();
+});
+
+
+// Fade out the success banner after 5 seconds and drop the notice from the URL
+$(function () {
+    var banner = $('.notice-flash');
+    if (!banner.length) return;
+
+    var url = new URL(window.location.href);
+    if (url.searchParams.has('notice')) {
+        url.searchParams.delete('notice');
+        window.history.replaceState(null, '', url.toString());
+    }
+
+    setTimeout(function () {
+        banner.addClass('hide');
+        setTimeout(function () { banner.remove(); }, 500);
+    }, 5000);
+});

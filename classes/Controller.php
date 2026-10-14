@@ -221,10 +221,9 @@ class Controller
 					$view->setTemplate("404");
 				} else {
 					if ($this->model->new_booking($this->request['event_id'], $this->request['eventname'], $this->request['from'], rtrim($this->request['name'], "+"), rtrim($this->request['givenname'], "+"), rtrim($this->request['email'], "+"), $this->request['persons'])) {
-						if (!$this->send_booking_success_mail()) {
-							$view->assign('error', "Leider ist beim Versand der E-Mail ein Fehler aufgetreten. Bitte wende Dich an den Administrator.");
-						}
-						$view->setTemplate("booked");
+						$mail_sent = $this->send_booking_success_mail();
+						// send_booking_success_mail() returns null when no address was given
+						$this->goto_events_with_notice($mail_sent === false ? 'booked_mail_error' : 'booked');
 					} else {
 						$view->setTemplate("404");
 					}
@@ -251,7 +250,7 @@ class Controller
 				break;
 			case 'change_persons':
 				$this->model->change_persons($this->request['event_id'], $this->request['booking_id'], $this->request['persons']);
-				$view->setTemplate('change_success');
+				$this->goto_events_with_notice('persons_changed');
 				break;
 			case 'storno':
 			case 'delete_booking':
@@ -259,15 +258,11 @@ class Controller
 					die("ERROR");
 				}
 				if ($this->template == 'storno') {
-					$heading = "Location: " . SITE_ADDRESS . "?view=bookings&event_id=" . $this->request['event_id'];
-				} else {
-					$heading = "Location: " . SITE_ADDRESS . "?view=delete_success";
+					$heading = "Location: " . SITE_ADDRESS . "?view=bookings&event_id=" . $this->request['event_id'] . "&notice=booking_deleted";
+					$this->goto($heading);
 				}
-				$this->goto($heading);
-				exit();
+				$this->goto_events_with_notice('booking_deleted');
 				break;
-			case 'delete_success':
-				$view->setTemplate($this->template);
 			case 'cancel':
 				$view->setTemplate($this->template);
 				break;
@@ -375,7 +370,33 @@ class Controller
 		$this->view->setTemplate('site');
 		$this->view->assign('content', $view->loadTemplate());
 		$this->view->assign('admin', $this->request['admin']);
+		$this->view->assign('notice', $this->get_notice());
 		return $this->view->loadTemplate();
+	}
+
+	private function get_notices()
+	{
+		return array(
+			'booked' => array('text' => 'Vielen Dank. Event erfolgreich gebucht.', 'type' => ''),
+			'booked_mail_error' => array('text' => 'Event erfolgreich gebucht, aber beim Versand der E-Mail ist ein Fehler aufgetreten. Bitte wende Dich an den Administrator.', 'type' => 'error'),
+			'booking_deleted' => array('text' => 'Löschen erfolgreich! Die Buchung wurde gelöscht.', 'type' => ''),
+			'persons_changed' => array('text' => 'Personenanzahl erfolgreich geändert!', 'type' => ''),
+		);
+	}
+
+	/**
+	 * Get the success banner requested via GET, if it is a known one
+	 */
+	private function get_notice()
+	{
+		$notices = $this->get_notices();
+		$key = $_GET['notice'] ?? '';
+		return is_string($key) && isset($notices[$key]) ? $notices[$key] : null;
+	}
+
+	private function goto_events_with_notice($key)
+	{
+		$this->goto("Location: " . SITE_ADDRESS . "?view=events&notice=" . $key);
 	}
 
 	private function goto($heading)
@@ -582,6 +603,14 @@ class Controller
 				//Recipients
 				$mail->setFrom(SMTP_SENDER, SMTP_SENDER_NAME);
 				$mail->addAddress($this->request['email']);
+				if (!empty($this->request['extra_emails']) && is_array($this->request['extra_emails'])) {
+					foreach ($this->request['extra_emails'] as $extra_email) {
+						$extra_email = trim($extra_email);
+						if (filter_var($extra_email, FILTER_VALIDATE_EMAIL)) {
+							$mail->addAddress($extra_email);
+						}
+					}
+				}
 
 				//Attachments
 				if (!empty($ical)) {
