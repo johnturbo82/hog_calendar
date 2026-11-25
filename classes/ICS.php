@@ -68,7 +68,7 @@
 
 class ICS
 {
-    const DT_FORMAT = 'Ymd\THis';
+    const DT_FORMAT = 'Ymd\THis\Z';
 
     protected $properties = array();
     private $available_properties = array(
@@ -101,7 +101,7 @@ class ICS
     public function to_string()
     {
         $rows = $this->build_props();
-        return implode("\r\n", $rows);
+        return implode("\r\n", $rows) . "\r\n";
     }
 
     private function build_props()
@@ -112,28 +112,7 @@ class ICS
             'VERSION:2.0',
             'PRODID:-//johnturbo82/hog_calendar v1.0//DE',
             'CALSCALE:GREGORIAN',
-            'METHOD:REQUEST',
-            'BEGIN:VTIMEZONE',
-            'TZID:Europe/Berlin',
-            'BEGIN:STANDARD',
-            'DTSTART:20211031T010000',
-            'TZOFFSETFROM:+0200',
-            'TZOFFSETTO:+0100',
-            'TZNAME:CET',
-            'END:STANDARD',
-            'BEGIN:DAYLIGHT',
-            'DTSTART:20220327T010000',
-            'TZOFFSETFROM:+0100',
-            'TZOFFSETTO:+0200',
-            'TZNAME:CEST',
-            'END:DAYLIGHT',
-            'BEGIN:STANDARD',
-            'DTSTART:20221030T010000',
-            'TZOFFSETFROM:+0200',
-            'TZOFFSETTO:+0100',
-            'TZNAME:CET',
-            'END:STANDARD',
-            'END:VTIMEZONE',
+            'METHOD:PUBLISH',
             'BEGIN:VEVENT'
         );
 
@@ -142,16 +121,14 @@ class ICS
         foreach ($this->properties as $k => $v) {
             if ($k === 'url') {
                 $props[strtoupper($k . ';VALUE=URI')] = $v;
-            } else if (($k === 'dtend') || ($k === 'dtstart')) {
-                $props[strtoupper($k) . ';TZID=Europe/Berlin'] = $v;
             } else {
                 $props[strtoupper($k)] = $v;
             }
         }
 
         // Set some default values
-        $props['DTSTAMP;TZID=Europe/Berlin'] = $this->format_timestamp('now');
-        $props['UID'] = uniqid();
+        $props['DTSTAMP'] = $this->format_timestamp('now');
+        $props['UID'] = uniqid() . '@ingolstadt-chapter.de';
 
         // Append properties
         foreach ($props as $k => $v) {
@@ -159,7 +136,7 @@ class ICS
         }
 
         // Build ICS properties - add footer
-        $ics_props[] = 'ORGANIZER;CN="' . LEGAL_ENTITY_NAME . '":' . SMTP_SENDER;
+        $ics_props[] = 'ORGANIZER;CN="' . LEGAL_ENTITY_NAME . '":mailto:' . SMTP_SENDER;
         $ics_props[] = 'END:VEVENT';
         $ics_props[] = 'END:VCALENDAR';
 
@@ -183,12 +160,20 @@ class ICS
 
     private function format_timestamp($timestamp)
     {
-        $dt = new DateTime($timestamp);
+        if ($timestamp instanceof DateTimeInterface) {
+            $dt = new DateTime($timestamp->format(DateTime::ATOM));
+        } else {
+            $dt = new DateTime($timestamp, new DateTimeZone('Europe/Berlin'));
+        }
+        $dt->setTimezone(new DateTimeZone('UTC'));
         return $dt->format(self::DT_FORMAT);
     }
 
     private function escape_string($str)
     {
-        return preg_replace('/([\,;])/', '\\\$1', $str);
+        $str = (string)$str;
+        $str = str_replace('\\', '\\\\', $str);
+        $str = str_replace(array("\r\n", "\r", "\n"), '\\n', $str);
+        return str_replace(array(',', ';'), array('\\,', '\\;'), $str);
     }
 }
